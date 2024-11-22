@@ -1,0 +1,53 @@
+services:
+  monitor_db:
+    image: mariadb:11.5.2
+    volumes:
+      - ./init-db/:/docker-entrypoint-initdb.d/
+      - ./.data/mysql/:/var/lib/mysql
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: true
+      MYSQL_USER: monitor_user
+      MYSQL_PASSWORD: monitor_pw
+    ports:
+      - "3306:3306"
+    networks:
+      - monitor_db
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  monitor_db_migration:
+    image: arigaio/atlas:0.28.1-community-alpine
+    command: >
+      schema apply
+      --auto-approve
+      --url "maria://monitor_user:monitor_pw@monitor_db:3306/monitor_db"
+      --to file:///schema/schema.sql
+      --dev-url "maria://monitor_user:monitor_pw@monitor_db:3306/monitor_dev"
+    networks:
+      - monitor_db
+    depends_on:
+      monitor_db:
+        condition: service_healthy
+    volumes:
+      - ../schema/database:/schema
+  monitor_http_server:
+    build: ../app
+    command: http-server
+    ports:
+      - "3000:3000"
+    depends_on:
+      monitor_db:
+        condition: service_healthy
+    environment:
+      MONITOR_DB_HOST: monitor_db
+      MONITOR_DB_PORT: 3306
+      MONITOR_DB_USER: monitor_user
+      MONITOR_DB_PASSWORD: monitor_pw
+      MONITOR_DB_NAME: monitor_db
+      MONITOR_HTTP_PORT: 3000
+
+networks:
+  monitor_db:

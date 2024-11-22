@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS monitor_dev;
+
+CREATE DATABASE IF NOT EXISTS monitor_db;
+
+GRANT ALL PRIVILEGES ON *.* TO 'monitor_user'@'%';
