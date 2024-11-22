@@ -1,0 +1,31 @@
+# yaml-language-server: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v3.0/schema.json
+openapi: "3.0.0"
+info:
+  version: 0.0.1
+  title: Monitor API
+paths:
+  /ping:
+    get:
+      operationId: ping
+      description: ping
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pong'
+
+components:
+  schemas:
+    Pong:
+      properties:
+        name:
+          type: string
+          description: the name
+        message:
+          type: string
+          description: the message
+      required:
+        - name
+        - message
