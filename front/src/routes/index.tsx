@@ -6,8 +6,9 @@ export const Route = createFileRoute("/")({
 
 function Home() {
     return (
-        <div>
+        <>
             <h3>Welcome Home!</h3>
-        </div>
+            <p className="text-red-500 font-bold">Hello Tailwind</p>
+        </>
     );
 }
