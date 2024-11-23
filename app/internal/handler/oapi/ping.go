@@ -1,7 +1,8 @@
 package oapi
 
 import (
-	"encoding/json"
+	"github.com/Siroshun09/logs"
+	"github.com/okocraft/monitor/lib/httplib"
 	"net/http"
 )
 
@@ -12,12 +13,9 @@ func NewPingHandler() PingHandler {
 	return PingHandler{}
 }
 
-func (h PingHandler) Ping(w http.ResponseWriter, _ *http.Request) {
-	j := json.NewEncoder(w)
-	err := j.Encode(Pong{Name: "monitor-app-http", Message: "hello, world!"})
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+func (h PingHandler) Ping(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	if err := httplib.RenderOK(ctx, w, Pong{Name: "monitor-app-http", Message: "hello, world!"}); err != nil {
+		logs.Error(ctx, err)
 	}
-	w.WriteHeader(http.StatusOK)
 }

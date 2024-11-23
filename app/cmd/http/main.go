@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/go-chi/chi/v5"
+	"github.com/Siroshun09/serrors"
+	"github.com/go-chi/cors"
+	nethttpmiddleware "github.com/oapi-codegen/nethttp-middleware"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,7 +13,7 @@ import (
 	"time"
 
 	"github.com/Siroshun09/logs"
-	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/chi/v5"
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/handler/logger"
 	"github.com/okocraft/monitor/internal/handler/oapi"
@@ -21,7 +23,9 @@ import (
 func main() {
 	ctx := context.Background()
 
-	loggerFactory := logger.NewFactory(os.Getenv("DEBUG") == "true")
+	debug := os.Getenv("DEBUG") == "true"
+
+	loggerFactory := logger.NewFactory(debug)
 	defaultLogger := loggerFactory.NewDefaultLogger()
 	ctx = logs.WithContext(ctx, defaultLogger)
 
@@ -37,10 +41,15 @@ func main() {
 		os.Exit(1)
 	}
 
+	server, err := createHTTPServer(loggerFactory, httpHandler, cfg, debug)
+	if err != nil {
+		defaultLogger.Error(ctx, err)
+		os.Exit(1)
+	}
+
 	ctx, stop := signal.NotifyContext(ctx, syscall.SIGTERM, os.Interrupt, os.Kill)
 	defer stop()
 
-	server := createHTTPServer(httpHandler, cfg.Port)
 	go func() {
 		if srvErr := server.ListenAndServe(); srvErr != nil {
 			if errors.Is(srvErr, http.ErrServerClosed) {
@@ -66,15 +75,32 @@ func main() {
 	defaultLogger.Info(ctx, "monitor-app-http has been stopped")
 }
 
-func createHTTPServer(httpHandler oapi.HTTPHandler, port string) http.Server {
+func createHTTPServer(loggerFactory logger.Factory, httpHandler oapi.HTTPHandler, cfg config.HTTPServerConfig, printUnknownOrigin bool) (http.Server, error) {
 	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-	r.Use(
-		middleware.Recoverer,
-	)
+	r.Use(loggerFactory.NewHTTPMiddlewareWithRecover)
+	r.Use(cors.Handler(cors.Options{
+		AllowOriginFunc: func(r *http.Request, origin string) bool {
+			if _, ok := cfg.AllowedOrigins[origin]; ok {
+				return true
+			}
+
+			if printUnknownOrigin {
+				logs.Info(r.Context(), "Unknown origin: "+origin)
+			}
+			return false
+		},
+	}))
+
+	swagger, err := oapi.GetSwagger()
+	if err != nil {
+		return http.Server{}, serrors.WithStackTrace(err)
+	}
+
+	swagger.Servers = nil
+	r.Use(nethttpmiddleware.OapiRequestValidator(swagger))
 
 	return http.Server{
-		Addr:    ":" + port,
+		Addr:    ":" + cfg.Port,
 		Handler: oapi.HandlerFromMux(httpHandler, r),
-	}
+	}, nil
 }
