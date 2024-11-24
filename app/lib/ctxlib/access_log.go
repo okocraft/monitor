@@ -37,7 +37,7 @@ func (a *HTTPAccessLog) FromRequest(r *http.Request) {
 }
 
 func (a *HTTPAccessLog) ToAttr() slog.Attr {
-	attrs := make([]any, 0, 2)
+	attrs := make([]any, 0, 3)
 
 	attrs = append(attrs, slog.Group("request",
 		slog.String("timestamp", a.Timestamp.Format(time.RFC3339)),
@@ -54,6 +54,7 @@ func (a *HTTPAccessLog) ToAttr() slog.Attr {
 
 	if a.Response != nil {
 		attrs = append(attrs, a.Response.ToAttr())
+		attrs = append(attrs, slog.Float64("took", float64(a.Response.FinishedAt.Sub(a.Timestamp).Nanoseconds())/1e6))
 	}
 
 	return slog.Group("http_access", attrs...)
