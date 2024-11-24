@@ -66,7 +66,8 @@ func (l logger) Info(ctx context.Context, msg string) {
 func (l logger) Warn(ctx context.Context, err error) {
 	if l.includeStackTraceOnWarn {
 		stacktrace := slog.String("stacktrace", serrors.GetStackTrace(err).String())
-		l.delegate.WarnContext(ctx, err.Error(), l.createContextAttr(ctx, &stacktrace))
+		l.delegate.WarnContext(ctx, err.Error(), l.createContextAttr(ctx, &stacktrace)...)
+		return
 	}
 	l.delegate.WarnContext(ctx, err.Error(), l.createContextAttr(ctx, nil)...)
 }
