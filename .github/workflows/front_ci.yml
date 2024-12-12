@@ -1,4 +1,4 @@
-name: Frontend CI
+name: Front CI
 on:
   push:
     paths: [ 'front/**' ]
