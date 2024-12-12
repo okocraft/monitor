@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { createAuthState } from "../types/auth.ts";
 import { AuthContext } from "../contexts/authContext.ts";
+import { createAuthState } from "../types/auth.ts";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const authState = createAuthState();

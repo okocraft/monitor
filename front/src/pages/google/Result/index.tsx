@@ -1,5 +1,5 @@
-import { NotFound } from "../../NotFound.tsx";
 import type { PageType } from "../../../types/google/pageTypes.ts";
+import { NotFound } from "../../NotFound.tsx";
 import { Success } from "./Success.tsx";
 
 export const Component = ({ type }: { type: PageType }) => {

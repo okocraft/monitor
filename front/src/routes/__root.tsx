@@ -1,8 +1,8 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import type { AuthState } from "../types/auth.ts";
-import { NotFound } from "../pages/NotFound.tsx";
 import { ErrorOccurred } from "../pages/ErrorOccurred.tsx";
+import { NotFound } from "../pages/NotFound.tsx";
+import type { AuthState } from "../types/auth.ts";
 
 interface RouterContext {
     auth: AuthState;

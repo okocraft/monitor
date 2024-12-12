@@ -1,7 +1,7 @@
+import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { logout, refreshAccessToken } from "../api/auth/auth.ts";
-import { jwtDecode } from "jwt-decode";
-import { createMeState, EmptyMe, type MeState } from "./me.ts";
+import { EmptyMe, type MeState, createMeState } from "./me.ts";
 
 export interface AuthState {
     accessToken: string;

@@ -1,7 +1,7 @@
-import { type ReactNode, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "./useAuth.ts";
+import { type ReactNode, useEffect } from "react";
 import { checkNotExpired } from "../types/auth.ts";
+import { useAuth } from "./useAuth.ts";
 
 export function AxiosClientProvider({ children }: { children: ReactNode }) {
     const { accessToken, refresh, shouldSkipAuth } = useAuth();
