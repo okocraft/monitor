@@ -50,5 +50,19 @@
         '*',
       ],
     },
+    {
+      groupName: 'all non-major dependencies for docker',
+      groupSlug: 'docker-all-minor-patch',
+      matchManagers: [
+        'dockerfile',
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      matchPackageNames: [
+        '*',
+      ],
+    }
   ],
 }
