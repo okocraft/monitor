@@ -1,6 +1,6 @@
 services:
   monitor_db:
-    image: mariadb:11.5.2
+    image: mariadb:11.5.2@sha256:2d50fe0f77dac919396091e527e5e148a9de690e58f32875f113bef6506a17f5
     volumes:
       - ./init-db/:/docker-entrypoint-initdb.d/
       - ./.data/mysql/:/var/lib/mysql
@@ -19,7 +19,7 @@ services:
       timeout: 5s
       retries: 3
   monitor_db_migration:
-    image: arigaio/atlas:0.28.1-community-alpine
+    image: arigaio/atlas:0.28.1-community-alpine@sha256:51bfe100c063b341b04ae0ed9e461aef5a51c4becdd402994c8484cce2151684
     command: >
       schema apply
       --auto-approve
