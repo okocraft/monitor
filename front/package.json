@@ -9,7 +9,7 @@
         "preview": "vite preview",
         "format": "pnpm biome format --write ./",
         "lint": "pnpm biome lint --write ./",
-        "check": "pnpm biome check --write ./",
+        "check": "pnpm biome check ./",
         "gen-api": "orval --config ./orval.config.ts"
     },
     "dependencies": {
