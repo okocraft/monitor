@@ -1,6 +1,6 @@
 module github.com/okocraft/monitor
 
-go 1.23.3
+go 1.23.4
 
 require (
 	github.com/Siroshun09/logs v1.0.1
