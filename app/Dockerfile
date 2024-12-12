@@ -18,4 +18,3 @@ FROM build-http-server AS http-server
 COPY --from=build-http-server /bin/http-server /server
 
 ENTRYPOINT [ "/server" ]
-# diff 2
