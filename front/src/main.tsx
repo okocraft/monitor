@@ -4,12 +4,12 @@ import { createRoot } from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
 import { QueryClientProvider } from "@tanstack/react-query";
+import axios from "axios";
 import { queryClient } from "./client/api.ts";
 import { AuthProvider } from "./hooks/AuthProvider.tsx";
+import { AxiosClientProvider } from "./hooks/AxiosClientProvider.tsx";
 import { useAuth } from "./hooks/useAuth.ts";
 import { UnauthorizedState } from "./types/auth.ts";
-import { AxiosClientProvider } from "./hooks/AxiosClientProvider.tsx";
-import axios from "axios";
 
 const root = document.getElementById("root");
 if (!root) {

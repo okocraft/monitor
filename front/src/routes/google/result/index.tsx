@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { NotFound } from "../../../pages/NotFound.tsx";
 import * as Result from "../../../pages/google/Result";
 import { toPageType } from "../../../types/google/pageTypes.ts";
-import { NotFound } from "../../../pages/NotFound.tsx";
 import { getSearchParam } from "../../../utils/searchParams.ts";
 
 export const Route = createFileRoute("/google/result/")({
