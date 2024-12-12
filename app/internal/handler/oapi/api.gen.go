@@ -4,34 +4,104 @@
 package oapi
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	uuid "github.com/gofrs/uuid/v5"
+	"github.com/oapi-codegen/runtime"
 )
 
-// Pong defines model for Pong.
-type Pong struct {
-	// Message the message
-	Message string `json:"message"`
+const (
+	AccessTokenAuthScopes = "AccessTokenAuth.Scopes"
+	SkipAuthScopes        = "SkipAuth.Scopes"
+)
 
-	// Name the name
-	Name string `json:"name"`
+// AccessTokenWithMe defines model for AccessTokenWithMe.
+type AccessTokenWithMe struct {
+	// AccessToken the access token
+	AccessToken string `json:"access_token"`
+	Me          Me     `json:"me"`
 }
+
+// CurrentPage defines model for CurrentPage.
+type CurrentPage struct {
+	Url string `json:"url"`
+}
+
+// GoogleLoginURL defines model for GoogleLoginURL.
+type GoogleLoginURL struct {
+	RedirectUrl string `json:"redirect_url"`
+}
+
+// Me defines model for Me.
+type Me struct {
+	Nickname string `json:"nickname"`
+
+	// Uuid the UUID
+	Uuid UUID `json:"uuid"`
+}
+
+// UUID the UUID
+type UUID = uuid.UUID
+
+// LoginWithGoogleJSONRequestBody defines body for LoginWithGoogle for application/json ContentType.
+type LoginWithGoogleJSONRequestBody = CurrentPage
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 
-	// (GET /ping)
-	Ping(w http.ResponseWriter, r *http.Request)
+	// (GET /auth/google/callback)
+	CallbackFromGoogle(w http.ResponseWriter, r *http.Request)
+
+	// (POST /auth/google/link/{login_key})
+	LinkWithGoogle(w http.ResponseWriter, r *http.Request, loginKey string)
+
+	// (POST /auth/google/login)
+	LoginWithGoogle(w http.ResponseWriter, r *http.Request)
+
+	// (POST /auth/logout)
+	Logout(w http.ResponseWriter, r *http.Request)
+
+	// (POST /auth/refresh)
+	RefreshAccessToken(w http.ResponseWriter, r *http.Request)
+
+	// (GET /me)
+	GetMe(w http.ResponseWriter, r *http.Request)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
 
 type Unimplemented struct{}
 
-// (GET /ping)
-func (_ Unimplemented) Ping(w http.ResponseWriter, r *http.Request) {
+// (GET /auth/google/callback)
+func (_ Unimplemented) CallbackFromGoogle(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (POST /auth/google/link/{login_key})
+func (_ Unimplemented) LinkWithGoogle(w http.ResponseWriter, r *http.Request, loginKey string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (POST /auth/google/login)
+func (_ Unimplemented) LoginWithGoogle(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (POST /auth/logout)
+func (_ Unimplemented) Logout(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (POST /auth/refresh)
+func (_ Unimplemented) RefreshAccessToken(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (GET /me)
+func (_ Unimplemented) GetMe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -44,10 +114,128 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(http.Handler) http.Handler
 
-// Ping operation middleware
-func (siw *ServerInterfaceWrapper) Ping(w http.ResponseWriter, r *http.Request) {
+// CallbackFromGoogle operation middleware
+func (siw *ServerInterfaceWrapper) CallbackFromGoogle(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, SkipAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.Ping(w, r)
+		siw.Handler.CallbackFromGoogle(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// LinkWithGoogle operation middleware
+func (siw *ServerInterfaceWrapper) LinkWithGoogle(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	// ------------- Path parameter "login_key" -------------
+	var loginKey string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "login_key", chi.URLParam(r, "login_key"), &loginKey, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "login_key", Err: err})
+		return
+	}
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, SkipAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.LinkWithGoogle(w, r, loginKey)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// LoginWithGoogle operation middleware
+func (siw *ServerInterfaceWrapper) LoginWithGoogle(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, SkipAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.LoginWithGoogle(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// Logout operation middleware
+func (siw *ServerInterfaceWrapper) Logout(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, SkipAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.Logout(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// RefreshAccessToken operation middleware
+func (siw *ServerInterfaceWrapper) RefreshAccessToken(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, SkipAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.RefreshAccessToken(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetMe operation middleware
+func (siw *ServerInterfaceWrapper) GetMe(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, AccessTokenAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetMe(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -171,7 +359,22 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/ping", wrapper.Ping)
+		r.Get(options.BaseURL+"/auth/google/callback", wrapper.CallbackFromGoogle)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/auth/google/link/{login_key}", wrapper.LinkWithGoogle)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/auth/google/login", wrapper.LoginWithGoogle)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/auth/logout", wrapper.Logout)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/auth/refresh", wrapper.RefreshAccessToken)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/me", wrapper.GetMe)
 	})
 
 	return r

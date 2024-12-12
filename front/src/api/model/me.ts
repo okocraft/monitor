@@ -4,10 +4,9 @@
  * Monitor API
  * OpenAPI spec version: 0.0.1
  */
+import type { Uuid } from './uuid';
 
-export interface Pong {
-  /** the message */
-  message: string;
-  /** the name */
-  name: string;
+export interface Me {
+  nickname: string;
+  uuid: Uuid;
 }

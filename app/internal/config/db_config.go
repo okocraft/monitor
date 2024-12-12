@@ -1,6 +1,8 @@
 package config
 
-import "github.com/okocraft/monitor/lib/errlib"
+import (
+	"github.com/okocraft/monitor/lib/errlib"
+)
 
 type DBConfig struct {
 	Host     string

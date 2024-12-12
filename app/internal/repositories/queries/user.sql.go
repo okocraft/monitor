@@ -10,6 +10,17 @@ import (
 	"time"
 )
 
+const deleteLoginKey = `-- name: DeleteLoginKey :exec
+DELETE
+FROM users_login_key
+WHERE user_id = ?
+`
+
+func (q *Queries) DeleteLoginKey(ctx context.Context, userID int32) error {
+	_, err := q.db.ExecContext(ctx, deleteLoginKey, userID)
+	return err
+}
+
 const getUserByID = `-- name: GetUserByID :one
 SELECT uuid, nickname, last_access
 FROM users
@@ -28,4 +39,167 @@ func (q *Queries) GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, er
 	var i GetUserByIDRow
 	err := row.Scan(&i.Uuid, &i.Nickname, &i.LastAccess)
 	return i, err
+}
+
+const getUserByUUID = `-- name: GetUserByUUID :one
+SELECT id, nickname, last_access
+FROM users
+WHERE uuid = ?
+LIMIT 1
+`
+
+type GetUserByUUIDRow struct {
+	ID         int32
+	Nickname   string
+	LastAccess time.Time
+}
+
+func (q *Queries) GetUserByUUID(ctx context.Context, uuid []byte) (GetUserByUUIDRow, error) {
+	row := q.db.QueryRowContext(ctx, getUserByUUID, uuid)
+	var i GetUserByUUIDRow
+	err := row.Scan(&i.ID, &i.Nickname, &i.LastAccess)
+	return i, err
+}
+
+const getUserIDByLoginKey = `-- name: GetUserIDByLoginKey :one
+SELECT user_id
+FROM users_login_key
+WHERE login_key = ?
+`
+
+func (q *Queries) GetUserIDByLoginKey(ctx context.Context, loginKey int64) (int32, error) {
+	row := q.db.QueryRowContext(ctx, getUserIDByLoginKey, loginKey)
+	var user_id int32
+	err := row.Scan(&user_id)
+	return user_id, err
+}
+
+const getUserIDBySub = `-- name: GetUserIDBySub :one
+SELECT user_id
+FROM users_sub
+WHERE sub = ?
+`
+
+func (q *Queries) GetUserIDBySub(ctx context.Context, sub string) (int32, error) {
+	row := q.db.QueryRowContext(ctx, getUserIDBySub, sub)
+	var user_id int32
+	err := row.Scan(&user_id)
+	return user_id, err
+}
+
+const insertLoginKey = `-- name: InsertLoginKey :exec
+INSERT INTO users_login_key (user_id, login_key, created_at)
+VALUES (?, ?, ?)
+`
+
+type InsertLoginKeyParams struct {
+	UserID    int32
+	LoginKey  int64
+	CreatedAt time.Time
+}
+
+func (q *Queries) InsertLoginKey(ctx context.Context, arg InsertLoginKeyParams) error {
+	_, err := q.db.ExecContext(ctx, insertLoginKey, arg.UserID, arg.LoginKey, arg.CreatedAt)
+	return err
+}
+
+const insertSubForUserID = `-- name: InsertSubForUserID :exec
+INSERT INTO users_sub (user_id, sub)
+VALUES (?, ?)
+`
+
+type InsertSubForUserIDParams struct {
+	UserID int32
+	Sub    string
+}
+
+func (q *Queries) InsertSubForUserID(ctx context.Context, arg InsertSubForUserIDParams) error {
+	_, err := q.db.ExecContext(ctx, insertSubForUserID, arg.UserID, arg.Sub)
+	return err
+}
+
+const insertUser = `-- name: InsertUser :exec
+INSERT INTO users (uuid, nickname, last_access, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?)
+`
+
+type InsertUserParams struct {
+	Uuid       []byte
+	Nickname   string
+	LastAccess time.Time
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+}
+
+func (q *Queries) InsertUser(ctx context.Context, arg InsertUserParams) error {
+	_, err := q.db.ExecContext(ctx, insertUser,
+		arg.Uuid,
+		arg.Nickname,
+		arg.LastAccess,
+		arg.CreatedAt,
+		arg.UpdatedAt,
+	)
+	return err
+}
+
+const insertUserWithID = `-- name: InsertUserWithID :exec
+INSERT INTO users (id, uuid, nickname, last_access, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?)
+`
+
+type InsertUserWithIDParams struct {
+	ID         int32
+	Uuid       []byte
+	Nickname   string
+	LastAccess time.Time
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+}
+
+func (q *Queries) InsertUserWithID(ctx context.Context, arg InsertUserWithIDParams) error {
+	_, err := q.db.ExecContext(ctx, insertUserWithID,
+		arg.ID,
+		arg.Uuid,
+		arg.Nickname,
+		arg.LastAccess,
+		arg.CreatedAt,
+		arg.UpdatedAt,
+	)
+	return err
+}
+
+const updateUserLastAccessByID = `-- name: UpdateUserLastAccessByID :exec
+UPDATE users
+SET last_access=?,
+    updated_at=?
+WHERE id = ?
+`
+
+type UpdateUserLastAccessByIDParams struct {
+	LastAccess time.Time
+	UpdatedAt  time.Time
+	ID         int32
+}
+
+func (q *Queries) UpdateUserLastAccessByID(ctx context.Context, arg UpdateUserLastAccessByIDParams) error {
+	_, err := q.db.ExecContext(ctx, updateUserLastAccessByID, arg.LastAccess, arg.UpdatedAt, arg.ID)
+	return err
+}
+
+const updateUserNicknameByID = `-- name: UpdateUserNicknameByID :exec
+UPDATE users
+SET nickname=?,
+    updated_at=?
+WHERE id = ?
+`
+
+type UpdateUserNicknameByIDParams struct {
+	Nickname  string
+	UpdatedAt time.Time
+	ID        int32
+}
+
+func (q *Queries) UpdateUserNicknameByID(ctx context.Context, arg UpdateUserNicknameByIDParams) error {
+	_, err := q.db.ExecContext(ctx, updateUserNicknameByID, arg.Nickname, arg.UpdatedAt, arg.ID)
+	return err
 }

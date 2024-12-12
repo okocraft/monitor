@@ -7,13 +7,28 @@
 package registry
 
 import (
-	"github.com/okocraft/monitor/internal/handler/oapi"
+	"github.com/okocraft/monitor/internal/config"
+	"github.com/okocraft/monitor/internal/handler"
+	"github.com/okocraft/monitor/internal/handler/oapi/auth"
+	"github.com/okocraft/monitor/internal/handler/oapi/me"
+	"github.com/okocraft/monitor/internal/repositories"
+	"github.com/okocraft/monitor/internal/repositories/database"
+	"github.com/okocraft/monitor/internal/usecases"
 )
 
 // Injectors from wire.go:
 
-func NewHTTPHandler() (oapi.HTTPHandler, error) {
-	pingHandler := oapi.NewPingHandler()
-	httpHandler := oapi.NewHTTPHandler(pingHandler)
+func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHandler, error) {
+	authConfig := getAuthConfigFromHTTPConfig(cfg)
+	authRepository := repositories.NewAuthRepository(db)
+	authUsecase := usecases.NewAuthUsecase(authConfig, authRepository)
+	userRepository := repositories.NewUserRepository(db)
+	transaction := database.NewTransaction(db)
+	userUsecase := usecases.NewUserUsecase(userRepository, transaction)
+	authHandler := auth.NewAuthHandler(authUsecase, userUsecase)
+	googleAuthConfig := getGoogleAuthConfigFromHTTPConfig(cfg)
+	googleAuthHandler := auth.NewGoogleAuthHandler(googleAuthConfig, authUsecase, userUsecase)
+	meHandler := me.NewMeHandler(userUsecase)
+	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler)
 	return httpHandler, nil
 }

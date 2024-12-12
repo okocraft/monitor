@@ -10,66 +10,123 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as IndexImport } from "./routes/index";
+import { Route as rootRoute } from './routes/__root'
+import { Route as IndexImport } from './routes/index'
+import { Route as ExampleIndexImport } from './routes/example/index'
+import { Route as GoogleResultIndexImport } from './routes/google/result/index'
+import { Route as GoogleLoginIndexImport } from './routes/google/login/index'
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
-    id: "/",
-    path: "/",
-    getParentRoute: () => rootRoute,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ExampleIndexRoute = ExampleIndexImport.update({
+  id: '/example/',
+  path: '/example/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GoogleResultIndexRoute = GoogleResultIndexImport.update({
+  id: '/google/result/',
+  path: '/google/result/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GoogleLoginIndexRoute = GoogleLoginIndexImport.update({
+  id: '/google/login/',
+  path: '/google/login/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
-    interface FileRoutesByPath {
-        "/": {
-            id: "/";
-            path: "/";
-            fullPath: "/";
-            preLoaderRoute: typeof IndexImport;
-            parentRoute: typeof rootRoute;
-        };
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
     }
+    '/example/': {
+      id: '/example/'
+      path: '/example'
+      fullPath: '/example'
+      preLoaderRoute: typeof ExampleIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/google/login/': {
+      id: '/google/login/'
+      path: '/google/login'
+      fullPath: '/google/login'
+      preLoaderRoute: typeof GoogleLoginIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/google/result/': {
+      id: '/google/result/'
+      path: '/google/result'
+      fullPath: '/google/result'
+      preLoaderRoute: typeof GoogleResultIndexImport
+      parentRoute: typeof rootRoute
+    }
+  }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-    "/": typeof IndexRoute;
+  '/': typeof IndexRoute
+  '/example': typeof ExampleIndexRoute
+  '/google/login': typeof GoogleLoginIndexRoute
+  '/google/result': typeof GoogleResultIndexRoute
 }
 
 export interface FileRoutesByTo {
-    "/": typeof IndexRoute;
+  '/': typeof IndexRoute
+  '/example': typeof ExampleIndexRoute
+  '/google/login': typeof GoogleLoginIndexRoute
+  '/google/result': typeof GoogleResultIndexRoute
 }
 
 export interface FileRoutesById {
-    __root__: typeof rootRoute;
-    "/": typeof IndexRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/example/': typeof ExampleIndexRoute
+  '/google/login/': typeof GoogleLoginIndexRoute
+  '/google/result/': typeof GoogleResultIndexRoute
 }
 
 export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath;
-    fullPaths: "/";
-    fileRoutesByTo: FileRoutesByTo;
-    to: "/";
-    id: "__root__" | "/";
-    fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/example' | '/google/login' | '/google/result'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/example' | '/google/login' | '/google/result'
+  id: '__root__' | '/' | '/example/' | '/google/login/' | '/google/result/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-    IndexRoute: typeof IndexRoute;
+  IndexRoute: typeof IndexRoute
+  ExampleIndexRoute: typeof ExampleIndexRoute
+  GoogleLoginIndexRoute: typeof GoogleLoginIndexRoute
+  GoogleResultIndexRoute: typeof GoogleResultIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-    IndexRoute: IndexRoute,
-};
+  IndexRoute: IndexRoute,
+  ExampleIndexRoute: ExampleIndexRoute,
+  GoogleLoginIndexRoute: GoogleLoginIndexRoute,
+  GoogleResultIndexRoute: GoogleResultIndexRoute,
+}
 
 export const routeTree = rootRoute
-    ._addFileChildren(rootRouteChildren)
-    ._addFileTypes<FileRouteTypes>();
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -77,11 +134,23 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/example/",
+        "/google/login/",
+        "/google/result/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/example/": {
+      "filePath": "example/index.tsx"
+    },
+    "/google/login/": {
+      "filePath": "google/login/index.tsx"
+    },
+    "/google/result/": {
+      "filePath": "google/result/index.tsx"
     }
   }
 }

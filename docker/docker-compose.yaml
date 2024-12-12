@@ -38,18 +38,20 @@ services:
     command: http-server
     ports:
       - "3000:3000"
+    networks:
+      - monitor_db
     depends_on:
       monitor_db:
         condition: service_healthy
     environment:
-      DEBUG: true
       MONITOR_DB_HOST: monitor_db
       MONITOR_DB_PORT: 3306
       MONITOR_DB_USER: monitor_user
       MONITOR_DB_PASSWORD: monitor_pw
       MONITOR_DB_NAME: monitor_db
       MONITOR_HTTP_PORT: 3000
-      MONITOR_ALLOWED_ORIGINS: http://localhost:5173
+    env_file: "app_http.env"
 
 networks:
   monitor_db:
+    driver: bridge

@@ -4,11 +4,16 @@ import (
 	"context"
 	"errors"
 	"github.com/Siroshun09/serrors"
+	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/go-chi/cors"
 	nethttpmiddleware "github.com/oapi-codegen/nethttp-middleware"
+	"github.com/okocraft/monitor/internal/handler"
+	"github.com/okocraft/monitor/internal/repositories/database"
+	"maps"
 	"net/http"
 	"os"
 	"os/signal"
+	"slices"
 	"syscall"
 	"time"
 
@@ -35,7 +40,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	httpHandler, err := registry.NewHTTPHandler()
+	db, err := database.New(cfg.DBConfig, 10*time.Minute)
+	if err != nil {
+		logs.Error(ctx, err)
+		os.Exit(1)
+	}
+
+	httpHandler, err := registry.NewHTTPHandler(cfg, db)
 	if err != nil {
 		defaultLogger.Error(ctx, err)
 		os.Exit(1)
@@ -75,7 +86,7 @@ func main() {
 	defaultLogger.Info(ctx, "monitor-app-http has been stopped")
 }
 
-func createHTTPServer(loggerFactory logger.Factory, httpHandler oapi.HTTPHandler, cfg config.HTTPServerConfig, printUnknownOrigin bool) (http.Server, error) {
+func createHTTPServer(loggerFactory logger.Factory, httpHandler handler.HTTPHandler, cfg config.HTTPServerConfig, printUnknownOrigin bool) (http.Server, error) {
 	r := chi.NewRouter()
 	r.Use(loggerFactory.NewHTTPMiddlewareWithRecover)
 	r.Use(cors.Handler(cors.Options{
@@ -89,6 +100,11 @@ func createHTTPServer(loggerFactory logger.Factory, httpHandler oapi.HTTPHandler
 			}
 			return false
 		},
+		AllowedOrigins:   slices.Collect(maps.Keys(cfg.AllowedOrigins)),
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
+		AllowCredentials: true,
+		MaxAge:           300,
 	}))
 
 	swagger, err := oapi.GetSwagger()
@@ -97,7 +113,13 @@ func createHTTPServer(loggerFactory logger.Factory, httpHandler oapi.HTTPHandler
 	}
 
 	swagger.Servers = nil
-	r.Use(nethttpmiddleware.OapiRequestValidator(swagger))
+	r.Use(nethttpmiddleware.OapiRequestValidatorWithOptions(swagger, &nethttpmiddleware.Options{
+		Options: openapi3filter.Options{
+			AuthenticationFunc: httpHandler.AuthHandler.SetAuthMethodIntoContext,
+		},
+	}))
+
+	r.Use(httpHandler.AuthHandler.NewAuthMiddleware)
 
 	return http.Server{
 		Addr:    ":" + cfg.Port,

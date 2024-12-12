@@ -21,6 +21,7 @@ func GenerateConfig(c config.DBConfig) *mysql.Config {
 	cfg := mysql.NewConfig()
 	cfg.User = c.User
 	cfg.Passwd = c.Password
+	cfg.Net = "tcp"
 	cfg.Addr = c.Host + ":" + c.Port
 	cfg.DBName = c.DBName
 	cfg.MultiStatements = true
@@ -34,6 +35,9 @@ func New(c config.DBConfig, maxLifeTime time.Duration) (DB, error) {
 		return nil, serrors.WithStackTrace(err)
 	}
 	conn.SetConnMaxLifetime(maxLifeTime)
+	if err := conn.Ping(); err != nil {
+		return nil, serrors.WithStackTrace(err)
+	}
 	return db{conn: conn}, nil
 }
 

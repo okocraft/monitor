@@ -3,19 +3,17 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./client/api.ts";
+import { AuthProvider } from "./hooks/AuthProvider.tsx";
+import { useAuth } from "./hooks/useAuth.ts";
+import { UnauthorizedState } from "./types/auth.ts";
+import { AxiosClientProvider } from "./hooks/AxiosClientProvider.tsx";
 import axios from "axios";
 
-const router = createRouter({
-    routeTree,
-    defaultPreload: "intent",
-    defaultStaleTime: 5000,
-});
-
-declare module "@tanstack/react-router" {
-    interface Register {
-        router: typeof router;
-    }
+const root = document.getElementById("root");
+if (!root) {
+    throw Error("root not found");
 }
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
@@ -25,17 +23,36 @@ if (!apiUrl) {
 
 axios.defaults.baseURL = apiUrl;
 
-const queryClient = new QueryClient();
+const router = createRouter({
+    routeTree,
+    defaultPreload: "intent",
+    defaultStaleTime: 5000,
+    context: {
+        auth: UnauthorizedState,
+    },
+});
 
-const root = document.getElementById("root");
-if (!root) {
-    throw Error("root not found");
+declare module "@tanstack/react-router" {
+    interface Register {
+        router: typeof router;
+    }
 }
 
-createRoot(root).render(
-    <StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-        </QueryClientProvider>
-    </StrictMode>,
-);
+if (!root.innerHTML) {
+    createRoot(root).render(
+        <StrictMode>
+            <AuthProvider>
+                <QueryClientProvider client={queryClient}>
+                    <AxiosClientProvider>
+                        <App />
+                    </AxiosClientProvider>
+                </QueryClientProvider>
+            </AuthProvider>
+        </StrictMode>,
+    );
+}
+
+function App() {
+    const auth = useAuth();
+    return <RouterProvider router={router} context={{ auth }} />;
+}

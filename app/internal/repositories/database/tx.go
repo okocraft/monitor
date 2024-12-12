@@ -4,25 +4,25 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-
-	"github.com/okocraft/monitor/lib/errlib"
+	"github.com/Siroshun09/serrors"
 )
 
-type FailType string
-
-const (
-	FailedToBegin    FailType = "tx begin err"
-	FailedToRollback          = "rollback err"
-	FunctionError             = "function err"
-	FailedToCommit            = "commit err"
+var (
+	ErrFailedToBegin    = errors.New("tx begin err")
+	ErrFailedToRollback = errors.New("rollback err")
+	ErrFunctionError    = errors.New("function err")
+	ErrFailedToCommit   = errors.New("commit err")
 )
 
 type Transaction interface {
 	WithTx(ctx context.Context, fn func(ctx context.Context) error) error
 }
 
-func NewTransaction(db *sql.DB, opts *sql.TxOptions) Transaction {
-	return transaction{db: db, opts: opts}
+func NewTransaction(db DB) Transaction {
+	return transaction{db: db.Base(), opts: &sql.TxOptions{
+		Isolation: sql.LevelReadCommitted,
+		ReadOnly:  false,
+	}}
 }
 
 type transaction struct {
@@ -37,7 +37,7 @@ func (t transaction) WithTx(ctx context.Context, fn func(ctx context.Context) er
 
 	tx, beginErr := t.db.BeginTx(ctx, t.opts)
 	if beginErr != nil {
-		return errlib.WithDetail(FailedToBegin, beginErr)
+		return serrors.WithStackTrace(errors.Join(ErrFailedToBegin, beginErr))
 	}
 
 	var fnErr error
@@ -45,7 +45,7 @@ func (t transaction) WithTx(ctx context.Context, fn func(ctx context.Context) er
 		if fnErr != nil {
 			rbErr := tx.Rollback()
 			if rbErr != nil {
-				returnErr = errlib.WithDetail(FailedToRollback, errors.Join(fnErr, rbErr))
+				returnErr = serrors.WithStackTrace(errors.Join(ErrFailedToRollback, fnErr, rbErr))
 				return
 			}
 		}
@@ -53,11 +53,11 @@ func (t transaction) WithTx(ctx context.Context, fn func(ctx context.Context) er
 
 	ctx = SetTx(ctx, tx)
 	if fnErr = fn(ctx); fnErr != nil {
-		return errlib.WithDetail(FunctionError, fnErr)
+		return serrors.WithStackTrace(errors.Join(ErrFunctionError, fnErr))
 	}
 
 	if err := tx.Commit(); err != nil {
-		return errlib.WithDetail(FailedToCommit, err)
+		return serrors.WithStackTrace(errors.Join(ErrFailedToCommit, err))
 	}
 
 	return nil

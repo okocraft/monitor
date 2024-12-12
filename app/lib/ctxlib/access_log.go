@@ -2,6 +2,7 @@ package ctxlib
 
 import (
 	"context"
+	"github.com/okocraft/monitor/internal/domain/auth"
 	"log/slog"
 	"net/http"
 	"runtime"
@@ -18,6 +19,8 @@ type HTTPAccessLog struct {
 	RemoteAddr    string
 	RequestURI    string
 	Referer       string
+
+	AuthMethod auth.Method
 
 	Response *HTTPResponse
 }
@@ -37,7 +40,7 @@ func (a *HTTPAccessLog) FromRequest(r *http.Request) {
 }
 
 func (a *HTTPAccessLog) ToAttr() slog.Attr {
-	attrs := make([]any, 0, 3)
+	attrs := make([]any, 0, 4)
 
 	attrs = append(attrs, slog.Group("request",
 		slog.String("timestamp", a.Timestamp.Format(time.RFC3339)),
@@ -51,6 +54,8 @@ func (a *HTTPAccessLog) ToAttr() slog.Attr {
 		slog.String("request_uri", a.RequestURI),
 		slog.String("referer", a.Referer),
 	)
+
+	attrs = append(attrs, slog.Int("auth_method", int(a.AuthMethod)))
 
 	if a.Response != nil {
 		attrs = append(attrs, a.Response.ToAttr())

@@ -7,9 +7,11 @@ import (
 )
 
 type HTTPServerConfig struct {
-	Port           string
-	AllowedOrigins map[string]struct{}
-	DBConfig       DBConfig
+	Port             string
+	AllowedOrigins   map[string]struct{}
+	DBConfig         DBConfig
+	AuthConfig       AuthConfig
+	GoogleAuthConfig GoogleAuthConfig
 }
 
 func NewHTTPServerConfigFromEnv() (HTTPServerConfig, error) {
@@ -25,10 +27,19 @@ func NewHTTPServerConfigFromEnv() (HTTPServerConfig, error) {
 		return HTTPServerConfig{}, errlib.AsIs(err)
 	}
 
+	authConfig, err := NewAuthConfigFromEnv()
+	if err != nil {
+		return HTTPServerConfig{}, errlib.AsIs(err)
+	}
+
+	googleAuthConfig, err := NewGoogleAuthConfigFromEnv()
+
 	return HTTPServerConfig{
-		Port:           port,
-		AllowedOrigins: origins,
-		DBConfig:       dbConfig,
+		Port:             port,
+		AllowedOrigins:   origins,
+		DBConfig:         dbConfig,
+		AuthConfig:       authConfig,
+		GoogleAuthConfig: googleAuthConfig,
 	}, nil
 }
 
