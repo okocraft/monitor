@@ -4,9 +4,5 @@ import { createAuthState } from "../types/auth.ts";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const authState = createAuthState();
-    return (
-        <AuthContext.Provider value={authState}>
-            {children}
-        </AuthContext.Provider>
-    );
+    return <AuthContext value={authState}>{children}</AuthContext>;
 }
