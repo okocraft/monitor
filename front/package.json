@@ -8,9 +8,8 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "preview": "vite preview",
-        "format": "pnpm biome format --write ./",
-        "lint": "pnpm biome lint --write ./",
         "check": "pnpm biome check ./",
+        "fix-check": "pnpm biome check --write ./",
         "gen-api": "orval --config ./orval.config.ts"
     },
     "dependencies": {
