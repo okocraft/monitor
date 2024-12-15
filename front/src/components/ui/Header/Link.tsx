@@ -1,7 +1,10 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import type {HeaderLink, NestedHeaderLink} from "../../../types/header/link.ts";
+import type {
+    HeaderLink,
+    NestedHeaderLink,
+} from "../../../types/header/link.ts";
 
 export type HeaderLinkProps = {
     link: HeaderLink;
