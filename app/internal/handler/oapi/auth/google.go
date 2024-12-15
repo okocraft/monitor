@@ -171,7 +171,7 @@ func (h GoogleAuthHandler) handleFirstLoginCallback(w http.ResponseWriter, r *ht
 
 	userID, err := h.userUsecase.SaveSubByLoginKey(ctx, loginKey, openID)
 	if errors.Is(err, user.NotFoundByLoginKeyError{LoginKey: loginKey}) {
-		h.RedirectToResultPage(ctx, w, r, auth.GoogleResutlPageLoginKeyNotFound)
+		h.RedirectToResultPage(ctx, w, r, auth.GoogleResultPageLoginKeyNotFound)
 		return
 	} else if err != nil {
 		logs.Error(ctx, err)
