@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useAuth } from "../../hooks/useAuth.ts";
+import {Header} from "../../components/ui/Header";
 
 export const Route = createFileRoute("/example/")({
     beforeLoad: async ({ context }) => {
@@ -20,6 +21,7 @@ function Example() {
     };
     return (
         <>
+			<Header />
             <h3>Welcome Example!</h3>
             <p>Your uuid: {auth.me.current?.uuid}</p>
             <p>Your nickname: {auth.me.current?.nickname}</p>

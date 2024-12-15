@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Header } from "../components/ui/Header";
 import { useAuth } from "../hooks/useAuth.ts";
 
 export const TopPage = () => {
@@ -6,11 +7,10 @@ export const TopPage = () => {
 
     return (
         <>
+            <Header />
             <h3>Welcome Home!</h3>
             {auth.hasAccessToken() ? (
                 <>
-                    <Link to="/example">Go to example</Link>
-                    <br />
                     <button type="submit" onClick={() => auth.logout()}>
                         LogOut
                     </button>
