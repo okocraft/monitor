@@ -71,17 +71,25 @@ func (q *Queries) InsertAccessToken(ctx context.Context, arg InsertAccessTokenPa
 }
 
 const insertRefreshToken = `-- name: InsertRefreshToken :exec
-INSERT INTO users_refresh_tokens (user_id, jti, created_at)
-VALUES (?, ?, ?)
+INSERT INTO users_refresh_tokens (user_id, jti, ip, user_agent, created_at)
+VALUES (?, ?, ?, ?, ?)
 `
 
 type InsertRefreshTokenParams struct {
 	UserID    int32
 	Jti       []byte
+	Ip        []byte
+	UserAgent string
 	CreatedAt time.Time
 }
 
 func (q *Queries) InsertRefreshToken(ctx context.Context, arg InsertRefreshTokenParams) error {
-	_, err := q.db.ExecContext(ctx, insertRefreshToken, arg.UserID, arg.Jti, arg.CreatedAt)
+	_, err := q.db.ExecContext(ctx, insertRefreshToken,
+		arg.UserID,
+		arg.Jti,
+		arg.Ip,
+		arg.UserAgent,
+		arg.CreatedAt,
+	)
 	return err
 }

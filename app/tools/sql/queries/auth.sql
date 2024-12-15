@@ -1,6 +1,6 @@
 -- name: InsertRefreshToken :exec
-INSERT INTO users_refresh_tokens (user_id, jti, created_at)
-VALUES (?, ?, ?);
+INSERT INTO users_refresh_tokens (user_id, jti, ip, user_agent, created_at)
+VALUES (?, ?, ?, ?, ?);
 
 -- name: InsertAccessToken :exec
 INSERT INTO users_access_tokens (user_id, refresh_token_id, jti, created_at)

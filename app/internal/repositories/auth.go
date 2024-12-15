@@ -11,7 +11,7 @@ import (
 )
 
 type AuthRepository interface {
-	SaveRefreshToken(ctx context.Context, userID user.ID, jti uuid.UUID, createdAt time.Time) error
+	SaveRefreshToken(ctx context.Context, userID user.ID, jti uuid.UUID, ip []byte, userAgent string, createdAt time.Time) error
 	SaveAccessToken(ctx context.Context, userID user.ID, refreshTokenID int64, jti uuid.UUID, createdAt time.Time) error
 	GetUserIDAndRefreshTokenIDFromJTI(ctx context.Context, jti uuid.UUID) (user.ID, int64, error)
 	InvalidateTokensByRefreshTokenID(ctx context.Context, refreshTokenID int64) error
@@ -26,9 +26,9 @@ type authRepository struct {
 	db database.DB
 }
 
-func (r authRepository) SaveRefreshToken(ctx context.Context, userID user.ID, jti uuid.UUID, createdAt time.Time) error {
+func (r authRepository) SaveRefreshToken(ctx context.Context, userID user.ID, jti uuid.UUID, ip []byte, userAgent string, createdAt time.Time) error {
 	q := r.db.Queries(ctx)
-	err := q.InsertRefreshToken(ctx, queries.InsertRefreshTokenParams{UserID: int32(userID), Jti: jti.Bytes(), CreatedAt: createdAt})
+	err := q.InsertRefreshToken(ctx, queries.InsertRefreshTokenParams{UserID: int32(userID), Jti: jti.Bytes(), Ip: ip, UserAgent: userAgent, CreatedAt: createdAt})
 	if err != nil {
 		return asDBError(err)
 	}

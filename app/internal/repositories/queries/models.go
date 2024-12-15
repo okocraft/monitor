@@ -35,6 +35,8 @@ type UsersRefreshToken struct {
 	ID        int64
 	UserID    int32
 	Jti       []byte
+	Ip        []byte
+	UserAgent string
 	CreatedAt time.Time
 }
 

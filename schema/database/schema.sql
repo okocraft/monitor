@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS users_login_key
 CREATE TABLE IF NOT EXISTS users_sessions
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id    INT NOT NULL REFERENCES users (id),
+    user_id    INT        NOT NULL REFERENCES users (id),
     session_id BINARY(16) NOT NULL UNIQUE,
     created_at DATETIME   NOT NULL
 );
@@ -33,18 +33,38 @@ CREATE INDEX IF NOT EXISTS idx_users_sessions_created_at ON users_sessions (crea
 CREATE TABLE IF NOT EXISTS users_refresh_tokens
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id    INT NOT NULL REFERENCES users (id),
-    jti        BINARY(16) NOT NULL UNIQUE,
-    created_at DATETIME   NOT NULL
+    user_id    INT          NOT NULL REFERENCES users (id),
+    jti        BINARY(16)   NOT NULL UNIQUE,
+    ip         BINARY(16)   NOT NULL,
+    user_agent VARCHAR(512) NOT NULL,
+    created_at DATETIME     NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_users_refresh_tokens_created_at ON users_refresh_tokens (created_at);
 
 CREATE TABLE IF NOT EXISTS users_access_tokens
 (
     id               BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id          INT NOT NULL REFERENCES users (id),
-    refresh_token_id BIGINT NOT NULL REFERENCES users_refresh_tokens (id) ON DELETE CASCADE,
+    user_id          INT        NOT NULL REFERENCES users (id),
+    refresh_token_id BIGINT     NOT NULL REFERENCES users_refresh_tokens (id) ON DELETE CASCADE,
     jti              BINARY(16) NOT NULL UNIQUE,
     created_at       DATETIME   NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_users_access_tokens_created_at ON users_access_tokens (created_at);
+
+CREATE TABLE IF NOT EXISTS audit_log_access
+(
+    id      BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT         NOT NULL,
+    name    VARCHAR(16) NOT NULL,
+    ip      VARCHAR(16) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS audit_log_user
+(
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    access_id     INT         NOT NULL REFERENCES audit_log_access (id),
+    action        TINYINT     NOT NULL,
+    changed_from  VARCHAR(16) NOT NULL,
+    changed_after VARCHAR(16) NOT NULL,
+    created_at    DATETIME    NOT NULL
+);

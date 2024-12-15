@@ -106,7 +106,14 @@ func (u authUsecase) createRefreshToken(ctx context.Context, userID user.ID, cre
 		return "", serrors.WithStackTrace(err)
 	}
 
-	err = u.repo.SaveRefreshToken(ctx, userID, jti, createdAt)
+	accessLog := ctxlib.GetHTTPAccessLog(ctx)
+	ip := accessLog.GetIP()
+	userAgent := accessLog.UserAgent
+	if 512 < len(userAgent) {
+		userAgent = userAgent[:512]
+	}
+
+	err = u.repo.SaveRefreshToken(ctx, userID, jti, ip, userAgent, createdAt)
 	if err != nil {
 		return "", errlib.AsIs(err)
 	}

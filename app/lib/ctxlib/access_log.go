@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"log/slog"
+	"net"
 	"net/http"
 	"runtime"
 	"time"
@@ -17,6 +18,7 @@ type HTTPAccessLog struct {
 	Proto         string
 	Host          string
 	RemoteAddr    string
+	UserAgent     string
 	RequestURI    string
 	Referer       string
 
@@ -35,6 +37,7 @@ func (a *HTTPAccessLog) FromRequest(r *http.Request) {
 		a.URL = r.URL.String()
 	}
 	a.RemoteAddr = r.RemoteAddr
+	a.UserAgent = r.UserAgent()
 	a.RequestURI = r.RequestURI
 	a.Referer = r.Referer()
 }
@@ -51,6 +54,7 @@ func (a *HTTPAccessLog) ToAttr() slog.Attr {
 		slog.String("proto", a.Proto),
 		slog.String("host", a.Host),
 		slog.String("remote_addr", a.RemoteAddr),
+		slog.String("user_agent", a.UserAgent),
 		slog.String("request_uri", a.RequestURI),
 		slog.String("referer", a.Referer),
 	)
@@ -63,6 +67,24 @@ func (a *HTTPAccessLog) ToAttr() slog.Attr {
 	}
 
 	return slog.Group("http_access", attrs...)
+}
+
+func (a *HTTPAccessLog) GetIP() net.IP {
+	host, _, err := net.SplitHostPort(a.RemoteAddr)
+	if err != nil {
+		return []byte{}
+	}
+
+	ip := net.ParseIP(host)
+	if ip == nil {
+		return []byte{}
+	}
+
+	if ipv4 := ip.To4(); ipv4 != nil {
+		return ipv4
+	}
+
+	return ip.To16()
 }
 
 func InitHTTPAccessLog(ctx context.Context) (context.Context, *HTTPAccessLog) {
