@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS users
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
     uuid        BINARY(16)  NOT NULL UNIQUE,
-    nickname    VARCHAR(50) NOT NULL,
+    nickname    VARCHAR(16) NOT NULL,
     last_access DATETIME    NOT NULL,
     created_at  DATETIME    NOT NULL,
     updated_at  DATETIME    NOT NULL
