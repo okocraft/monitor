@@ -6,7 +6,7 @@ require (
 	github.com/Siroshun09/logs v1.0.1
 	github.com/Siroshun09/serrors v1.2.0
 	github.com/getkin/kin-openapi v0.128.0
-	github.com/go-chi/chi/v5 v5.1.0
+	github.com/go-chi/chi/v5 v5.2.0
 	github.com/go-chi/cors v1.2.1
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/gofrs/uuid/v5 v5.3.0
