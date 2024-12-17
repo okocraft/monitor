@@ -1,0 +1,21 @@
+{
+  "name": "monitor-api",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "gen": "tsp compile . && node -e \"require('fs').copyFileSync('./tsp-output/@typespec/openapi3/openapi.yaml', 'monitor-api.yml')\""
+},
+  "peerDependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/openapi3": "latest"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/openapi3": "latest"
+  },
+  "private": true
+}
