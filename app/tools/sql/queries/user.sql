@@ -4,6 +4,12 @@ FROM users
 WHERE id = ?
 LIMIT 1;
 
+-- name: GetUserNicknameByID :one
+SELECT nickname
+FROM users
+WHERE id = ?
+LIMIT 1;
+
 -- name: GetUserByUUID :one
 SELECT id, nickname, last_access
 FROM users

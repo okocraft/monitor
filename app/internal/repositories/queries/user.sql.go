@@ -87,6 +87,20 @@ func (q *Queries) GetUserIDBySub(ctx context.Context, sub string) (int32, error)
 	return user_id, err
 }
 
+const getUserNicknameByID = `-- name: GetUserNicknameByID :one
+SELECT nickname
+FROM users
+WHERE id = ?
+LIMIT 1
+`
+
+func (q *Queries) GetUserNicknameByID(ctx context.Context, id int32) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUserNicknameByID, id)
+	var nickname string
+	err := row.Scan(&nickname)
+	return nickname, err
+}
+
 const insertLoginKey = `-- name: InsertLoginKey :exec
 INSERT INTO users_login_key (user_id, login_key, created_at)
 VALUES (?, ?, ?)

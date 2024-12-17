@@ -50,3 +50,22 @@ CREATE TABLE IF NOT EXISTS users_access_tokens
     created_at       DATETIME   NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_users_access_tokens_created_at ON users_access_tokens (created_at);
+
+CREATE TABLE IF NOT EXISTS audit_log_operators
+(
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id    INT         NOT NULL,
+    name       VARCHAR(16) NOT NULL,
+    ip         BINARY(16)  NOT NULL,
+    created_at DATETIME    NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS audit_log_user
+(
+    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
+    operator_id  BIGINT      NOT NULL REFERENCES audit_log_operators (id),
+    action_type  TINYINT     NOT NULL,
+    changed_from VARCHAR(16) NOT NULL,
+    changed_to   VARCHAR(16) NOT NULL,
+    created_at   DATETIME    NOT NULL
+);

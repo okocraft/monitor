@@ -9,6 +9,7 @@ package registry
 import (
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/handler"
+	"github.com/okocraft/monitor/internal/handler/auditlog"
 	"github.com/okocraft/monitor/internal/handler/oapi/auth"
 	"github.com/okocraft/monitor/internal/handler/oapi/me"
 	"github.com/okocraft/monitor/internal/repositories"
@@ -29,6 +30,9 @@ func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHa
 	googleAuthConfig := getGoogleAuthConfigFromHTTPConfig(cfg)
 	googleAuthHandler := auth.NewGoogleAuthHandler(googleAuthConfig, authUsecase, userUsecase)
 	meHandler := me.NewMeHandler(userUsecase)
-	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler)
+	auditLogRepository := repositories.NewAuditLogRepository(db)
+	auditLogUsecase := usecases.NewAuditLogUsecase(auditLogRepository)
+	auditLogMiddleware := auditlog.NewAuditLogMiddleware(auditLogUsecase, userUsecase)
+	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler, auditLogMiddleware)
 	return httpHandler, nil
 }

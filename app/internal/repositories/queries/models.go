@@ -8,6 +8,23 @@ import (
 	"time"
 )
 
+type AuditLogOperator struct {
+	ID        int64
+	UserID    int32
+	Name      string
+	Ip        []byte
+	CreatedAt time.Time
+}
+
+type AuditLogUser struct {
+	ID           int64
+	OperatorID   int32
+	ActionType   int8
+	ChangedFrom  string
+	ChangedAfter string
+	CreatedAt    time.Time
+}
+
 type User struct {
 	ID         int32
 	Uuid       []byte

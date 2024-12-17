@@ -6,6 +6,7 @@ import (
 	"github.com/Siroshun09/logs"
 	"github.com/Siroshun09/serrors"
 	"github.com/getkin/kin-openapi/openapi3filter"
+	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/handler/oapi"
@@ -14,6 +15,7 @@ import (
 	"github.com/okocraft/monitor/lib/httplib"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type AuthHandler struct {
@@ -54,6 +56,7 @@ func (h AuthHandler) NewAuthMiddleware(next http.Handler) http.Handler {
 		case auth.MethodAccessToken:
 			if userID, ok := h.AuthorizeByAccessToken(ctx, w, r); ok {
 				r = r.WithContext(ctxlib.WithUserID(ctx, userID))
+				ctxlib.SetUserIDForAuditLog(ctx, userID)
 				next.ServeHTTP(w, r)
 			}
 		default:
@@ -101,12 +104,11 @@ func (h AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
 		MaxAge:   -1,
 	})
 
-	_, refreshTokenID, _, err := h.authUsecase.VerifyRefreshToken(ctx, cookie.Value)
+	userID, refreshTokenID, _, err := h.authUsecase.VerifyRefreshToken(ctx, cookie.Value)
 	if auth.IsUnauthorizedError(err) {
 		httplib.RenderUnauthorized(ctx, w, err)
 		return
-	}
-	if err != nil {
+	} else if err != nil {
 		httplib.RenderError(ctx, w, err)
 		return
 	}
@@ -118,6 +120,12 @@ func (h AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	httplib.RenderNoContent(ctx, w)
+
+	ctxlib.SetUserIDForAuditLog(ctx, userID)
+	ctxlib.AddAuditLogRecord(ctx, auditlog.UserLogRecord{
+		Action:    auditlog.UserActionLogout,
+		Timestamp: time.Now(),
+	})
 }
 
 func (h AuthHandler) RefreshAccessToken(w http.ResponseWriter, r *http.Request) {

@@ -8,10 +8,12 @@ import (
 	"fmt"
 	"github.com/Siroshun09/logs"
 	"github.com/okocraft/monitor/internal/config"
+	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/handler/oapi"
 	"github.com/okocraft/monitor/internal/usecases"
+	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/httplib"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -19,6 +21,7 @@ import (
 	"net/url"
 	"strings"
 	"sync"
+	"time"
 )
 
 type GoogleAuthHandler struct {
@@ -179,7 +182,7 @@ func (h GoogleAuthHandler) handleFirstLoginCallback(w http.ResponseWriter, r *ht
 		return
 	}
 
-	h.sendTokens(ctx, w, r, userID, "")
+	h.sendTokens(ctx, w, r, userID, "", auditlog.UserActionFirstLogin)
 }
 
 func (h GoogleAuthHandler) handleLoginCallback(w http.ResponseWriter, r *http.Request, openID string, redirectTo string) {
@@ -194,10 +197,10 @@ func (h GoogleAuthHandler) handleLoginCallback(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	h.sendTokens(ctx, w, r, userID, redirectTo)
+	h.sendTokens(ctx, w, r, userID, redirectTo, auditlog.UserActionLogin)
 }
 
-func (h GoogleAuthHandler) sendTokens(ctx context.Context, w http.ResponseWriter, r *http.Request, userID user.ID, redirectTo string) {
+func (h GoogleAuthHandler) sendTokens(ctx context.Context, w http.ResponseWriter, r *http.Request, userID user.ID, redirectTo string, action auditlog.UserAction) {
 	refreshToken, expiresAt, err := h.authUsecase.CreateRefreshTokens(ctx, userID)
 	if err != nil {
 		httplib.RenderError(ctx, w, err)
@@ -219,6 +222,12 @@ func (h GoogleAuthHandler) sendTokens(ctx context.Context, w http.ResponseWriter
 		redirect += "&redirectTo=" + url.PathEscape(redirectTo)
 	}
 	httplib.RenderRedirect(ctx, w, r, redirect)
+
+	ctxlib.SetUserIDForAuditLog(ctx, userID)
+	ctxlib.AddAuditLogRecord(ctx, auditlog.UserLogRecord{
+		Action:    action,
+		Timestamp: time.Now(),
+	})
 }
 
 func (h GoogleAuthHandler) RedirectToResultPage(ctx context.Context, w http.ResponseWriter, r *http.Request, pageType auth.GoogleResultPageType) {

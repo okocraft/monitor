@@ -9,5 +9,6 @@ import (
 var repositorySet = wire.NewSet(
 	repositories.NewAuthRepository,
 	repositories.NewUserRepository,
+	repositories.NewAuditLogRepository,
 	database.NewTransaction,
 )

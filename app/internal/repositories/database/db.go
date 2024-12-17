@@ -13,6 +13,7 @@ import (
 
 type DB interface {
 	Queries(ctx context.Context) *queries.Queries
+	Conn(ctx context.Context) queries.DBTX
 	Base() *sql.DB
 	Close() error
 }
@@ -52,6 +53,14 @@ func (db db) Queries(ctx context.Context) *queries.Queries {
 		return q.WithTx(tx)
 	}
 	return q
+}
+
+func (db db) Conn(ctx context.Context) queries.DBTX {
+	tx, ok := getTx(ctx)
+	if ok {
+		return tx
+	}
+	return db.conn
 }
 
 func (db db) Base() *sql.DB {

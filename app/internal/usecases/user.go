@@ -16,6 +16,7 @@ type UserUsecase interface {
 	FindUserIDBySub(ctx context.Context, sub string) (user.ID, error)
 	SaveSubByLoginKey(ctx context.Context, loginKey int64, sub string) (user.ID, error)
 	GetMe(ctx context.Context) (me.Me, error)
+	GetNicknameByID(ctx context.Context, id user.ID) (string, error)
 }
 
 func NewUserUsecase(repo repositories.UserRepository, transaction database.Transaction) UserUsecase {
@@ -86,4 +87,12 @@ func (u userUsecase) GetMe(ctx context.Context) (me.Me, error) {
 	}
 
 	return me.Me{UUID: usr.UUID, NickName: usr.NickName}, nil
+}
+
+func (u userUsecase) GetNicknameByID(ctx context.Context, id user.ID) (string, error) {
+	nickname, err := u.repo.GetUserNicknameByID(ctx, id)
+	if err != nil {
+		return "", errlib.AsIs(err)
+	}
+	return nickname, nil
 }

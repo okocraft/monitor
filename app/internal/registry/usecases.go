@@ -8,4 +8,5 @@ import (
 var usecaseSet = wire.NewSet(
 	usecases.NewUserUsecase,
 	usecases.NewAuthUsecase,
+	usecases.NewAuditLogUsecase,
 )

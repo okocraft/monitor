@@ -15,6 +15,7 @@ import (
 
 type UserRepository interface {
 	GetUserByID(ctx context.Context, id user.ID) (user.User, error)
+	GetUserNicknameByID(ctx context.Context, id user.ID) (string, error)
 	GetUserIDBySub(ctx context.Context, sub string) (user.ID, error)
 	GetUserIDByLoginKey(ctx context.Context, loginKey int64) (user.ID, error)
 	DeleteLoginKeyByUserID(ctx context.Context, id user.ID) error
@@ -40,6 +41,17 @@ func (r userRepository) GetUserByID(ctx context.Context, id user.ID) (user.User,
 	}
 
 	return user.User{ID: id, UUID: uuid.UUID(row.Uuid), NickName: row.Nickname, LastAccess: row.LastAccess}, nil
+}
+
+func (r userRepository) GetUserNicknameByID(ctx context.Context, id user.ID) (string, error) {
+	q := r.db.Queries(ctx)
+	row, err := q.GetUserNicknameByID(ctx, int32(id))
+	if errors.Is(err, sql.ErrNoRows) {
+		return "", serrors.WithStackTrace(user.NotFoundByIDError{ID: id})
+	} else if err != nil {
+		return "", asDBError(err)
+	}
+	return row, nil
 }
 
 func (r userRepository) GetUserIDBySub(ctx context.Context, sub string) (user.ID, error) {

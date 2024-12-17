@@ -12,6 +12,7 @@ require (
 	github.com/gofrs/uuid/v5 v5.3.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/wire v0.6.0
+	github.com/huandu/go-sqlbuilder v1.33.1
 	github.com/oapi-codegen/nethttp-middleware v1.0.2
 	github.com/oapi-codegen/oapi-codegen/v2 v2.4.1
 	github.com/oapi-codegen/runtime v1.1.1
@@ -27,6 +28,7 @@ require (
 	github.com/go-openapi/swag v0.23.0 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
+	github.com/huandu/xstrings v1.4.0 // indirect
 	github.com/invopop/yaml v0.3.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect

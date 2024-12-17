@@ -119,7 +119,10 @@ func createHTTPServer(loggerFactory logger.Factory, httpHandler handler.HTTPHand
 		},
 	}))
 
-	r.Use(httpHandler.AuthHandler.NewAuthMiddleware)
+	r.Use(
+		httpHandler.AuthHandler.NewAuthMiddleware,
+		httpHandler.AuditLogMiddleware.NewHTTPMiddleware,
+	)
 
 	return http.Server{
 		Addr:    ":" + cfg.Port,
