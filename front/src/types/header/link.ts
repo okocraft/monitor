@@ -8,6 +8,7 @@ export type HeaderLink<
     in out TFrom extends RoutePaths<TRouter["routeTree"]> | string = string,
     in out TTo extends string | undefined = ".",
 > = {
+    id: string;
     name: string;
     link?: ToPathOption<TRouter, TFrom, TTo> & {};
     nestedLinks?: NestedHeaderLink[];
@@ -28,6 +29,7 @@ export type NestedHeaderLink<
 export function filterChildren(link: HeaderLink, me?: Me): HeaderLink {
     const filtered = link.nestedLinks?.filter((child) => child.canView(me));
     return {
+        id: link.id,
         name: link.name,
         link: link.link,
         canView: link.canView,

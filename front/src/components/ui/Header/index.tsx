@@ -43,7 +43,7 @@ function createHeaderLink(me: Me | undefined, link: HeaderLink) {
 
     const filtered = filterChildren(link, me);
     return (
-        <div className="ml-2">
+        <div key={`header-links-${link.id}`} className="ml-2">
             {filtered.nestedLinks && 0 < filtered.nestedLinks.length ? (
                 <DropDownMenuLink
                     link={filtered}

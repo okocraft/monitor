@@ -59,7 +59,7 @@ export const DropDownMenuLink = (props: DropDownMenuLinkProps) => {
                     <ul className="absolute left-0 mt-3 bg-white text-gray-800 shadow-lg rounded w-64">
                         {props.nestedLinks.map((link) => (
                             <li
-                                key={link.id}
+                                key={`header-links-${props.link.id}-${link.id}`}
                                 className="px-4 py-2 hover:bg-gray-100"
                             >
                                 <Link to={link.link}>{link.name}</Link>
