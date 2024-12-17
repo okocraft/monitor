@@ -9,17 +9,17 @@ tags:
   - name: Me
 
 paths:
-  /auth/logout:
-    post:
-      operationId: logout
-      description: Invalidate refresh_token and access_token
+  /auth/google/callback:
+    get:
+      operationId: callbackFromGoogle
+      description: Callback from Google
       tags:
         - Auth
       responses:
-        204:
-          description: ok
-        401:
-          description: invalid refresh token
+        307:
+          description: redirect to monitor page
+        406:
+          description: if Google login is not enabled
       security:
         - SkipAuth: [ ]
   /auth/google/link/{login_key}:
@@ -67,17 +67,17 @@ paths:
           description: if Google login is not enabled
       security:
         - SkipAuth: [ ]
-  /auth/google/callback:
-    get:
-      operationId: callbackFromGoogle
-      description: Callback from Google
+  /auth/logout:
+    post:
+      operationId: logout
+      description: Invalidate refresh_token and access_token
       tags:
         - Auth
       responses:
-        307:
-          description: redirect to monitor page
-        406:
-          description: if Google login is not enabled
+        204:
+          description: ok
+        401:
+          description: invalid refresh token
       security:
         - SkipAuth: [ ]
   /auth/refresh:
@@ -95,7 +95,6 @@ paths:
                 $ref: '#/components/schemas/AccessTokenWithMe'
       security:
         - SkipAuth: [ ]
-
   /me:
     get:
       operationId: getMe
@@ -109,6 +108,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Me'
+security:
+  - AccessTokenAuth: [ ]
 
 components:
   schemas:
@@ -122,14 +123,20 @@ components:
         required:
           - access_token
           - me
-    UUID:
-      type: string
-      description: the UUID
-      format: uuid
-      x-go-type: uuid.UUID
-      x-go-type-import:
-        name: uuid
-        path: github.com/gofrs/uuid/v5
+    CurrentPage:
+      properties:
+        url:
+          type: string
+          format: url
+      required:
+        - url
+    GoogleLoginURL:
+      properties:
+        redirect_url:
+          type: string
+          format: url
+      required:
+        - redirect_url
     Me:
       properties:
         uuid:
@@ -139,23 +146,14 @@ components:
       required:
         - uuid
         - nickname
-
-    GoogleLoginURL:
-      properties:
-        redirect_url:
-          type: string
-          format: url
-      required:
-        - redirect_url
-
-    CurrentPage:
-      properties:
-        url:
-          type: string
-          format: url
-      required:
-        - url
-
+    UUID:
+      type: string
+      description: the UUID
+      format: uuid
+      x-go-type: uuid.UUID
+      x-go-type-import:
+        name: uuid
+        path: github.com/gofrs/uuid/v5
   securitySchemes:
     SkipAuth:
       type: http
@@ -163,6 +161,3 @@ components:
     AccessTokenAuth:
       type: http
       scheme: bearer
-
-security:
-  - AccessTokenAuth: [ ]
