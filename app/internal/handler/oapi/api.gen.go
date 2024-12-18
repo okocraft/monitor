@@ -22,16 +22,20 @@ const (
 type AccessTokenWithMe struct {
 	// AccessToken the access token
 	AccessToken string `json:"access_token"`
-	Me          Me     `json:"me"`
+
+	// Me the currently logged-in user info
+	Me Me `json:"me"`
 }
 
 // CurrentPage defines model for CurrentPage.
 type CurrentPage struct {
+	// Url the url of the page currently being viewed
 	Url string `json:"url"`
 }
 
 // GoogleLoginURL defines model for GoogleLoginURL.
 type GoogleLoginURL struct {
+	// RedirectUrl the Google's login page URL
 	RedirectUrl string `json:"redirect_url"`
 }
 
@@ -55,7 +59,7 @@ type ServerInterface interface {
 	// (GET /auth/google/callback)
 	CallbackFromGoogle(w http.ResponseWriter, r *http.Request)
 
-	// (POST /auth/google/link/{login_key})
+	// (POST /auth/google/link/{loginKey})
 	LinkWithGoogle(w http.ResponseWriter, r *http.Request, loginKey string)
 
 	// (POST /auth/google/login)
@@ -80,7 +84,7 @@ func (_ Unimplemented) CallbackFromGoogle(w http.ResponseWriter, r *http.Request
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// (POST /auth/google/link/{login_key})
+// (POST /auth/google/link/{loginKey})
 func (_ Unimplemented) LinkWithGoogle(w http.ResponseWriter, r *http.Request, loginKey string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
@@ -139,12 +143,12 @@ func (siw *ServerInterfaceWrapper) LinkWithGoogle(w http.ResponseWriter, r *http
 
 	var err error
 
-	// ------------- Path parameter "login_key" -------------
+	// ------------- Path parameter "loginKey" -------------
 	var loginKey string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "login_key", chi.URLParam(r, "login_key"), &loginKey, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "loginKey", chi.URLParam(r, "loginKey"), &loginKey, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "login_key", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "loginKey", Err: err})
 		return
 	}
 
@@ -362,7 +366,7 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Get(options.BaseURL+"/auth/google/callback", wrapper.CallbackFromGoogle)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/auth/google/link/{login_key}", wrapper.LinkWithGoogle)
+		r.Post(options.BaseURL+"/auth/google/link/{loginKey}", wrapper.LinkWithGoogle)
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/auth/google/login", wrapper.LoginWithGoogle)
