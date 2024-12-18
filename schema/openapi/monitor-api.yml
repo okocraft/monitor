@@ -1,163 +1,177 @@
-# yaml-language-server: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v3.0/schema.json
-openapi: "3.0.0"
+openapi: 3.0.0
 info:
-  version: 0.0.1
   title: Monitor API
-
+  version: 0.0.0
 tags:
   - name: Auth
   - name: Me
-
 paths:
   /auth/google/callback:
     get:
       operationId: callbackFromGoogle
       description: Callback from Google
+      parameters: []
+      responses:
+        '307':
+          description: Redirection
+        '406':
+          description: Client error
       tags:
         - Auth
-      responses:
-        307:
-          description: redirect to monitor page
-        406:
-          description: if Google login is not enabled
       security:
-        - SkipAuth: [ ]
-  /auth/google/link/{login_key}:
-    parameters:
-      - name: login_key
-        in: path
-        required: true
-        schema:
-          type: string
+        - SkipAuth: []
+  /auth/google/link/{loginKey}:
     post:
       operationId: linkWithGoogle
       description: First login with Google Account
-      tags:
-        - Auth
+      parameters:
+        - name: loginKey
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
-        200:
-          description: the url of Google's account page
+        '200':
+          description: The request has succeeded.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GoogleLoginURL'
-        406:
-          description: if Google login is not enabled
+        '406':
+          description: Client error
+      tags:
+        - Auth
       security:
-        - SkipAuth: [ ]
+        - SkipAuth: []
   /auth/google/login:
     post:
       operationId: loginWithGoogle
       description: Login with Google Account
-      tags:
-        - Auth
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CurrentPage'
+      parameters: []
       responses:
-        200:
-          description: the url of Google's account page
+        '200':
+          description: The request has succeeded.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GoogleLoginURL'
-        406:
-          description: if Google login is not enabled
+        '406':
+          description: Client error
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrentPage'
       security:
-        - SkipAuth: [ ]
+        - SkipAuth: []
   /auth/logout:
     post:
       operationId: logout
       description: Invalidate refresh_token and access_token
+      parameters: []
+      responses:
+        '204':
+          description: 'There is no content to send for this request, but the headers may be useful. '
+        '401':
+          description: Access is unauthorized.
       tags:
         - Auth
-      responses:
-        204:
-          description: ok
-        401:
-          description: invalid refresh token
       security:
-        - SkipAuth: [ ]
+        - SkipAuth: []
   /auth/refresh:
     post:
       operationId: refreshAccessToken
       description: Refresh access token
-      tags:
-        - Auth
+      parameters: []
       responses:
-        200:
-          description: ok
+        '200':
+          description: The request has succeeded.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessTokenWithMe'
+        '401':
+          description: Access is unauthorized.
+      tags:
+        - Auth
       security:
-        - SkipAuth: [ ]
+        - SkipAuth: []
   /me:
     get:
       operationId: getMe
       description: get own user info
-      tags:
-        - Me
+      parameters: []
       responses:
-        200:
-          description: ok
+        '200':
+          description: The request has succeeded.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Me'
+      tags:
+        - Me
 security:
-  - AccessTokenAuth: [ ]
-
+  - AccessTokenAuth: []
 components:
   schemas:
     AccessTokenWithMe:
-        properties:
-          access_token:
-            type: string
-            description: the access token
-          me:
-            $ref: '#/components/schemas/Me'
-        required:
-          - access_token
-          - me
+      type: object
+      required:
+        - access_token
+        - me
+      properties:
+        access_token:
+          type: string
+          description: the access token
+        me:
+          allOf:
+            - $ref: '#/components/schemas/Me'
+          description: the currently logged-in user info
     CurrentPage:
+      type: object
+      required:
+        - url
       properties:
         url:
           type: string
           format: url
-      required:
-        - url
+          description: the url of the page currently being viewed
     GoogleLoginURL:
+      type: object
+      required:
+        - redirect_url
       properties:
         redirect_url:
           type: string
           format: url
-      required:
-        - redirect_url
+          description: the Google's login page URL
     Me:
+      type: object
+      required:
+        - uuid
+        - nickname
       properties:
         uuid:
           $ref: '#/components/schemas/UUID'
         nickname:
           type: string
-      required:
-        - uuid
-        - nickname
     UUID:
       type: string
-      description: the UUID
       format: uuid
-      x-go-type: uuid.UUID
+      description: the UUID
       x-go-type-import:
         name: uuid
         path: github.com/gofrs/uuid/v5
+      x-go-type: uuid.UUID
   securitySchemes:
-    SkipAuth:
-      type: http
-      scheme: none
     AccessTokenAuth:
       type: http
       scheme: bearer
+      description: Authorize by access tokens
+    SkipAuth:
+      type: http
+      scheme: none
+      description: No authentication needed
