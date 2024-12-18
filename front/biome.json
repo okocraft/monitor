@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": false,
-        "ignore": ["routeTree.gen.ts", "src/api/*"]
+        "ignore": ["routeTree.gen.ts"]
     },
     "formatter": {
         "enabled": true,
@@ -21,7 +21,8 @@
         "enabled": true,
         "rules": {
             "recommended": true
-        }
+        },
+        "ignore": ["./src/api"]
     },
     "javascript": {
         "formatter": {
