@@ -7,12 +7,12 @@ import (
 
 type Me struct {
 	UUID     uuid.UUID
-	NickName string
+	Nickname string
 }
 
 func (m Me) ToResponse() oapi.Me {
 	return oapi.Me{
 		Uuid:     m.UUID,
-		Nickname: m.NickName,
+		Nickname: m.Nickname,
 	}
 }

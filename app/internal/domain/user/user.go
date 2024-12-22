@@ -16,6 +16,6 @@ func (id ID) String() string {
 type User struct {
 	ID         ID
 	UUID       uuid.UUID
-	NickName   string
+	Nickname   string
 	LastAccess time.Time
 }

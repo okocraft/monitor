@@ -40,7 +40,7 @@ func (r userRepository) GetUserByID(ctx context.Context, id user.ID) (user.User,
 		return user.User{}, asDBError(err)
 	}
 
-	return user.User{ID: id, UUID: uuid.UUID(row.Uuid), NickName: row.Nickname, LastAccess: row.LastAccess}, nil
+	return user.User{ID: id, UUID: uuid.UUID(row.Uuid), Nickname: row.Nickname, LastAccess: row.LastAccess}, nil
 }
 
 func (r userRepository) GetUserNicknameByID(ctx context.Context, id user.ID) (string, error) {

@@ -86,7 +86,7 @@ func (u userUsecase) GetMe(ctx context.Context) (me.Me, error) {
 		return me.Me{}, errlib.AsIs(err)
 	}
 
-	return me.Me{UUID: usr.UUID, NickName: usr.NickName}, nil
+	return me.Me{UUID: usr.UUID, Nickname: usr.Nickname}, nil
 }
 
 func (u userUsecase) GetNicknameByID(ctx context.Context, id user.ID) (string, error) {
