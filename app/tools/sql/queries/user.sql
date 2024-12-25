@@ -16,14 +16,6 @@ FROM users
 WHERE uuid = ?
 LIMIT 1;
 
--- name: InsertUser :exec
-INSERT INTO users (uuid, nickname, last_access, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?);
-
--- name: InsertUserWithID :exec
-INSERT INTO users (id, uuid, nickname, last_access, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?, ?);
-
 -- name: UpdateUserNicknameByID :exec
 UPDATE users
 SET nickname=?,

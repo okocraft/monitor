@@ -132,56 +132,6 @@ func (q *Queries) InsertSubForUserID(ctx context.Context, arg InsertSubForUserID
 	return err
 }
 
-const insertUser = `-- name: InsertUser :exec
-INSERT INTO users (uuid, nickname, last_access, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?)
-`
-
-type InsertUserParams struct {
-	Uuid       []byte
-	Nickname   string
-	LastAccess time.Time
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-}
-
-func (q *Queries) InsertUser(ctx context.Context, arg InsertUserParams) error {
-	_, err := q.db.ExecContext(ctx, insertUser,
-		arg.Uuid,
-		arg.Nickname,
-		arg.LastAccess,
-		arg.CreatedAt,
-		arg.UpdatedAt,
-	)
-	return err
-}
-
-const insertUserWithID = `-- name: InsertUserWithID :exec
-INSERT INTO users (id, uuid, nickname, last_access, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?, ?)
-`
-
-type InsertUserWithIDParams struct {
-	ID         int32
-	Uuid       []byte
-	Nickname   string
-	LastAccess time.Time
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-}
-
-func (q *Queries) InsertUserWithID(ctx context.Context, arg InsertUserWithIDParams) error {
-	_, err := q.db.ExecContext(ctx, insertUserWithID,
-		arg.ID,
-		arg.Uuid,
-		arg.Nickname,
-		arg.LastAccess,
-		arg.CreatedAt,
-		arg.UpdatedAt,
-	)
-	return err
-}
-
 const updateUserLastAccessByID = `-- name: UpdateUserLastAccessByID :exec
 UPDATE users
 SET last_access=?,
