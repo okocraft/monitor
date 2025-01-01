@@ -19,6 +19,7 @@ import (
 
 type TestDB interface {
 	Run(t *testing.T, f func(ctx context.Context, db database.DB))
+	Conn() (database.DB, error)
 	Cleanup() error
 }
 
@@ -113,6 +114,14 @@ func (db *testDB) Run(t *testing.T, f func(ctx context.Context, db database.DB))
 
 	ctx = database.SetTx(ctx, tx)
 	f(ctx, d)
+}
+
+func (db *testDB) Conn() (database.DB, error) {
+	d, err := database.New(db.cfg, 15*time.Minute)
+	if err != nil {
+		return nil, serrors.WithStackTrace(err)
+	}
+	return d, nil
 }
 
 func (db *testDB) Cleanup() (err error) {
