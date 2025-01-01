@@ -18,13 +18,16 @@ const (
 	SkipAuthScopes        = "SkipAuth.Scopes"
 )
 
-// AccessTokenWithMe defines model for AccessTokenWithMe.
-type AccessTokenWithMe struct {
+// AccessTokenWithMeAndPagePermissions defines model for AccessTokenWithMeAndPagePermissions.
+type AccessTokenWithMeAndPagePermissions struct {
 	// AccessToken the access token
 	AccessToken string `json:"access_token"`
 
 	// Me the currently logged-in user info
 	Me Me `json:"me"`
+
+	// PagePermissions the page permissions
+	PagePermissions PagePermissions `json:"page_permissions"`
 }
 
 // CurrentPage defines model for CurrentPage.
@@ -45,6 +48,11 @@ type Me struct {
 
 	// Uuid the UUID
 	Uuid UUID `json:"uuid"`
+}
+
+// PagePermissions defines model for PagePermissions.
+type PagePermissions struct {
+	Users bool `json:"users"`
 }
 
 // UUID the UUID

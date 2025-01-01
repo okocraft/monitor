@@ -21,7 +21,7 @@ import type {
 import * as axios from "axios";
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import type {
-    AccessTokenWithMe,
+    AccessTokenWithMeAndPagePermissions,
     CurrentPage,
     GoogleLoginURL,
 } from ".././model";
@@ -364,7 +364,7 @@ export const useLogout = <
  */
 export const refreshAccessToken = (
     options?: AxiosRequestConfig,
-): Promise<AxiosResponse<AccessTokenWithMe>> => {
+): Promise<AxiosResponse<AccessTokenWithMeAndPagePermissions>> => {
     return axios.default.post(`/auth/refresh`, undefined, options);
 };
 

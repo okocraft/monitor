@@ -22,19 +22,19 @@ var (
 func TestValueMap_IsTrue(t *testing.T) {
 	tests := []struct {
 		name     string
-		valueMap ValueMap
+		valueMap valueMap
 		id       ID
 		want     bool
 	}{
 		{
 			name:     "false: empty",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			id:       TestPermissionAllowed.ID,
 			want:     false,
 		},
 		{
 			name: "false: different id",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID: true,
 			},
 			id:   0,
@@ -42,7 +42,7 @@ func TestValueMap_IsTrue(t *testing.T) {
 		},
 		{
 			name: "true",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID: true,
 			},
 			id:   1,
@@ -50,7 +50,7 @@ func TestValueMap_IsTrue(t *testing.T) {
 		},
 		{
 			name: "false",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID: false,
 			},
 			id:   1,
@@ -67,25 +67,25 @@ func TestValueMap_IsTrue(t *testing.T) {
 func TestValueMap_HasPermission(t *testing.T) {
 	tests := []struct {
 		name     string
-		valueMap ValueMap
+		valueMap valueMap
 		perm     Permission
 		want     bool
 	}{
 		{
 			name:     "true: empty (default allowed)",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perm:     TestPermissionAllowed,
 			want:     true,
 		},
 		{
 			name:     "false: empty (default not allowed)",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perm:     TestPermissionNotAllowed,
 			want:     false,
 		},
 		{
 			name: "true: different id (default allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				0: false,
 			},
 			perm: TestPermissionAllowed,
@@ -93,7 +93,7 @@ func TestValueMap_HasPermission(t *testing.T) {
 		},
 		{
 			name: "false: different id (default not allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				0: true,
 			},
 			perm: TestPermissionNotAllowed,
@@ -101,7 +101,7 @@ func TestValueMap_HasPermission(t *testing.T) {
 		},
 		{
 			name: "true (default not allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionNotAllowed.ID: TestPermissionNotAllowed.DefaultValue,
 			},
 			perm: TestPermissionAllowed,
@@ -109,7 +109,7 @@ func TestValueMap_HasPermission(t *testing.T) {
 		},
 		{
 			name: "false (default allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID: TestPermissionAllowed.DefaultValue,
 			},
 			perm: TestPermissionNotAllowed,
@@ -126,26 +126,26 @@ func TestValueMap_HasPermission(t *testing.T) {
 func TestValueMap_HasAnyPermissions(t *testing.T) {
 	tests := []struct {
 		name     string
-		valueMap ValueMap
+		valueMap valueMap
 		perms    []Permission
 		want     bool
 	}{
 		// same cases as HasPermission
 		{
 			name:     "true: empty (default allowed)",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perms:    []Permission{TestPermissionAllowed},
 			want:     true,
 		},
 		{
 			name:     "false: empty (default not allowed)",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perms:    []Permission{TestPermissionNotAllowed},
 			want:     false,
 		},
 		{
 			name: "true: different id (default allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				0: false,
 			},
 			perms: []Permission{TestPermissionAllowed},
@@ -153,7 +153,7 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 		},
 		{
 			name: "false: different id (default not allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				0: true,
 			},
 			perms: []Permission{TestPermissionNotAllowed},
@@ -161,7 +161,7 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 		},
 		{
 			name: "true (default not allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionNotAllowed.ID: TestPermissionNotAllowed.DefaultValue,
 			},
 			perms: []Permission{TestPermissionAllowed},
@@ -169,7 +169,7 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 		},
 		{
 			name: "false (default allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID: TestPermissionAllowed.DefaultValue,
 			},
 			perms: []Permission{TestPermissionNotAllowed},
@@ -178,13 +178,13 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 		// multiple permissions
 		{
 			name:     "multiple permissions: empty -> default allowed",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perms:    []Permission{TestPermissionAllowed, TestPermissionNotAllowed},
 			want:     true,
 		},
 		{
 			name: "multiple permissions: all true -> true",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID:    true,
 				TestPermissionNotAllowed.ID: true,
 			},
@@ -193,7 +193,7 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 		},
 		{
 			name: "multiple permissions: all false -> false",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID:    false,
 				TestPermissionNotAllowed.ID: false,
 			},
@@ -211,26 +211,26 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 func TestValueMap_HasAllPermissions(t *testing.T) {
 	tests := []struct {
 		name     string
-		valueMap ValueMap
+		valueMap valueMap
 		perms    []Permission
 		want     bool
 	}{
 		// same cases as HasPermission
 		{
 			name:     "true: empty (default allowed)",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perms:    []Permission{TestPermissionAllowed},
 			want:     true,
 		},
 		{
 			name:     "false: empty (default not allowed)",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perms:    []Permission{TestPermissionNotAllowed},
 			want:     false,
 		},
 		{
 			name: "true: different id (default allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				0: false,
 			},
 			perms: []Permission{TestPermissionAllowed},
@@ -238,7 +238,7 @@ func TestValueMap_HasAllPermissions(t *testing.T) {
 		},
 		{
 			name: "false: different id (default not allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				0: true,
 			},
 			perms: []Permission{TestPermissionNotAllowed},
@@ -246,7 +246,7 @@ func TestValueMap_HasAllPermissions(t *testing.T) {
 		},
 		{
 			name: "true (default not allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionNotAllowed.ID: TestPermissionNotAllowed.DefaultValue,
 			},
 			perms: []Permission{TestPermissionAllowed},
@@ -254,7 +254,7 @@ func TestValueMap_HasAllPermissions(t *testing.T) {
 		},
 		{
 			name: "false (default allowed)",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID: TestPermissionAllowed.DefaultValue,
 			},
 			perms: []Permission{TestPermissionNotAllowed},
@@ -263,13 +263,13 @@ func TestValueMap_HasAllPermissions(t *testing.T) {
 		// multiple permissions
 		{
 			name:     "multiple permissions: empty -> default not allowed",
-			valueMap: ValueMap{},
+			valueMap: valueMap{},
 			perms:    []Permission{TestPermissionAllowed, TestPermissionNotAllowed},
 			want:     false,
 		},
 		{
 			name: "multiple permissions: all true -> true",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID:    true,
 				TestPermissionNotAllowed.ID: true,
 			},
@@ -278,7 +278,7 @@ func TestValueMap_HasAllPermissions(t *testing.T) {
 		},
 		{
 			name: "multiple permissions: all false -> false",
-			valueMap: ValueMap{
+			valueMap: valueMap{
 				TestPermissionAllowed.ID:    false,
 				TestPermissionNotAllowed.ID: false,
 			},

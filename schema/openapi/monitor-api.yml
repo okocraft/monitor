@@ -92,7 +92,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccessTokenWithMe'
+                $ref: '#/components/schemas/AccessTokenWithMeAndPagePermissions'
         '401':
           description: Access is unauthorized.
       tags:
@@ -117,11 +117,12 @@ security:
   - AccessTokenAuth: []
 components:
   schemas:
-    AccessTokenWithMe:
+    AccessTokenWithMeAndPagePermissions:
       type: object
       required:
         - access_token
         - me
+        - page_permissions
       properties:
         access_token:
           type: string
@@ -130,6 +131,10 @@ components:
           allOf:
             - $ref: '#/components/schemas/Me'
           description: the currently logged-in user info
+        page_permissions:
+          allOf:
+            - $ref: '#/components/schemas/PagePermissions'
+          description: the page permissions
     CurrentPage:
       type: object
       required:
@@ -158,6 +163,13 @@ components:
           $ref: '#/components/schemas/UUID'
         nickname:
           type: string
+    PagePermissions:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: boolean
     UUID:
       type: string
       format: uuid

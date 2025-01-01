@@ -9,8 +9,8 @@ import (
 var rolePermissionStruct = sqlbuilder.NewStruct(new(RolesPermission)).For(sqlbuilder.MySQL)
 
 func BulkInsertRolePermissions(roleID role.ID, valueMap permission.ValueMap) (string, []any) {
-	values := make([]any, 0, len(valueMap))
-	for id, state := range valueMap {
+	values := make([]any, 0, valueMap.Len())
+	for id, state := range valueMap.Iter {
 		values = append(values, RolesPermission{
 			RoleID:       roleID,
 			PermissionID: id,

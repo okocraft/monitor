@@ -1,4 +1,5 @@
 import "./me.tsp";
+import "./permission.tsp";
 
 @doc("Authorize by access tokens")
 model AccessTokenAuth {
@@ -12,12 +13,15 @@ model SkipAuth {
   scheme: "none";
 }
 
-model AccessTokenWithMe {
+model AccessTokenWithMeAndPagePermissions {
   @doc("the access token")
   access_token: string;
 
   @doc("the currently logged-in user info")
   me: Me;
+
+  @doc("the page permissions")
+  page_permissions: PagePermissions;
 }
 
 model GoogleLoginURL {

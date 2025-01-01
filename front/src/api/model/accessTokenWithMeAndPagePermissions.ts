@@ -5,10 +5,13 @@
  * OpenAPI spec version: 0.0.0
  */
 import type { Me } from "./me";
+import type { PagePermissions } from "./pagePermissions";
 
-export interface AccessTokenWithMe {
+export interface AccessTokenWithMeAndPagePermissions {
     /** the access token */
     access_token: string;
     /** the currently logged-in user info */
     me: Me;
+    /** the page permissions */
+    page_permissions: PagePermissions;
 }

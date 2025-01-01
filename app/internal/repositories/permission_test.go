@@ -145,21 +145,21 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 		userRecord     queries.InsertUserWithIDForTestParams
 		roleRecord     queries.InsertRoleWithIDForTestParams
 		userRoleRecord queries.InsertUserRoleForTestParams
-		dbValueMap     permission.ValueMap
+		dbValueMap     permission.ValueMapSource
 	}
 	tests := []struct {
 		name    string
 		initial *initial
 		userID  user.ID
 		perms   []permission.Permission
-		want    permission.ValueMap
+		want    permission.ValueMapSource
 		wantErr assert.ErrorAssertionFunc
 	}{
 		{
 			name:   "ok: no records inserted (default allowed)",
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed},
-			want: permission.ValueMap{
+			want: permission.ValueMapSource{
 				records.TestPermissionAllowed.ID: true,
 			},
 			wantErr: assert.NoError,
@@ -168,7 +168,7 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 			name:   "ok: no records inserted (default not allowed)",
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionNotAllowed},
-			want: permission.ValueMap{
+			want: permission.ValueMapSource{
 				records.TestPermissionNotAllowed.ID: false,
 			},
 			wantErr: assert.NoError,
@@ -183,13 +183,13 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 					RoleID:    records.Role1.ID,
 					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 				},
-				dbValueMap: permission.ValueMap{
+				dbValueMap: permission.ValueMapSource{
 					records.TestPermissionNotAllowed.ID: true,
 				},
 			},
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionNotAllowed},
-			want: permission.ValueMap{
+			want: permission.ValueMapSource{
 				records.TestPermissionNotAllowed.ID: true,
 			},
 			wantErr: assert.NoError,
@@ -204,13 +204,13 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 					RoleID:    records.Role1.ID,
 					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 				},
-				dbValueMap: permission.ValueMap{
+				dbValueMap: permission.ValueMapSource{
 					records.TestPermissionAllowed.ID: false,
 				},
 			},
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed},
-			want: permission.ValueMap{
+			want: permission.ValueMapSource{
 				records.TestPermissionAllowed.ID: false,
 			},
 			wantErr: assert.NoError,
@@ -225,14 +225,14 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 					RoleID:    records.Role1.ID,
 					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 				},
-				dbValueMap: permission.ValueMap{
+				dbValueMap: permission.ValueMapSource{
 					records.TestPermissionAllowed.ID:    false,
 					records.TestPermissionNotAllowed.ID: true,
 				},
 			},
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
-			want: permission.ValueMap{
+			want: permission.ValueMapSource{
 				records.TestPermissionAllowed.ID:    false,
 				records.TestPermissionNotAllowed.ID: true,
 			},
@@ -248,13 +248,13 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 					RoleID:    records.Role1.ID,
 					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 				},
-				dbValueMap: permission.ValueMap{
+				dbValueMap: permission.ValueMapSource{
 					records.TestPermissionNotAllowed.ID: true,
 				},
 			},
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
-			want: permission.ValueMap{
+			want: permission.ValueMapSource{
 				records.TestPermissionAllowed.ID:    true,
 				records.TestPermissionNotAllowed.ID: true,
 			},
@@ -270,13 +270,13 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 					RoleID:    records.Role1.ID,
 					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 				},
-				dbValueMap: permission.ValueMap{
+				dbValueMap: permission.ValueMapSource{
 					records.TestPermissionAllowed.ID: false,
 				},
 			},
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
-			want: permission.ValueMap{
+			want: permission.ValueMapSource{
 				records.TestPermissionAllowed.ID:    false,
 				records.TestPermissionNotAllowed.ID: false,
 			},
@@ -292,7 +292,7 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 					require.NoError(t, q.InsertRoleWithIDForTest(ctx, tt.initial.roleRecord))
 					require.NoError(t, q.InsertUserRoleForTest(ctx, tt.initial.userRoleRecord))
 
-					sql, args := queries.BulkInsertRolePermissions(tt.initial.roleRecord.ID, tt.initial.dbValueMap)
+					sql, args := queries.BulkInsertRolePermissions(tt.initial.roleRecord.ID, permission.NewValueMap(tt.initial.dbValueMap))
 					_, err := db.Conn(ctx).ExecContext(ctx, sql, args...)
 					require.NoError(t, err, sql)
 				}
@@ -304,7 +304,7 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 					return
 				}
 
-				assert.Equal(t, tt.want, got)
+				assert.Equal(t, permission.NewValueMap(tt.want), got)
 			})
 		})
 	}

@@ -19,14 +19,16 @@ import (
 )
 
 type AuthHandler struct {
-	authUsecase usecases.AuthUsecase
-	userUsecase usecases.UserUsecase
+	authUsecase       usecases.AuthUsecase
+	userUsecase       usecases.UserUsecase
+	permissionUsecase usecases.PermissionUsecase
 }
 
-func NewAuthHandler(authUsecase usecases.AuthUsecase, userUsecase usecases.UserUsecase) AuthHandler {
+func NewAuthHandler(authUsecase usecases.AuthUsecase, userUsecase usecases.UserUsecase, permissionUseCase usecases.PermissionUsecase) AuthHandler {
 	return AuthHandler{
-		authUsecase: authUsecase,
-		userUsecase: userUsecase,
+		authUsecase:       authUsecase,
+		userUsecase:       userUsecase,
+		permissionUsecase: permissionUseCase,
 	}
 }
 
@@ -162,5 +164,15 @@ func (h AuthHandler) RefreshAccessToken(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	httplib.RenderOK(ctx, w, oapi.AccessTokenWithMe{AccessToken: accessToken, Me: me.ToResponse()})
+	pagePermissions, err := h.permissionUsecase.CalculatePagePermissions(ctx)
+	if err != nil {
+		httplib.RenderError(ctx, w, err)
+		return
+	}
+
+	httplib.RenderOK(ctx, w, oapi.AccessTokenWithMeAndPagePermissions{
+		AccessToken:     accessToken,
+		Me:              me.ToResponse(),
+		PagePermissions: pagePermissions.ToResponse(),
+	})
 }

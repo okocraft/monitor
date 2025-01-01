@@ -38,7 +38,7 @@ namespace AuthAPI {
     @statusCode
     statusCode: 200;
 
-    @body _: AccessTokenWithMe;
+    @body _: AccessTokenWithMeAndPagePermissions;
   } | {
     @doc("invalid refresh token")
     @statusCode

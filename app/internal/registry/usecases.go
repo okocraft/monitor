@@ -6,7 +6,8 @@ import (
 )
 
 var usecaseSet = wire.NewSet(
-	usecases.NewUserUsecase,
 	usecases.NewAuthUsecase,
+	usecases.NewUserUsecase,
+	usecases.NewPermissionUsecase,
 	usecases.NewAuditLogUsecase,
 )

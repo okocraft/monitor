@@ -1,0 +1,3 @@
+model PagePermissions {
+  users: boolean;
+}

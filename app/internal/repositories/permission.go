@@ -40,7 +40,7 @@ func (r permissionRepository) GetPermissions(ctx context.Context, userID user.ID
 	q := r.db.Queries(ctx)
 
 	ids := make([]int16, 0, len(perms))
-	result := make(permission.ValueMap, len(perms))
+	result := make(permission.ValueMapSource, len(perms))
 	for _, perm := range perms {
 		ids = append(ids, perm.ID)
 		result[perm.ID] = perm.DefaultValue
@@ -52,7 +52,7 @@ func (r permissionRepository) GetPermissions(ctx context.Context, userID user.ID
 	}
 
 	if err != nil {
-		return permission.ValueMap{}, asDBError(err)
+		return permission.EmptyValueMap(), asDBError(err)
 	}
-	return result, nil
+	return permission.NewValueMap(result), nil
 }
