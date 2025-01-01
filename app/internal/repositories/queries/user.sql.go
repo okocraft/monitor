@@ -29,9 +29,9 @@ LIMIT 1
 `
 
 type GetUserByIDRow struct {
-	Uuid       []byte
-	Nickname   string
-	LastAccess time.Time
+	Uuid       []byte    `db:"uuid"`
+	Nickname   string    `db:"nickname"`
+	LastAccess time.Time `db:"last_access"`
 }
 
 func (q *Queries) GetUserByID(ctx context.Context, id int32) (GetUserByIDRow, error) {
@@ -49,9 +49,9 @@ LIMIT 1
 `
 
 type GetUserByUUIDRow struct {
-	ID         int32
-	Nickname   string
-	LastAccess time.Time
+	ID         int32     `db:"id"`
+	Nickname   string    `db:"nickname"`
+	LastAccess time.Time `db:"last_access"`
 }
 
 func (q *Queries) GetUserByUUID(ctx context.Context, uuid []byte) (GetUserByUUIDRow, error) {
@@ -107,9 +107,9 @@ VALUES (?, ?, ?)
 `
 
 type InsertLoginKeyParams struct {
-	UserID    int32
-	LoginKey  int64
-	CreatedAt time.Time
+	UserID    int32     `db:"user_id"`
+	LoginKey  int64     `db:"login_key"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 func (q *Queries) InsertLoginKey(ctx context.Context, arg InsertLoginKeyParams) error {
@@ -123,8 +123,8 @@ VALUES (?, ?)
 `
 
 type InsertSubForUserIDParams struct {
-	UserID int32
-	Sub    string
+	UserID int32  `db:"user_id"`
+	Sub    string `db:"sub"`
 }
 
 func (q *Queries) InsertSubForUserID(ctx context.Context, arg InsertSubForUserIDParams) error {
@@ -140,9 +140,9 @@ WHERE id = ?
 `
 
 type UpdateUserLastAccessByIDParams struct {
-	LastAccess time.Time
-	UpdatedAt  time.Time
-	ID         int32
+	LastAccess time.Time `db:"last_access"`
+	UpdatedAt  time.Time `db:"updated_at"`
+	ID         int32     `db:"id"`
 }
 
 func (q *Queries) UpdateUserLastAccessByID(ctx context.Context, arg UpdateUserLastAccessByIDParams) error {
@@ -158,9 +158,9 @@ WHERE id = ?
 `
 
 type UpdateUserNicknameByIDParams struct {
-	Nickname  string
-	UpdatedAt time.Time
-	ID        int32
+	Nickname  string    `db:"nickname"`
+	UpdatedAt time.Time `db:"updated_at"`
+	ID        int32     `db:"id"`
 }
 
 func (q *Queries) UpdateUserNicknameByID(ctx context.Context, arg UpdateUserNicknameByIDParams) error {

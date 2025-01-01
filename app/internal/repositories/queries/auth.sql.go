@@ -26,8 +26,8 @@ WHERE jti = ?
 `
 
 type GetUserIDAndRefreshTokenIDByJTIRow struct {
-	ID     int64
-	UserID int32
+	ID     int64 `db:"id"`
+	UserID int32 `db:"user_id"`
 }
 
 func (q *Queries) GetUserIDAndRefreshTokenIDByJTI(ctx context.Context, jti []byte) (GetUserIDAndRefreshTokenIDByJTIRow, error) {
@@ -54,10 +54,10 @@ VALUES (?, ?, ?, ?)
 `
 
 type InsertAccessTokenParams struct {
-	UserID         int32
-	RefreshTokenID int64
-	Jti            []byte
-	CreatedAt      time.Time
+	UserID         int32     `db:"user_id"`
+	RefreshTokenID int64     `db:"refresh_token_id"`
+	Jti            []byte    `db:"jti"`
+	CreatedAt      time.Time `db:"created_at"`
 }
 
 func (q *Queries) InsertAccessToken(ctx context.Context, arg InsertAccessTokenParams) error {
@@ -76,11 +76,11 @@ VALUES (?, ?, ?, ?, ?)
 `
 
 type InsertRefreshTokenParams struct {
-	UserID    int32
-	Jti       []byte
-	Ip        []byte
-	UserAgent string
-	CreatedAt time.Time
+	UserID    int32     `db:"user_id"`
+	Jti       []byte    `db:"jti"`
+	Ip        []byte    `db:"ip"`
+	UserAgent string    `db:"user_agent"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 func (q *Queries) InsertRefreshToken(ctx context.Context, arg InsertRefreshTokenParams) error {

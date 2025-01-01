@@ -17,10 +17,10 @@ VALUES (?, ?, ?, ?)
 `
 
 type InsertOperatorParams struct {
-	UserID    int32
-	Name      string
-	Ip        []byte
-	CreatedAt time.Time
+	UserID    int32     `db:"user_id"`
+	Name      string    `db:"name"`
+	Ip        []byte    `db:"ip"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 func (q *Queries) InsertOperator(ctx context.Context, arg InsertOperatorParams) (sql.Result, error) {

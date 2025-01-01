@@ -16,12 +16,12 @@ VALUES (?, ?, ?, ?, ?, ?)
 `
 
 type InsertUserWithIDForTestParams struct {
-	ID         int32
-	Uuid       []byte
-	Nickname   string
-	LastAccess time.Time
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	ID         int32     `db:"id"`
+	Uuid       []byte    `db:"uuid"`
+	Nickname   string    `db:"nickname"`
+	LastAccess time.Time `db:"last_access"`
+	CreatedAt  time.Time `db:"created_at"`
+	UpdatedAt  time.Time `db:"updated_at"`
 }
 
 func (q *Queries) InsertUserWithIDForTest(ctx context.Context, arg InsertUserWithIDForTestParams) error {

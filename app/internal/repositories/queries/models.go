@@ -9,62 +9,62 @@ import (
 )
 
 type AuditLogOperator struct {
-	ID        int64
-	UserID    int32
-	Name      string
-	Ip        []byte
-	CreatedAt time.Time
+	ID        int64     `db:"id"`
+	UserID    int32     `db:"user_id"`
+	Name      string    `db:"name"`
+	Ip        []byte    `db:"ip"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 type AuditLogUser struct {
-	ID           int64
-	OperatorID   int32
-	ActionType   int8
-	ChangedFrom  string
-	ChangedAfter string
-	CreatedAt    time.Time
+	ID          int64     `db:"id"`
+	OperatorID  int64     `db:"operator_id"`
+	ActionType  int8      `db:"action_type"`
+	ChangedFrom string    `db:"changed_from"`
+	ChangedTo   string    `db:"changed_to"`
+	CreatedAt   time.Time `db:"created_at"`
 }
 
 type User struct {
-	ID         int32
-	Uuid       []byte
-	Nickname   string
-	LastAccess time.Time
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	ID         int32     `db:"id"`
+	Uuid       []byte    `db:"uuid"`
+	Nickname   string    `db:"nickname"`
+	LastAccess time.Time `db:"last_access"`
+	CreatedAt  time.Time `db:"created_at"`
+	UpdatedAt  time.Time `db:"updated_at"`
 }
 
 type UsersAccessToken struct {
-	ID             int64
-	UserID         int32
-	RefreshTokenID int64
-	Jti            []byte
-	CreatedAt      time.Time
+	ID             int64     `db:"id"`
+	UserID         int32     `db:"user_id"`
+	RefreshTokenID int64     `db:"refresh_token_id"`
+	Jti            []byte    `db:"jti"`
+	CreatedAt      time.Time `db:"created_at"`
 }
 
 type UsersLoginKey struct {
-	UserID    int32
-	LoginKey  int64
-	CreatedAt time.Time
+	UserID    int32     `db:"user_id"`
+	LoginKey  int64     `db:"login_key"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 type UsersRefreshToken struct {
-	ID        int64
-	UserID    int32
-	Jti       []byte
-	Ip        []byte
-	UserAgent string
-	CreatedAt time.Time
+	ID        int64     `db:"id"`
+	UserID    int32     `db:"user_id"`
+	Jti       []byte    `db:"jti"`
+	Ip        []byte    `db:"ip"`
+	UserAgent string    `db:"user_agent"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 type UsersSession struct {
-	ID        int64
-	UserID    int32
-	SessionID []byte
-	CreatedAt time.Time
+	ID        int64     `db:"id"`
+	UserID    int32     `db:"user_id"`
+	SessionID []byte    `db:"session_id"`
+	CreatedAt time.Time `db:"created_at"`
 }
 
 type UsersSub struct {
-	UserID int32
-	Sub    string
+	UserID int32  `db:"user_id"`
+	Sub    string `db:"sub"`
 }

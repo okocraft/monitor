@@ -6,6 +6,9 @@ sql:
     gen:
       go:
         package: "queries"
+        sql_package: "database/sql"
+        sql_driver: "github.com/go-sql-driver/mysql"
+        emit_db_tags: true
         out: "../../internal/repositories/queries"
 # https://github.com/sqlc-dev/sqlc/issues/3465
 #        overrides:
