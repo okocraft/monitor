@@ -13,7 +13,7 @@ jobs:
         working-directory: ./app
     services:
       mariadb:
-        image: mariadb:11.6.2
+        image: mariadb:11.6.2@sha256:a9547599cd87d7242435aea6fda22a9d83e2c06d16c658ef70d2868b3d3f6a80
         ports:
           - "3306:3306"
         env:
