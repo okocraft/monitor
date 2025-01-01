@@ -78,8 +78,15 @@ export function createAuthState() {
     };
 
     const isAuthenticated = async () => {
-        if (accessToken && checkNotExpired(accessToken)) {
-            return true;
+        if (accessToken) {
+            if (checkNotExpired(accessToken)) {
+                return true;
+            }
+            setRefreshed(false);
+        }
+
+        if (refreshed) {
+            return false;
         }
 
         const refreshedToken = await refresh();
