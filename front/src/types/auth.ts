@@ -2,6 +2,10 @@ import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { logout, refreshAccessToken } from "../api/auth/auth.ts";
 import { EmptyMe, type MeState, createMeState } from "./me.ts";
+import {
+    type PagePermissionState,
+    createPagePermissionState,
+} from "./pagePermission.ts";
 
 export interface AuthState {
     accessToken: string;
@@ -16,6 +20,8 @@ export interface AuthState {
     skipAuth: (shouldSkip: boolean) => void;
 
     me: MeState;
+
+    pagePermission: PagePermissionState;
 }
 
 export const UnauthorizedState = {
@@ -36,6 +42,11 @@ export const UnauthorizedState = {
         setMe: (_) => {},
         refresh: async () => EmptyMe,
     } as MeState,
+
+    pagePermission: {
+        current: undefined,
+        setPagePermissions: (_) => {},
+    } as PagePermissionState,
 } as AuthState;
 
 export function createAuthState() {
@@ -43,6 +54,7 @@ export function createAuthState() {
     const [refreshed, setRefreshed] = useState<boolean>(false);
     const [isAuthSkipped, setSkipAuth] = useState(false);
     const meState = createMeState();
+    const pagePermissionState = createPagePermissionState();
 
     const refresh = async () => {
         setRefreshed(true);
@@ -54,14 +66,17 @@ export function createAuthState() {
             if (status === 200) {
                 setAccessToken(data.access_token);
                 meState.setMe(data.me);
+                pagePermissionState.setPagePermissions(data.page_permissions);
                 return data.access_token;
             }
             setAccessToken("");
             meState.setMe(EmptyMe);
+            pagePermissionState.setPagePermissions(undefined);
             return "";
         } catch {
             setAccessToken("");
             meState.setMe(EmptyMe);
+            pagePermissionState.setPagePermissions(undefined);
             return "";
         }
     };
@@ -97,6 +112,7 @@ export function createAuthState() {
         try {
             setAccessToken("");
             meState.setMe(EmptyMe);
+            pagePermissionState.setPagePermissions(undefined);
 
             const { status } = await logout({
                 withCredentials: true,
@@ -126,6 +142,7 @@ export function createAuthState() {
         skipAuth: skipAuth,
 
         me: meState,
+        pagePermission: pagePermissionState,
     } as AuthState;
 }
 

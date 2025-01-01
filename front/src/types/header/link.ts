@@ -1,6 +1,7 @@
 import type { ToPathOption } from "@tanstack/react-router";
 import type { RoutePaths } from "@tanstack/react-router";
 import type { AnyRouter, RegisteredRouter } from "@tanstack/react-router";
+import type { PagePermissions } from "../../api/model";
 import type { Me } from "../me.ts";
 
 export type HeaderLink<
@@ -12,7 +13,10 @@ export type HeaderLink<
     name: string;
     link?: ToPathOption<TRouter, TFrom, TTo> & {};
     nestedLinks?: NestedHeaderLink[];
-    canView: (me: Me | undefined) => boolean;
+    canView: (
+        me: Me | undefined,
+        pagePermissions: PagePermissions | undefined,
+    ) => boolean;
 };
 
 export type NestedHeaderLink<
@@ -23,11 +27,20 @@ export type NestedHeaderLink<
     id: string;
     name: string;
     link?: ToPathOption<TRouter, TFrom, TTo> & {};
-    canView: (me: Me | undefined) => boolean;
+    canView: (
+        me: Me | undefined,
+        perms: PagePermissions | undefined,
+    ) => boolean;
 };
 
-export function filterChildren(link: HeaderLink, me?: Me): HeaderLink {
-    const filtered = link.nestedLinks?.filter((child) => child.canView(me));
+export function filterChildren(
+    link: HeaderLink,
+    me?: Me,
+    perms?: PagePermissions,
+): HeaderLink {
+    const filtered = link.nestedLinks?.filter((child) =>
+        child.canView(me, perms),
+    );
     return {
         id: link.id,
         name: link.name,

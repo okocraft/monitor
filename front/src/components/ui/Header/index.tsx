@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import type { PagePermissions } from "../../../api/model";
 import { useAuth } from "../../../hooks/useAuth.ts";
 import { useHeaderLink } from "../../../hooks/useHeaderLink.ts";
 import { type HeaderLink, filterChildren } from "../../../types/header/link.ts";
@@ -19,7 +20,13 @@ export const Header = () => {
 
             <nav className="my-auto flex ml-3">
                 {headerLinks
-                    .map((link) => createHeaderLink(auth.me.current, link))
+                    .map((link) =>
+                        createHeaderLink(
+                            auth.me.current,
+                            auth.pagePermission.current,
+                            link,
+                        ),
+                    )
                     .filter((e) => !!e)}
             </nav>
 
@@ -36,8 +43,12 @@ export const Header = () => {
     );
 };
 
-function createHeaderLink(me: Me | undefined, link: HeaderLink) {
-    if (!link.canView(me)) {
+function createHeaderLink(
+    me: Me | undefined,
+    perms: PagePermissions | undefined,
+    link: HeaderLink,
+) {
+    if (!link.canView(me, perms)) {
         return undefined;
     }
 

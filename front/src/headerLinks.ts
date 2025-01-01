@@ -5,6 +5,6 @@ export const headerLinks: HeaderLink[] = [
         id: "example",
         name: "Example",
         link: "/example",
-        canView: (me) => !!me,
+        canView: (me, _) => !!me,
     },
 ];
