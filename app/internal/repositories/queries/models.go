@@ -25,6 +25,20 @@ type AuditLogUser struct {
 	CreatedAt   time.Time `db:"created_at"`
 }
 
+type Role struct {
+	ID        int32     `db:"id"`
+	Name      string    `db:"name"`
+	Priority  int32     `db:"priority"`
+	CreatedAt time.Time `db:"created_at"`
+	UpdatedAt time.Time `db:"updated_at"`
+}
+
+type RolesPermission struct {
+	RoleID       int32 `db:"role_id"`
+	PermissionID int16 `db:"permission_id"`
+	IsAllowed    bool  `db:"is_allowed"`
+}
+
 type User struct {
 	ID         int32     `db:"id"`
 	Uuid       []byte    `db:"uuid"`
@@ -55,6 +69,12 @@ type UsersRefreshToken struct {
 	Ip        []byte    `db:"ip"`
 	UserAgent string    `db:"user_agent"`
 	CreatedAt time.Time `db:"created_at"`
+}
+
+type UsersRole struct {
+	UserID    int32     `db:"user_id"`
+	RoleID    int32     `db:"role_id"`
+	UpdatedAt time.Time `db:"updated_at"`
 }
 
 type UsersSession struct {

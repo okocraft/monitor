@@ -51,6 +51,31 @@ CREATE TABLE IF NOT EXISTS users_access_tokens
 );
 CREATE INDEX IF NOT EXISTS idx_users_access_tokens_created_at ON users_access_tokens (created_at);
 
+CREATE TABLE IF NOT EXISTS roles
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    name       VARCHAR(16) NOT NULL,
+    priority   INT         NOT NULL,
+    created_at DATETIME    NOT NULL,
+    updated_at DATETIME    NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS roles_permissions
+(
+    role_id       INT      NOT NULL REFERENCES roles (id),
+    permission_id SMALLINT NOT NULL,
+    is_allowed    BOOLEAN  NOT NULL,
+    PRIMARY KEY (role_id, permission_id)
+);
+
+CREATE TABLE IF NOT EXISTS users_role
+(
+    user_id    INT      NOT NULL REFERENCES users (id),
+    role_id    INT      NOT NULL REFERENCES roles (id),
+    updated_at DATETIME NOT NULL,
+    PRIMARY KEY (user_id, role_id)
+);
+
 CREATE TABLE IF NOT EXISTS audit_log_operators
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
