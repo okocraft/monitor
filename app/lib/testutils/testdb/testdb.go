@@ -110,6 +110,7 @@ func (db *testDB) Run(t *testing.T, f func(ctx context.Context, db database.DB))
 
 	t.Cleanup(func() {
 		require.NoError(t, tx.Rollback())
+		require.NoError(t, d.Close())
 	})
 
 	ctx = database.SetTx(ctx, tx)
