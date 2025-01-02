@@ -7,4 +7,10 @@ export const headerLinks: HeaderLink[] = [
         link: "/example",
         canView: (me, _) => !!me,
     },
+    {
+        id: "users",
+        name: "Users",
+        link: "/users",
+        canView: (_, perms) => !!perms && perms.users,
+    },
 ];
