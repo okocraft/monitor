@@ -30,7 +30,7 @@ export const Header = () => {
                     .filter((e) => !!e)}
             </nav>
 
-            <div className="ml-auto my-auto mr-5">
+            <div className="ml-auto my-auto">
                 {auth.me.current ? (
                     <AccountName name={auth.me.current.nickname} />
                 ) : (
