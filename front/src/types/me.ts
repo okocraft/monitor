@@ -9,17 +9,12 @@ export type Me = {
 export interface MeState {
     current: Me | undefined;
     getMe: () => Promise<Me>;
-    setMe: (me: Me) => void;
+    setMe: (me: Me | undefined) => void;
     refresh: () => Promise<Me>;
 }
 
-export const EmptyMe = {
-    uuid: "",
-    nickname: "",
-} as Me;
-
 export function createMeState() {
-    const [me, setMe] = useState<Me>(EmptyMe);
+    const [me, setMe] = useState<Me | undefined>();
 
     const refreshMe = async () => {
         try {
@@ -31,15 +26,15 @@ export function createMeState() {
                 } as Me);
                 return;
             }
-            setMe(EmptyMe);
+            setMe(undefined);
         } catch {
-            setMe(EmptyMe);
+            setMe(undefined);
         }
         return me;
     };
 
     const getMeOrRefreshMe = async () => {
-        if (me === EmptyMe) {
+        if (!me) {
             await refreshMe();
         }
         return me;

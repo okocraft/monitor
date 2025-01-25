@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { logout, refreshAccessToken } from "../api/auth/auth.ts";
-import { EmptyMe, type MeState, createMeState } from "./me.ts";
+import { type Me, type MeState, createMeState } from "./me.ts";
 import {
     type PagePermissionState,
     createPagePermissionState,
@@ -38,9 +38,19 @@ export const UnauthorizedState = {
 
     me: {
         current: undefined,
-        getMe: async () => EmptyMe,
+        getMe: async () => {
+            return {
+                nickname: "",
+                uuid: "",
+            } as Me;
+        },
         setMe: (_) => {},
-        refresh: async () => EmptyMe,
+        refresh: async () => {
+            return {
+                nickname: "",
+                uuid: "",
+            } as Me;
+        },
     } as MeState,
 
     pagePermission: {
@@ -70,12 +80,12 @@ export function createAuthState() {
                 return data.access_token;
             }
             setAccessToken("");
-            meState.setMe(EmptyMe);
+            meState.setMe(undefined);
             pagePermissionState.setPagePermissions(undefined);
             return "";
         } catch {
             setAccessToken("");
-            meState.setMe(EmptyMe);
+            meState.setMe(undefined);
             pagePermissionState.setPagePermissions(undefined);
             return "";
         }
@@ -111,7 +121,7 @@ export function createAuthState() {
     const useLogout = async () => {
         try {
             setAccessToken("");
-            meState.setMe(EmptyMe);
+            meState.setMe(undefined);
             pagePermissionState.setPagePermissions(undefined);
 
             const { status } = await logout({
