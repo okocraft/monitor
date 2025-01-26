@@ -28,7 +28,7 @@ const RedirectToPage = ({ url }: { url: string }) => {
         if (countdown === 0) {
             navigate({
                 to: url,
-            }).catch((err) => {
+            }).catch((err: Error) => {
                 console.error("Navigation error:", err);
             });
         }
