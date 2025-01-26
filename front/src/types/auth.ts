@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { useState } from "react";
+import {useRef, useState} from "react";
 import { logout, refreshAccessToken } from "../api/auth/auth.ts";
 import { type Me, type MeState, createMeState } from "./me.ts";
 import {
@@ -61,10 +61,16 @@ export const UnauthorizedState = {
 
 export function createAuthState() {
     const [accessToken, setAccessToken] = useState<string>("");
+	const accessTokenRef = useRef(accessToken);
     const [refreshed, setRefreshed] = useState<boolean>(false);
     const [isAuthSkipped, setSkipAuth] = useState(false);
     const meState = createMeState();
     const pagePermissionState = createPagePermissionState();
+
+	const updateAccessToken = (accessToken: string) => {
+		setAccessToken(accessToken);
+		accessTokenRef.current = accessToken;
+	}
 
     const refresh = async () => {
         setRefreshed(true);
@@ -74,17 +80,17 @@ export function createAuthState() {
                 withCredentials: true,
             });
             if (status === 200) {
-                setAccessToken(data.access_token);
+				updateAccessToken(data.access_token);
                 meState.setMe(data.me);
                 pagePermissionState.setPagePermissions(data.page_permissions);
                 return data.access_token;
             }
-            setAccessToken("");
+			updateAccessToken("");
             meState.setMe(undefined);
             pagePermissionState.setPagePermissions(undefined);
             return "";
         } catch {
-            setAccessToken("");
+			updateAccessToken("");
             meState.setMe(undefined);
             pagePermissionState.setPagePermissions(undefined);
             return "";
@@ -92,22 +98,22 @@ export function createAuthState() {
     };
 
     const firstRefresh = async () => {
-        setRefreshed(true);
         if (!refreshed) {
             await refresh();
         }
     };
 
     const hasAccessToken = () => {
-        return !!accessToken;
+        return !!accessTokenRef.current;
     };
 
     const isAuthenticated = async () => {
-        if (accessToken) {
-            if (checkNotExpired(accessToken)) {
+        if (accessTokenRef.current) {
+            if (checkNotExpired(accessTokenRef.current)) {
                 return true;
             }
             setRefreshed(false);
+			updateAccessToken("");
         }
 
         if (refreshed) {
@@ -120,7 +126,7 @@ export function createAuthState() {
 
     const useLogout = async () => {
         try {
-            setAccessToken("");
+			updateAccessToken("");
             meState.setMe(undefined);
             pagePermissionState.setPagePermissions(undefined);
 
