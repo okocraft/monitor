@@ -62,7 +62,7 @@ export const UnauthorizedState = {
 export function createAuthState() {
     const [accessToken, setAccessToken] = useState<string>("");
     const accessTokenRef = useRef(accessToken);
-    const [refreshed, setRefreshed] = useState<boolean>(false);
+    const refreshed = useRef(false);
     const [isAuthSkipped, setSkipAuth] = useState(false);
     const meState = createMeState();
     const pagePermissionState = createPagePermissionState();
@@ -73,7 +73,7 @@ export function createAuthState() {
     };
 
     const refresh = async () => {
-        setRefreshed(true);
+        refreshed.current = true;
 
         try {
             const { data, status } = await refreshAccessToken({
@@ -98,7 +98,7 @@ export function createAuthState() {
     };
 
     const firstRefresh = async () => {
-        if (!refreshed) {
+        if (!refreshed.current) {
             await refresh();
         }
     };
@@ -112,11 +112,10 @@ export function createAuthState() {
             if (checkNotExpired(accessTokenRef.current)) {
                 return true;
             }
-            setRefreshed(false);
             updateAccessToken("");
         }
 
-        if (refreshed) {
+        if (refreshed.current) {
             return false;
         }
 
