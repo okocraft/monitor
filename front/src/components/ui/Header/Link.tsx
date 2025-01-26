@@ -1,10 +1,10 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
 import type {
     HeaderLink,
     NestedHeaderLink,
 } from "../../../types/header/link.ts";
+import { DropDownMenu } from "../../common/DropDownMenu.tsx";
 
 export type HeaderLinkProps = {
     link: HeaderLink;
@@ -18,7 +18,7 @@ export const SingleHeaderLink = (props: HeaderLinkProps) => {
     return (
         <div className={rootLinkStyle}>
             <Link to={props.link.link}>
-                <div className={textStyle}>{props.link.name}</div>
+                <span className={textStyle}>{props.link.name}</span>
             </Link>
         </div>
     );
@@ -30,44 +30,31 @@ export type DropDownMenuLinkProps = {
 };
 
 export const DropDownMenuLink = (props: DropDownMenuLinkProps) => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    let hoverTimeout: number;
+    const display = (
+        <div className={rootLinkStyle}>
+            <Link to={props.link.link} className="flex">
+                <span className={textStyle}>{props.link.name}</span>
+                <ChevronDownIcon className="fill-gray-600 size-4 my-auto ml-1 relative top-0.5" />
+            </Link>
+        </div>
+    );
 
-    const handleMouseEnter = () => {
-        clearTimeout(hoverTimeout);
-        setIsDropdownOpen(true);
-    };
-
-    const handleMouseLeave = () => {
-        hoverTimeout = setTimeout(() => {
-            setIsDropdownOpen(false);
-        }, 50);
-    };
+    const elements = props.nestedLinks.map((link) => ({
+        id: `header-links-${props.link.id}-${link.id}`,
+        node: (
+            <Link to={link.link}>
+                <div className="w-full h-full px-4 py-2">
+                    <span>{link.name}</span>
+                </div>
+            </Link>
+        ),
+    }));
 
     return (
-        <div
-            className={`${rootLinkStyle} group`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
-            <div className="relative">
-                <Link to={props.link.link} className="flex">
-                    <div className={textStyle}>{props.link.name}</div>
-                    <ChevronDownIcon className="fill-gray-600 size-4 my-auto ml-1 relative top-0.5" />
-                </Link>
-                {isDropdownOpen && (
-                    <ul className="absolute left-0 mt-3 bg-white text-gray-800 shadow-lg rounded w-64">
-                        {props.nestedLinks.map((link) => (
-                            <li
-                                key={`header-links-${props.link.id}-${link.id}`}
-                                className="px-4 py-2 hover:bg-gray-100"
-                            >
-                                <Link to={link.link}>{link.name}</Link>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-        </div>
+        <DropDownMenu
+            display={display}
+            elements={elements}
+            className="bg-white text-gray-800 shadow-lg rounded w-64 left-0"
+        />
     );
 };

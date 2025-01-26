@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users/index'
+import { Route as MypageIndexImport } from './routes/mypage/index'
 import { Route as ExampleIndexImport } from './routes/example/index'
 import { Route as GoogleResultIndexImport } from './routes/google/result/index'
 import { Route as GoogleLoginIndexImport } from './routes/google/login/index'
@@ -28,6 +29,12 @@ const IndexRoute = IndexImport.update({
 const UsersIndexRoute = UsersIndexImport.update({
   id: '/users/',
   path: '/users/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MypageIndexRoute = MypageIndexImport.update({
+  id: '/mypage/',
+  path: '/mypage/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,6 +74,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleIndexImport
       parentRoute: typeof rootRoute
     }
+    '/mypage/': {
+      id: '/mypage/'
+      path: '/mypage'
+      fullPath: '/mypage'
+      preLoaderRoute: typeof MypageIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/users/': {
       id: '/users/'
       path: '/users'
@@ -96,6 +110,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/example': typeof ExampleIndexRoute
+  '/mypage': typeof MypageIndexRoute
   '/users': typeof UsersIndexRoute
   '/google/login': typeof GoogleLoginIndexRoute
   '/google/result': typeof GoogleResultIndexRoute
@@ -104,6 +119,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/example': typeof ExampleIndexRoute
+  '/mypage': typeof MypageIndexRoute
   '/users': typeof UsersIndexRoute
   '/google/login': typeof GoogleLoginIndexRoute
   '/google/result': typeof GoogleResultIndexRoute
@@ -113,6 +129,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/example/': typeof ExampleIndexRoute
+  '/mypage/': typeof MypageIndexRoute
   '/users/': typeof UsersIndexRoute
   '/google/login/': typeof GoogleLoginIndexRoute
   '/google/result/': typeof GoogleResultIndexRoute
@@ -120,13 +137,26 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/example' | '/users' | '/google/login' | '/google/result'
+  fullPaths:
+    | '/'
+    | '/example'
+    | '/mypage'
+    | '/users'
+    | '/google/login'
+    | '/google/result'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/example' | '/users' | '/google/login' | '/google/result'
+  to:
+    | '/'
+    | '/example'
+    | '/mypage'
+    | '/users'
+    | '/google/login'
+    | '/google/result'
   id:
     | '__root__'
     | '/'
     | '/example/'
+    | '/mypage/'
     | '/users/'
     | '/google/login/'
     | '/google/result/'
@@ -136,6 +166,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
+  MypageIndexRoute: typeof MypageIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
   GoogleLoginIndexRoute: typeof GoogleLoginIndexRoute
   GoogleResultIndexRoute: typeof GoogleResultIndexRoute
@@ -144,6 +175,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExampleIndexRoute: ExampleIndexRoute,
+  MypageIndexRoute: MypageIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
   GoogleLoginIndexRoute: GoogleLoginIndexRoute,
   GoogleResultIndexRoute: GoogleResultIndexRoute,
@@ -161,6 +193,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/example/",
+        "/mypage/",
         "/users/",
         "/google/login/",
         "/google/result/"
@@ -171,6 +204,9 @@ export const routeTree = rootRoute
     },
     "/example/": {
       "filePath": "example/index.tsx"
+    },
+    "/mypage/": {
+      "filePath": "mypage/index.tsx"
     },
     "/users/": {
       "filePath": "users/index.tsx"

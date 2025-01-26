@@ -34,7 +34,12 @@ export const Header = () => {
                 {auth.me.current ? (
                     <AccountName name={auth.me.current.nickname} />
                 ) : (
-                    <Link to="/google/login">
+                    <Link
+                        to="/google/login"
+                        search={{
+                            redirectTo: encodeURIComponent("/"),
+                        }}
+                    >
                         <LoginButton />
                     </Link>
                 )}
