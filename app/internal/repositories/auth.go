@@ -16,6 +16,9 @@ type AuthRepository interface {
 	GetUserIDAndRefreshTokenIDFromJTI(ctx context.Context, jti uuid.UUID) (user.ID, int64, error)
 	InvalidateTokensByRefreshTokenID(ctx context.Context, refreshTokenID int64) error
 	GetUserIDFromAccessTokenJTI(ctx context.Context, jti uuid.UUID) (user.ID, error)
+	DeleteExpiredAccessTokens(ctx context.Context, expiredAt time.Time) (int64, error)
+	DeleteAccessTokensByExpiredRefreshTokens(ctx context.Context, expiredAt time.Time) (int64, error)
+	DeleteExpiredRefreshTokens(ctx context.Context, expiredAt time.Time) (int64, error)
 }
 
 func NewAuthRepository(db database.DB) AuthRepository {
@@ -70,4 +73,31 @@ func (r authRepository) GetUserIDFromAccessTokenJTI(ctx context.Context, jti uui
 		return 0, asDBError(err)
 	}
 	return user.ID(userID), nil
+}
+
+func (r authRepository) DeleteExpiredAccessTokens(ctx context.Context, expiredAt time.Time) (int64, error) {
+	q := r.db.Queries(ctx)
+	rows, err := q.DeleteExpiredAccessTokens(ctx, expiredAt)
+	if err != nil {
+		return 0, asDBError(err)
+	}
+	return rows, nil
+}
+
+func (r authRepository) DeleteAccessTokensByExpiredRefreshTokens(ctx context.Context, expiredAt time.Time) (int64, error) {
+	q := r.db.Queries(ctx)
+	rows, err := q.DeleteAccessTokensByExpiredRefreshTokens(ctx, expiredAt)
+	if err != nil {
+		return 0, asDBError(err)
+	}
+	return rows, nil
+}
+
+func (r authRepository) DeleteExpiredRefreshTokens(ctx context.Context, expiredAt time.Time) (int64, error) {
+	q := r.db.Queries(ctx)
+	rows, err := q.DeleteExpiredRefreshTokens(ctx, expiredAt)
+	if err != nil {
+		return 0, asDBError(err)
+	}
+	return rows, nil
 }

@@ -38,3 +38,10 @@ func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHa
 	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler, auditLogMiddleware)
 	return httpHandler, nil
 }
+
+func NewCleanupUsecase(db database.DB) usecases.CleanupUsecase {
+	authRepository := repositories.NewAuthRepository(db)
+	transaction := database.NewTransaction(db)
+	cleanupUsecase := usecases.NewCleanupUsecase(authRepository, transaction)
+	return cleanupUsecase
+}

@@ -13,8 +13,20 @@ COPY . ./
 
 RUN go build -o /bin/http-server cmd/http/main.go
 
+FROM base AS build-cleanup-batch
+
+COPY . ./
+
+RUN go build -o /bin/cleanup-batch cmd/batch/cleanup/main.go
+
 FROM build-http-server AS http-server
 
 COPY --from=build-http-server /bin/http-server /server
 
 ENTRYPOINT [ "/server" ]
+
+FROM build-cleanup-batch AS cleanup-batch
+
+COPY --from=build-cleanup-batch /bin/cleanup-batch /cleanup
+
+ENTRYPOINT [ "/cleanup" ]

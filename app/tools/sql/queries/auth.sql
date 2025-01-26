@@ -16,3 +16,20 @@ WHERE id = ?;
 
 -- name: GetUserIDByAccessTokenJTI :one
 SELECT user_id FROM users_access_tokens WHERE jti = ?;
+
+-- name: DeleteExpiredAccessTokens :execrows
+DELETE
+FROM users_access_tokens
+WHERE created_at < ?;
+
+-- name: DeleteAccessTokensByExpiredRefreshTokens :execrows
+DELETE
+FROM users_access_tokens
+WHERE refresh_token_id IN (SELECT users_refresh_tokens.created_at
+                           FROM users_refresh_tokens
+                           WHERE users_refresh_tokens.created_at < ?);
+
+-- name: DeleteExpiredRefreshTokens :execrows
+DELETE
+FROM users_refresh_tokens
+WHERE created_at < ?;

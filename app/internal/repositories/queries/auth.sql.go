@@ -10,6 +10,50 @@ import (
 	"time"
 )
 
+const deleteAccessTokensByExpiredRefreshTokens = `-- name: DeleteAccessTokensByExpiredRefreshTokens :execrows
+DELETE
+FROM users_access_tokens
+WHERE refresh_token_id IN (SELECT users_refresh_tokens.created_at
+                           FROM users_refresh_tokens
+                           WHERE users_refresh_tokens.created_at < ?)
+`
+
+func (q *Queries) DeleteAccessTokensByExpiredRefreshTokens(ctx context.Context, createdAt time.Time) (int64, error) {
+	result, err := q.db.ExecContext(ctx, deleteAccessTokensByExpiredRefreshTokens, createdAt)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
+}
+
+const deleteExpiredAccessTokens = `-- name: DeleteExpiredAccessTokens :execrows
+DELETE
+FROM users_access_tokens
+WHERE created_at < ?
+`
+
+func (q *Queries) DeleteExpiredAccessTokens(ctx context.Context, createdAt time.Time) (int64, error) {
+	result, err := q.db.ExecContext(ctx, deleteExpiredAccessTokens, createdAt)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
+}
+
+const deleteExpiredRefreshTokens = `-- name: DeleteExpiredRefreshTokens :execrows
+DELETE
+FROM users_refresh_tokens
+WHERE created_at < ?
+`
+
+func (q *Queries) DeleteExpiredRefreshTokens(ctx context.Context, createdAt time.Time) (int64, error) {
+	result, err := q.db.ExecContext(ctx, deleteExpiredRefreshTokens, createdAt)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
+}
+
 const deleteRefreshTokenAndAccessToken = `-- name: DeleteRefreshTokenAndAccessToken :exec
 DELETE FROM users_refresh_tokens
 WHERE id = ?
