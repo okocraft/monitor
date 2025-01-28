@@ -21,15 +21,6 @@ CREATE TABLE IF NOT EXISTS users_login_key
     created_at DATETIME NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS users_sessions
-(
-    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id    INT        NOT NULL REFERENCES users (id),
-    session_id BINARY(16) NOT NULL UNIQUE,
-    created_at DATETIME   NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_users_sessions_created_at ON users_sessions (created_at);
-
 CREATE TABLE IF NOT EXISTS users_refresh_tokens
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
