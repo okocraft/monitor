@@ -6,7 +6,7 @@ require (
 	github.com/Siroshun09/logs v1.0.1
 	github.com/Siroshun09/serrors v1.2.0
 	github.com/getkin/kin-openapi v0.129.0
-	github.com/go-chi/chi/v5 v5.2.0
+	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/gofrs/uuid/v5 v5.3.0
@@ -17,7 +17,7 @@ require (
 	github.com/oapi-codegen/oapi-codegen/v2 v2.4.1
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/oauth2 v0.25.0
+	golang.org/x/oauth2 v0.26.0
 )
 
 require (
