@@ -43,8 +43,8 @@ importers:
         specifier: 1.99.0
         version: 1.99.0(@tanstack/react-router@1.99.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(csstype@3.1.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@tanstack/router-plugin':
-        specifier: 1.99.0
-        version: 1.99.0(@tanstack/react-router@1.99.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(vite@6.0.11(@types/node@22.9.3)(jiti@2.4.2)(lightningcss@1.29.1)(tsx@4.19.2)(yaml@2.6.1))
+        specifier: 1.99.3
+        version: 1.99.3(@tanstack/react-router@1.99.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(vite@6.0.11(@types/node@22.9.3)(jiti@2.4.2)(lightningcss@1.29.1)(tsx@4.19.2)(yaml@2.6.1))
       '@types/react':
         specifier: 19.0.8
         version: 19.0.8
@@ -58,8 +58,8 @@ importers:
         specifier: 15.14.0
         version: 15.14.0
       orval:
-        specifier: 7.4.1
-        version: 7.4.1(openapi-types@12.1.3)
+        specifier: 7.5.0
+        version: 7.5.0(openapi-types@12.1.3)
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -584,32 +584,32 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@orval/angular@7.4.1':
-    resolution: {integrity: sha512-ypqJk/WJ9tnMQv17ZRoB73xZrNTskaR1FXc1j5FyC19dQgmBgCtyJrJsXDSRVj747KA9qtdHpS0sIzofwOTx/A==}
+  '@orval/angular@7.5.0':
+    resolution: {integrity: sha512-9Q3JhewXhF0EsrGD+ZA0r16sVW1TnFUiHLM2A9Lv8KFQ7E9CHlwf4Ab2d9OOjw+kU9DaesBjs0Yhi1IOlAQYeQ==}
 
-  '@orval/axios@7.4.1':
-    resolution: {integrity: sha512-Izg99898tPutkvFUSDD9LROEul1Gh88yxgSHSDFuWZcImkdjeg30Sc6b/EXytjn5I/De/PtQPgEIFPCEsZ9O4A==}
+  '@orval/axios@7.5.0':
+    resolution: {integrity: sha512-P3eKnqHBC8pWMNN0jVhniANaeIIvWeDXMIVh35uht+DN3YU6fFoDEgdAs9qSe7U6g9BjB9PEmUtArQws2YXDXg==}
 
-  '@orval/core@7.4.1':
-    resolution: {integrity: sha512-puqyqfA7uolvd/cSy11Siq7UqrgzLAWeVUMxhsuql5KFn3Vi+5n3XUztzbtW0kuTb27vX8kcpnlOMQMf8Jf1Og==}
+  '@orval/core@7.5.0':
+    resolution: {integrity: sha512-EmHaes7uFQUZGRnb5OfXcV0FDRH7M9lZVFXswx1R9dZMOtkt7nKtvUF3b+sjBfmktQMfEnIakFxfuwM/T2r3/A==}
 
-  '@orval/fetch@7.4.1':
-    resolution: {integrity: sha512-EVirxs0ii0rt/Lsl5IO7ADAKdEWNnHB7GinbdvtfugZ8rENzNzOQLyBm5QP70kJM70FVLBxWGpeH6Jnqz0Fv8g==}
+  '@orval/fetch@7.5.0':
+    resolution: {integrity: sha512-5ip4b9NKjRn0yGj0F0PRarkJcBr0gD6ugFQ00/3ED5GO0UleBOL5AsOgpHR5OOWALnA0nSPA14pJFtQClfg1Kg==}
 
-  '@orval/hono@7.4.1':
-    resolution: {integrity: sha512-qzoOl2KvbxpBZKZB19+vn5iOZIwGcbdYY+/qNmSlJQ3jA7bbHNbn26ZfItDlAh3WFH+fTvme58ezRNP7HVc0rw==}
+  '@orval/hono@7.5.0':
+    resolution: {integrity: sha512-UMV/HQRFuaR6IzHuUhH6dbLdxxMV8o/IWpd62EP9dcIT2wbDI+tF9524f0nF9BNIdM58NMQz7M+so1avSU7Csg==}
 
-  '@orval/mock@7.4.1':
-    resolution: {integrity: sha512-ywKwcQaLIyZXKE6kHmdF3M3HGtlOKaZZ6+ciSEV1vbKMBr7ahFyv0m2pitUiwHyJ3ameKarMArX0hk31klZbtA==}
+  '@orval/mock@7.5.0':
+    resolution: {integrity: sha512-+MDK+7LZUXpRlphOFaeWFsTowtmx7ILQF/vfwW0uR8hnlogc2LumTA9oC96WWAAwXTG8V9WuWH4rEek1Gf6IEA==}
 
-  '@orval/query@7.4.1':
-    resolution: {integrity: sha512-zlkrdiK+Bas7xOYM36cfZKGGoslKqh1B9mKaGQKadkCj9+54PzI9CxIxtCGZWJhLXB8kqPxaenNxyYoV/JW02A==}
+  '@orval/query@7.5.0':
+    resolution: {integrity: sha512-888TDfl5z0ZRbTp34l51GvPKN11cDolF+jWRk6p6YifpuCB5qPPBDbGae0195lx2zmM+gf3XEX0QF8YXd0WRzg==}
 
-  '@orval/swr@7.4.1':
-    resolution: {integrity: sha512-OnmSjDiS4xZUrkJhbmEQjdY95gfRHdp9uU5q9fGM4Qg1VVaR/KcOG7FRNk4WHcQmCmi4KDvwbboE/KJjsDsF7Q==}
+  '@orval/swr@7.5.0':
+    resolution: {integrity: sha512-bVy5cEFEww03yIqPSBlIS5fdoZUVEHBDtfz5Or7zibRLf/hsIUlb0nNt4AOYKtc3PoEMSlGsHxZq+qRqWxHwBQ==}
 
-  '@orval/zod@7.4.1':
-    resolution: {integrity: sha512-TqFidfTx9OtjTeA48P43/Vw1OaWuEkhURsMQGy8hn8w8/AKIAN7j0e/m8eoMLV/C3BN1ErfLDC1lkQ52q7u6SQ==}
+  '@orval/zod@7.5.0':
+    resolution: {integrity: sha512-FvX1jPZOSQLCYA76te5qqN72B1K1nLjVF8rogJJqAXgU8zGNaYghl0o1X3B8w1LslKpHiatBS5bPGSVnypJbMw==}
 
   '@rollup/rollup-android-arm-eabi@4.27.4':
     resolution: {integrity: sha512-2Y3JT6f5MrQkICUyRVCw4oa0sutfAsgaSsb0Lmmy1Wi2y7X5vT9Euqw4gOsCyy0YfKURBg35nhUKZS4mDcfULw==}
@@ -997,8 +997,8 @@ packages:
       '@tanstack/react-router':
         optional: true
 
-  '@tanstack/router-plugin@1.99.0':
-    resolution: {integrity: sha512-Ue96luAqdwL4QtT4CqNQvegScqECoztt6MfyRsz/agG9JtU/7Mpd6h/vKmdXZpg6MR6iC2R1co164NjzAMod7A==}
+  '@tanstack/router-plugin@1.99.3':
+    resolution: {integrity: sha512-bE4S8MBXRje5VaslZhv+xaj/0rOpE2QaybwJ53ms5t6JrTkQ42UPKF3paHQuZekzb8ZHbduIk7BubfNLiDBxUw==}
     engines: {node: '>=12'}
     peerDependencies:
       '@rsbuild/core': '>=1.0.2'
@@ -1012,8 +1012,8 @@ packages:
       webpack:
         optional: true
 
-  '@tanstack/router-utils@1.99.0':
-    resolution: {integrity: sha512-TAWImltqT8fS83E4L5tLNVI4Q1ZlefWYoIFh+ATo/+tLlJDa1E0d7p1/VjlPo+S1hlEoQPCe/ppZLcU6SG+8rg==}
+  '@tanstack/router-utils@1.99.3':
+    resolution: {integrity: sha512-aVyDLjuUJ4Uf8Qw+ihuU3kG+gd2f/P78Z81AQAryuF8Qm8bcSJukguCYVI4mL9zAkGAifZ9rVk0lR5BKcnI4qA==}
     engines: {node: '>=12'}
 
   '@tanstack/store@0.7.0':
@@ -1216,8 +1216,8 @@ packages:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
-  chokidar@4.0.1:
-    resolution: {integrity: sha512-n8enUVCED/KVRQlab1hr3MVpcVMvxtZjmEa956u+4YijlmQED223XMSYj2tLuKvr4jcCTzNNMpQDUer72MMmzA==}
+  chokidar@4.0.3:
+    resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
 
   cliui@8.0.1:
@@ -1985,8 +1985,8 @@ packages:
   openapi3-ts@4.4.0:
     resolution: {integrity: sha512-9asTNB9IkKEzWMcHmVZE7Ts3kC9G7AFHfs8i7caD8HbI76gEjdkId4z/AkP83xdZsH7PLAnnbl47qZkXuxpArw==}
 
-  orval@7.4.1:
-    resolution: {integrity: sha512-pXg5g5gdAzFqCUURZsMJoVeiWynSNSzqi6lXI1Opw08ILtmzDTdiU7PoSOf7pKVTB6oEf82zQzWeJMqSk8nzuQ==}
+  orval@7.5.0:
+    resolution: {integrity: sha512-YyD9EKXS51z2MYz1bYahZadcWrGrlbLUvDaTueUAAs6zIsv4R7xfPK3nPE6kHG5UCvdjZOUvHiAsV1ajj6fqSA==}
     hasBin: true
 
   p-limit@3.1.0:
@@ -2859,23 +2859,23 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
 
-  '@orval/angular@7.4.1(openapi-types@12.1.3)':
+  '@orval/angular@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
 
-  '@orval/axios@7.4.1(openapi-types@12.1.3)':
+  '@orval/axios@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
 
-  '@orval/core@7.4.1(openapi-types@12.1.3)':
+  '@orval/core@7.5.0(openapi-types@12.1.3)':
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
       '@ibm-cloud/openapi-ruleset': 1.28.1
@@ -2902,27 +2902,27 @@ snapshots:
       - openapi-types
       - supports-color
 
-  '@orval/fetch@7.4.1(openapi-types@12.1.3)':
+  '@orval/fetch@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
 
-  '@orval/hono@7.4.1(openapi-types@12.1.3)':
+  '@orval/hono@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
-      '@orval/zod': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
+      '@orval/zod': 7.5.0(openapi-types@12.1.3)
       lodash.uniq: 4.5.0
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
 
-  '@orval/mock@7.4.1(openapi-types@12.1.3)':
+  '@orval/mock@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
       lodash.get: 4.4.2
       lodash.omit: 4.5.0
       openapi3-ts: 4.4.0
@@ -2931,28 +2931,28 @@ snapshots:
       - openapi-types
       - supports-color
 
-  '@orval/query@7.4.1(openapi-types@12.1.3)':
+  '@orval/query@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
-      '@orval/fetch': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
+      '@orval/fetch': 7.5.0(openapi-types@12.1.3)
       lodash.omitby: 4.6.0
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
 
-  '@orval/swr@7.4.1(openapi-types@12.1.3)':
+  '@orval/swr@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
-      '@orval/fetch': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
+      '@orval/fetch': 7.5.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
 
-  '@orval/zod@7.4.1(openapi-types@12.1.3)':
+  '@orval/zod@7.5.0(openapi-types@12.1.3)':
     dependencies:
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
       lodash.uniq: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -3381,7 +3381,7 @@ snapshots:
     optionalDependencies:
       '@tanstack/react-router': 1.99.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
 
-  '@tanstack/router-plugin@1.99.0(@tanstack/react-router@1.99.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(vite@6.0.11(@types/node@22.9.3)(jiti@2.4.2)(lightningcss@1.29.1)(tsx@4.19.2)(yaml@2.6.1))':
+  '@tanstack/router-plugin@1.99.3(@tanstack/react-router@1.99.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(vite@6.0.11(@types/node@22.9.3)(jiti@2.4.2)(lightningcss@1.29.1)(tsx@4.19.2)(yaml@2.6.1))':
     dependencies:
       '@babel/core': 7.26.7
       '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.26.7)
@@ -3390,7 +3390,7 @@ snapshots:
       '@babel/traverse': 7.26.7
       '@babel/types': 7.26.7
       '@tanstack/router-generator': 1.99.0(@tanstack/react-router@1.99.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
-      '@tanstack/router-utils': 1.99.0
+      '@tanstack/router-utils': 1.99.3
       '@tanstack/virtual-file-routes': 1.99.0
       '@types/babel__core': 7.20.5
       '@types/babel__template': 7.4.4
@@ -3405,7 +3405,7 @@ snapshots:
       - '@tanstack/react-router'
       - supports-color
 
-  '@tanstack/router-utils@1.99.0':
+  '@tanstack/router-utils@1.99.3':
     dependencies:
       '@babel/generator': 7.26.5
       '@babel/parser': 7.26.7
@@ -3628,7 +3628,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  chokidar@4.0.1:
+  chokidar@4.0.3:
     dependencies:
       readdirp: 4.0.2
 
@@ -4447,22 +4447,22 @@ snapshots:
     dependencies:
       yaml: 2.6.1
 
-  orval@7.4.1(openapi-types@12.1.3):
+  orval@7.5.0(openapi-types@12.1.3):
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
-      '@orval/angular': 7.4.1(openapi-types@12.1.3)
-      '@orval/axios': 7.4.1(openapi-types@12.1.3)
-      '@orval/core': 7.4.1(openapi-types@12.1.3)
-      '@orval/fetch': 7.4.1(openapi-types@12.1.3)
-      '@orval/hono': 7.4.1(openapi-types@12.1.3)
-      '@orval/mock': 7.4.1(openapi-types@12.1.3)
-      '@orval/query': 7.4.1(openapi-types@12.1.3)
-      '@orval/swr': 7.4.1(openapi-types@12.1.3)
-      '@orval/zod': 7.4.1(openapi-types@12.1.3)
+      '@orval/angular': 7.5.0(openapi-types@12.1.3)
+      '@orval/axios': 7.5.0(openapi-types@12.1.3)
+      '@orval/core': 7.5.0(openapi-types@12.1.3)
+      '@orval/fetch': 7.5.0(openapi-types@12.1.3)
+      '@orval/hono': 7.5.0(openapi-types@12.1.3)
+      '@orval/mock': 7.5.0(openapi-types@12.1.3)
+      '@orval/query': 7.5.0(openapi-types@12.1.3)
+      '@orval/swr': 7.5.0(openapi-types@12.1.3)
+      '@orval/zod': 7.5.0(openapi-types@12.1.3)
       ajv: 8.17.1
       cac: 6.7.14
       chalk: 4.1.2
-      chokidar: 4.0.1
+      chokidar: 4.0.3
       enquirer: 2.4.1
       execa: 5.1.1
       find-up: 5.0.0
