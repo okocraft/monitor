@@ -11,12 +11,13 @@ import (
 )
 
 const insertRoleWithIDForTest = `-- name: InsertRoleWithIDForTest :exec
-INSERT INTO roles (id, name, priority, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?)
+INSERT INTO roles (id, uuid, name, priority, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?)
 `
 
 type InsertRoleWithIDForTestParams struct {
 	ID        int32     `db:"id"`
+	Uuid      []byte    `db:"uuid"`
 	Name      string    `db:"name"`
 	Priority  int32     `db:"priority"`
 	CreatedAt time.Time `db:"created_at"`
@@ -26,6 +27,7 @@ type InsertRoleWithIDForTestParams struct {
 func (q *Queries) InsertRoleWithIDForTest(ctx context.Context, arg InsertRoleWithIDForTestParams) error {
 	_, err := q.db.ExecContext(ctx, insertRoleWithIDForTest,
 		arg.ID,
+		arg.Uuid,
 		arg.Name,
 		arg.Priority,
 		arg.CreatedAt,

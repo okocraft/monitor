@@ -105,7 +105,7 @@ func (q *Queries) GetUserNicknameByID(ctx context.Context, id int32) (string, er
 
 const getUsersWithRoleByUUIDs = `-- name: GetUsersWithRoleByUUIDs :many
 SELECT users.id AS user_id, users.uuid AS user_uuid, users.nickname AS user_nickname, users.last_access AS user_last_access, users.created_at AS user_created_at, users.updated_at AS user_updated_at,
-       roles.id AS role_id, roles.name AS role_name, roles.priority AS role_priority, roles.created_at AS role_created_at, roles.updated_at AS role_updated_at
+       roles.id AS role_id, roles.uuid AS role_uuid, roles.name AS role_name, roles.priority AS role_priority, roles.created_at AS role_created_at, roles.updated_at AS role_updated_at
 FROM users
 LEFT OUTER JOIN users_role on users.id = users_role.user_id
 LEFT OUTER JOIN roles on users_role.role_id = roles.id
@@ -120,6 +120,7 @@ type GetUsersWithRoleByUUIDsRow struct {
 	UserCreatedAt  time.Time      `db:"user_created_at"`
 	UserUpdatedAt  time.Time      `db:"user_updated_at"`
 	RoleID         sql.NullInt32  `db:"role_id"`
+	RoleUuid       sql.NullString `db:"role_uuid"`
 	RoleName       sql.NullString `db:"role_name"`
 	RolePriority   sql.NullInt32  `db:"role_priority"`
 	RoleCreatedAt  sql.NullTime   `db:"role_created_at"`
@@ -153,6 +154,7 @@ func (q *Queries) GetUsersWithRoleByUUIDs(ctx context.Context, uuids [][]byte) (
 			&i.UserCreatedAt,
 			&i.UserUpdatedAt,
 			&i.RoleID,
+			&i.RoleUuid,
 			&i.RoleName,
 			&i.RolePriority,
 			&i.RoleCreatedAt,

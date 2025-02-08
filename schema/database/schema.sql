@@ -45,6 +45,7 @@ CREATE INDEX IF NOT EXISTS idx_users_access_tokens_created_at ON users_access_to
 CREATE TABLE IF NOT EXISTS roles
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
+    uuid       BINARY(16)  NOT NULL UNIQUE,
     name       VARCHAR(16) NOT NULL,
     priority   INT         NOT NULL,
     created_at DATETIME    NOT NULL,

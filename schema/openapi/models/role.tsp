@@ -1,5 +1,7 @@
+import "./uuid.tsp";
+
 model Role {
-  id: int32;
+  id: UUID;
   name: string;
   priority: int32;
   created_at: utcDateTime;

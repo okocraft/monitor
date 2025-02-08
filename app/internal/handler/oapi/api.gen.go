@@ -59,7 +59,9 @@ type PagePermissions struct {
 // Role defines model for Role.
 type Role struct {
 	CreatedAt time.Time `json:"created_at"`
-	Id        int32     `json:"id"`
+
+	// Id the UUID
+	Id        UUID      `json:"id"`
 	Name      string    `json:"name"`
 	Priority  int32     `json:"priority"`
 	UpdatedAt time.Time `json:"updated_at"`

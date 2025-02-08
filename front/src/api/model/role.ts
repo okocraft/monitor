@@ -4,9 +4,10 @@
  * Monitor API
  * OpenAPI spec version: 0.0.0
  */
+import type { Uuid } from "./uuid";
 
 export interface Role {
-    id: number;
+    id: Uuid;
     name: string;
     priority: number;
     created_at: string;

@@ -27,6 +27,7 @@ type AuditLogUser struct {
 
 type Role struct {
 	ID        int32     `db:"id"`
+	Uuid      []byte    `db:"uuid"`
 	Name      string    `db:"name"`
 	Priority  int32     `db:"priority"`
 	CreatedAt time.Time `db:"created_at"`
