@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/Siroshun09/serrors"
+	"github.com/okocraft/monitor/internal/domain/role"
 	"time"
 
 	"github.com/gofrs/uuid/v5"
@@ -21,6 +22,8 @@ type UserRepository interface {
 	DeleteLoginKeyByUserID(ctx context.Context, id user.ID) error
 	SaveUserSub(ctx context.Context, userID user.ID, sub string) error
 	UpdateLastAccessByID(ctx context.Context, id user.ID, now time.Time) error
+
+	GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error)
 }
 
 func NewUserRepository(db database.DB) UserRepository {
@@ -104,4 +107,41 @@ func (r userRepository) UpdateLastAccessByID(ctx context.Context, id user.ID, no
 		return asDBError(err)
 	}
 	return nil
+}
+
+func (r userRepository) GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error) {
+	q := r.db.Queries(ctx)
+	rows, err := q.GetUsersWithRoleByUUIDs(ctx, toBytesSlice(uuids))
+	if err != nil {
+		return []user.UserWithRole{}, asDBError(err)
+	}
+
+	users := make([]user.UserWithRole, 0, len(rows))
+	for _, row := range rows {
+		var userRole role.Role
+		if row.RoleID.Valid {
+			userRole = role.Role{
+				ID:        row.RoleID.Int32,
+				Name:      row.RoleName.String,
+				Priority:  row.RolePriority.Int32,
+				CreatedAt: row.RoleCreatedAt.Time,
+				UpdatedAt: row.RoleUpdatedAt.Time,
+			}
+		} else {
+			userRole = role.DefaultRole()
+		}
+		users = append(users, user.UserWithRole{
+			User: user.User{
+				ID:         user.ID(row.UserID),
+				UUID:       uuid.UUID(row.UserUuid),
+				Nickname:   row.UserNickname,
+				LastAccess: row.UserLastAccess,
+				CreatedAt:  row.UserCreatedAt,
+				UpdatedAt:  row.UserUpdatedAt,
+			},
+			Role: userRole,
+		})
+	}
+
+	return users, nil
 }

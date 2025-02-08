@@ -5,11 +5,13 @@ import (
 	"github.com/okocraft/monitor/internal/handler/auditlog"
 	"github.com/okocraft/monitor/internal/handler/oapi/auth"
 	"github.com/okocraft/monitor/internal/handler/oapi/me"
+	"github.com/okocraft/monitor/internal/handler/oapi/user"
 )
 
 var handlerSet = wire.NewSet(
 	auth.NewAuthHandler,
 	auth.NewGoogleAuthHandler,
 	me.NewMeHandler,
+	user.NewUserHandler,
 	auditlog.NewAuditLogMiddleware,
 )

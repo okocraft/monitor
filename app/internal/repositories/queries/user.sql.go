@@ -7,6 +7,8 @@ package queries
 
 import (
 	"context"
+	"database/sql"
+	"strings"
 	"time"
 )
 
@@ -99,6 +101,74 @@ func (q *Queries) GetUserNicknameByID(ctx context.Context, id int32) (string, er
 	var nickname string
 	err := row.Scan(&nickname)
 	return nickname, err
+}
+
+const getUsersWithRoleByUUIDs = `-- name: GetUsersWithRoleByUUIDs :many
+SELECT users.id AS user_id, users.uuid AS user_uuid, users.nickname AS user_nickname, users.last_access AS user_last_access, users.created_at AS user_created_at, users.updated_at AS user_updated_at,
+       roles.id AS role_id, roles.name AS role_name, roles.priority AS role_priority, roles.created_at AS role_created_at, roles.updated_at AS role_updated_at
+FROM users
+LEFT OUTER JOIN users_role on users.id = users_role.user_id
+LEFT OUTER JOIN roles on users_role.role_id = roles.id
+WHERE users.uuid IN(/*SLICE:uuids*/?)
+`
+
+type GetUsersWithRoleByUUIDsRow struct {
+	UserID         int32          `db:"user_id"`
+	UserUuid       []byte         `db:"user_uuid"`
+	UserNickname   string         `db:"user_nickname"`
+	UserLastAccess time.Time      `db:"user_last_access"`
+	UserCreatedAt  time.Time      `db:"user_created_at"`
+	UserUpdatedAt  time.Time      `db:"user_updated_at"`
+	RoleID         sql.NullInt32  `db:"role_id"`
+	RoleName       sql.NullString `db:"role_name"`
+	RolePriority   sql.NullInt32  `db:"role_priority"`
+	RoleCreatedAt  sql.NullTime   `db:"role_created_at"`
+	RoleUpdatedAt  sql.NullTime   `db:"role_updated_at"`
+}
+
+func (q *Queries) GetUsersWithRoleByUUIDs(ctx context.Context, uuids [][]byte) ([]GetUsersWithRoleByUUIDsRow, error) {
+	query := getUsersWithRoleByUUIDs
+	var queryParams []interface{}
+	if len(uuids) > 0 {
+		for _, v := range uuids {
+			queryParams = append(queryParams, v)
+		}
+		query = strings.Replace(query, "/*SLICE:uuids*/?", strings.Repeat(",?", len(uuids))[1:], 1)
+	} else {
+		query = strings.Replace(query, "/*SLICE:uuids*/?", "NULL", 1)
+	}
+	rows, err := q.db.QueryContext(ctx, query, queryParams...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetUsersWithRoleByUUIDsRow
+	for rows.Next() {
+		var i GetUsersWithRoleByUUIDsRow
+		if err := rows.Scan(
+			&i.UserID,
+			&i.UserUuid,
+			&i.UserNickname,
+			&i.UserLastAccess,
+			&i.UserCreatedAt,
+			&i.UserUpdatedAt,
+			&i.RoleID,
+			&i.RoleName,
+			&i.RolePriority,
+			&i.RoleCreatedAt,
+			&i.RoleUpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const insertLoginKey = `-- name: InsertLoginKey :exec

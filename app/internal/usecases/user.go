@@ -3,6 +3,7 @@ package usecases
 import (
 	"context"
 	"errors"
+	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/me"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories"
@@ -17,6 +18,8 @@ type UserUsecase interface {
 	SaveSubByLoginKey(ctx context.Context, loginKey int64, sub string) (user.ID, error)
 	GetMe(ctx context.Context) (me.Me, error)
 	GetNicknameByID(ctx context.Context, id user.ID) (string, error)
+
+	GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error)
 }
 
 func NewUserUsecase(repo repositories.UserRepository, transaction database.Transaction) UserUsecase {
@@ -95,4 +98,12 @@ func (u userUsecase) GetNicknameByID(ctx context.Context, id user.ID) (string, e
 		return "", errlib.AsIs(err)
 	}
 	return nickname, nil
+}
+
+func (u userUsecase) GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error) {
+	users, err := u.repo.GetUsersWithRoleByUUIDs(ctx, uuids)
+	if err != nil {
+		return nil, errlib.AsIs(err)
+	}
+	return users, nil
 }

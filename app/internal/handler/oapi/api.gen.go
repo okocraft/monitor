@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	uuid "github.com/gofrs/uuid/v5"
@@ -55,11 +56,38 @@ type PagePermissions struct {
 	Users bool `json:"users"`
 }
 
+// Role defines model for Role.
+type Role struct {
+	CreatedAt time.Time `json:"created_at"`
+	Id        int32     `json:"id"`
+	Name      string    `json:"name"`
+	Priority  int32     `json:"priority"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 // UUID the UUID
 type UUID = uuid.UUID
 
+// User defines model for User.
+type User struct {
+	CreatedAt time.Time `json:"created_at"`
+
+	// Id the UUID
+	Id         UUID      `json:"id"`
+	LastAccess time.Time `json:"last_access"`
+	Nickname   string    `json:"nickname"`
+	Role       Role      `json:"role"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}
+
+// GetUsersByIdsJSONBody defines parameters for GetUsersByIds.
+type GetUsersByIdsJSONBody = []UUID
+
 // LoginWithGoogleJSONRequestBody defines body for LoginWithGoogle for application/json ContentType.
 type LoginWithGoogleJSONRequestBody = CurrentPage
+
+// GetUsersByIdsJSONRequestBody defines body for GetUsersByIds for application/json ContentType.
+type GetUsersByIdsJSONRequestBody = GetUsersByIdsJSONBody
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -81,6 +109,9 @@ type ServerInterface interface {
 
 	// (GET /me)
 	GetMe(w http.ResponseWriter, r *http.Request)
+
+	// (POST /users)
+	GetUsersByIds(w http.ResponseWriter, r *http.Request)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
@@ -114,6 +145,11 @@ func (_ Unimplemented) RefreshAccessToken(w http.ResponseWriter, r *http.Request
 
 // (GET /me)
 func (_ Unimplemented) GetMe(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (POST /users)
+func (_ Unimplemented) GetUsersByIds(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -257,6 +293,26 @@ func (siw *ServerInterfaceWrapper) GetMe(w http.ResponseWriter, r *http.Request)
 	handler.ServeHTTP(w, r)
 }
 
+// GetUsersByIds operation middleware
+func (siw *ServerInterfaceWrapper) GetUsersByIds(w http.ResponseWriter, r *http.Request) {
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, AccessTokenAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetUsersByIds(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
 type UnescapedCookieParamError struct {
 	ParamName string
 	Err       error
@@ -387,6 +443,9 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/me", wrapper.GetMe)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/users", wrapper.GetUsersByIds)
 	})
 
 	return r

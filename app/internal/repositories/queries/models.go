@@ -77,13 +77,6 @@ type UsersRole struct {
 	UpdatedAt time.Time `db:"updated_at"`
 }
 
-type UsersSession struct {
-	ID        int64     `db:"id"`
-	UserID    int32     `db:"user_id"`
-	SessionID []byte    `db:"session_id"`
-	CreatedAt time.Time `db:"created_at"`
-}
-
 type UsersSub struct {
 	UserID int32  `db:"user_id"`
 	Sub    string `db:"sub"`

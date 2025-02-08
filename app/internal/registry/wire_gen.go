@@ -12,6 +12,7 @@ import (
 	"github.com/okocraft/monitor/internal/handler/auditlog"
 	"github.com/okocraft/monitor/internal/handler/oapi/auth"
 	"github.com/okocraft/monitor/internal/handler/oapi/me"
+	"github.com/okocraft/monitor/internal/handler/oapi/user"
 	"github.com/okocraft/monitor/internal/repositories"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/internal/usecases"
@@ -32,10 +33,11 @@ func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHa
 	googleAuthConfig := getGoogleAuthConfigFromHTTPConfig(cfg)
 	googleAuthHandler := auth.NewGoogleAuthHandler(googleAuthConfig, authUsecase, userUsecase)
 	meHandler := me.NewMeHandler(userUsecase)
+	userHandler := user.NewUserHandler(userUsecase)
 	auditLogRepository := repositories.NewAuditLogRepository(db)
 	auditLogUsecase := usecases.NewAuditLogUsecase(auditLogRepository)
 	auditLogMiddleware := auditlog.NewAuditLogMiddleware(auditLogUsecase, userUsecase)
-	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler, auditLogMiddleware)
+	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler, userHandler, auditLogMiddleware)
 	return httpHandler, nil
 }
 
