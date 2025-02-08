@@ -10,7 +10,9 @@ import (
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/handler/oapi"
-	"github.com/okocraft/monitor/internal/usecases"
+	auth2 "github.com/okocraft/monitor/internal/usecases/auth"
+	"github.com/okocraft/monitor/internal/usecases/permission"
+	user2 "github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/httplib"
 	"net/http"
@@ -19,12 +21,12 @@ import (
 )
 
 type AuthHandler struct {
-	authUsecase       usecases.AuthUsecase
-	userUsecase       usecases.UserUsecase
-	permissionUsecase usecases.PermissionUsecase
+	authUsecase       auth2.AuthUsecase
+	userUsecase       user2.UserUsecase
+	permissionUsecase permission.PermissionUsecase
 }
 
-func NewAuthHandler(authUsecase usecases.AuthUsecase, userUsecase usecases.UserUsecase, permissionUseCase usecases.PermissionUsecase) AuthHandler {
+func NewAuthHandler(authUsecase auth2.AuthUsecase, userUsecase user2.UserUsecase, permissionUseCase permission.PermissionUsecase) AuthHandler {
 	return AuthHandler{
 		authUsecase:       authUsecase,
 		userUsecase:       userUsecase,

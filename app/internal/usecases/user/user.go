@@ -1,4 +1,4 @@
-package usecases
+package user
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/me"
 	"github.com/okocraft/monitor/internal/domain/user"
-	"github.com/okocraft/monitor/internal/repositories"
 	"github.com/okocraft/monitor/internal/repositories/database"
+	user2 "github.com/okocraft/monitor/internal/repositories/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/errlib"
 	"time"
@@ -22,7 +22,7 @@ type UserUsecase interface {
 	GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error)
 }
 
-func NewUserUsecase(repo repositories.UserRepository, transaction database.Transaction) UserUsecase {
+func NewUserUsecase(repo user2.UserRepository, transaction database.Transaction) UserUsecase {
 	return &userUsecase{
 		repo:        repo,
 		transaction: transaction,
@@ -30,7 +30,7 @@ func NewUserUsecase(repo repositories.UserRepository, transaction database.Trans
 }
 
 type userUsecase struct {
-	repo        repositories.UserRepository
+	repo        user2.UserRepository
 	transaction database.Transaction
 }
 

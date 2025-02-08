@@ -1,8 +1,9 @@
-package usecases
+package auth
 
 import (
 	"context"
 	"fmt"
+	auth2 "github.com/okocraft/monitor/internal/repositories/auth"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"time"
 
@@ -12,7 +13,6 @@ import (
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"github.com/okocraft/monitor/internal/domain/user"
-	"github.com/okocraft/monitor/internal/repositories"
 	"github.com/okocraft/monitor/lib/errlib"
 )
 
@@ -27,7 +27,7 @@ type AuthUsecase interface {
 	VerifyAccessToken(ctx context.Context, tokenString string) (user.ID, error)
 }
 
-func NewAuthUsecase(conf config.AuthConfig, repo repositories.AuthRepository) AuthUsecase {
+func NewAuthUsecase(conf config.AuthConfig, repo auth2.AuthRepository) AuthUsecase {
 	return authUsecase{
 		conf: conf,
 		repo: repo,
@@ -36,7 +36,7 @@ func NewAuthUsecase(conf config.AuthConfig, repo repositories.AuthRepository) Au
 
 type authUsecase struct {
 	conf config.AuthConfig
-	repo repositories.AuthRepository
+	repo auth2.AuthRepository
 }
 
 func (u authUsecase) CreateStateJWT(_ context.Context, currentPageURL string) (uuid.UUID, string, error) {

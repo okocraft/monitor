@@ -12,7 +12,8 @@ import (
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/handler/oapi"
-	"github.com/okocraft/monitor/internal/usecases"
+	auth2 "github.com/okocraft/monitor/internal/usecases/auth"
+	user2 "github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/httplib"
 	"golang.org/x/oauth2"
@@ -28,11 +29,11 @@ type GoogleAuthHandler struct {
 	enabled       bool
 	resultPageURL string
 	conf          oauth2.Config
-	authUsecase   usecases.AuthUsecase
-	userUsecase   usecases.UserUsecase
+	authUsecase   auth2.AuthUsecase
+	userUsecase   user2.UserUsecase
 }
 
-func NewGoogleAuthHandler(c config.GoogleAuthConfig, authUsecase usecases.AuthUsecase, userUsecase usecases.UserUsecase) GoogleAuthHandler {
+func NewGoogleAuthHandler(c config.GoogleAuthConfig, authUsecase auth2.AuthUsecase, userUsecase user2.UserUsecase) GoogleAuthHandler {
 	return GoogleAuthHandler{
 		enabled:       c.Enabled,
 		resultPageURL: c.ResultPageURL,

@@ -3,16 +3,16 @@ package user
 import (
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/internal/handler/oapi"
-	"github.com/okocraft/monitor/internal/usecases"
+	"github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/httplib"
 	"net/http"
 )
 
 type UserHandler struct {
-	usecase usecases.UserUsecase
+	usecase user.UserUsecase
 }
 
-func NewUserHandler(usecase usecases.UserUsecase) UserHandler {
+func NewUserHandler(usecase user.UserUsecase) UserHandler {
 	return UserHandler{
 		usecase: usecase,
 	}

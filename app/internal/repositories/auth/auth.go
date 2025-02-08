@@ -1,4 +1,4 @@
-package repositories
+package auth
 
 import (
 	"context"
@@ -33,7 +33,7 @@ func (r authRepository) SaveRefreshToken(ctx context.Context, userID user.ID, jt
 	q := r.db.Queries(ctx)
 	err := q.InsertRefreshToken(ctx, queries.InsertRefreshTokenParams{UserID: int32(userID), Jti: jti.Bytes(), Ip: ip, UserAgent: userAgent, CreatedAt: createdAt})
 	if err != nil {
-		return asDBError(err)
+		return database.NewDBErrorWithStackTrace(err)
 	}
 	return nil
 }
@@ -42,7 +42,7 @@ func (r authRepository) SaveAccessToken(ctx context.Context, userID user.ID, ref
 	q := r.db.Queries(ctx)
 	err := q.InsertAccessToken(ctx, queries.InsertAccessTokenParams{UserID: int32(userID), RefreshTokenID: refreshTokenID, Jti: jti.Bytes(), CreatedAt: createdAt})
 	if err != nil {
-		return asDBError(err)
+		return database.NewDBErrorWithStackTrace(err)
 	}
 	return nil
 }
@@ -61,7 +61,7 @@ func (r authRepository) InvalidateTokensByRefreshTokenID(ctx context.Context, re
 	q := r.db.Queries(ctx)
 	err := q.DeleteRefreshTokenAndAccessToken(ctx, refreshTokenID)
 	if err != nil {
-		return asDBError(err)
+		return database.NewDBErrorWithStackTrace(err)
 	}
 	return nil
 }
@@ -70,7 +70,7 @@ func (r authRepository) GetUserIDFromAccessTokenJTI(ctx context.Context, jti uui
 	q := r.db.Queries(ctx)
 	userID, err := q.GetUserIDByAccessTokenJTI(ctx, jti.Bytes())
 	if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 	return user.ID(userID), nil
 }
@@ -79,7 +79,7 @@ func (r authRepository) DeleteExpiredAccessTokens(ctx context.Context, expiredAt
 	q := r.db.Queries(ctx)
 	rows, err := q.DeleteExpiredAccessTokens(ctx, expiredAt)
 	if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 	return rows, nil
 }
@@ -88,7 +88,7 @@ func (r authRepository) DeleteAccessTokensByExpiredRefreshTokens(ctx context.Con
 	q := r.db.Queries(ctx)
 	rows, err := q.DeleteAccessTokensByExpiredRefreshTokens(ctx, expiredAt)
 	if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 	return rows, nil
 }
@@ -97,7 +97,7 @@ func (r authRepository) DeleteExpiredRefreshTokens(ctx context.Context, expiredA
 	q := r.db.Queries(ctx)
 	rows, err := q.DeleteExpiredRefreshTokens(ctx, expiredAt)
 	if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 	return rows, nil
 }

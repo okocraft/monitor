@@ -3,16 +3,16 @@ package me
 import (
 	"errors"
 	"github.com/okocraft/monitor/internal/domain/user"
-	"github.com/okocraft/monitor/internal/usecases"
+	user2 "github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/httplib"
 	"net/http"
 )
 
 type MeHandler struct {
-	usecase usecases.UserUsecase
+	usecase user2.UserUsecase
 }
 
-func NewMeHandler(usecase usecases.UserUsecase) MeHandler {
+func NewMeHandler(usecase user2.UserUsecase) MeHandler {
 	return MeHandler{usecase: usecase}
 }
 

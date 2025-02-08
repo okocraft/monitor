@@ -1,9 +1,9 @@
-package usecases
+package cleanup
 
 import (
 	"context"
 	"github.com/okocraft/monitor/internal/domain/cleanup"
-	"github.com/okocraft/monitor/internal/repositories"
+	"github.com/okocraft/monitor/internal/repositories/auth"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/lib/errlib"
 )
@@ -12,7 +12,7 @@ type CleanupUsecase interface {
 	CleanupExpiredTokens(ctx context.Context, param cleanup.Param) (cleanup.DeletedTokenResult, error)
 }
 
-func NewCleanupUsecase(authRepo repositories.AuthRepository, tx database.Transaction) CleanupUsecase {
+func NewCleanupUsecase(authRepo auth.AuthRepository, tx database.Transaction) CleanupUsecase {
 	return &cleanupUsecase{
 		authRepo: authRepo,
 		tx:       tx,
@@ -20,7 +20,7 @@ func NewCleanupUsecase(authRepo repositories.AuthRepository, tx database.Transac
 }
 
 type cleanupUsecase struct {
-	authRepo repositories.AuthRepository
+	authRepo auth.AuthRepository
 	tx       database.Transaction
 }
 

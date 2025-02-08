@@ -1,4 +1,4 @@
-package repositories
+package permission
 
 import (
 	"github.com/okocraft/monitor/lib/testutils/testdb"

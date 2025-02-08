@@ -1,5 +1,7 @@
 package database
 
+import "github.com/Siroshun09/serrors"
+
 type DBError struct {
 	err error
 }
@@ -14,4 +16,8 @@ func (e DBError) Unwrap() error {
 
 func NewDBError(err error) DBError {
 	return DBError{err: err}
+}
+
+func NewDBErrorWithStackTrace(err error) error {
+	return serrors.WithStackTrace(NewDBError(err))
 }

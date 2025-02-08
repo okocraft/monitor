@@ -1,4 +1,4 @@
-package repositories
+package user
 
 import (
 	"context"
@@ -40,7 +40,7 @@ func (r userRepository) GetUserByID(ctx context.Context, id user.ID) (user.User,
 	if errors.Is(err, sql.ErrNoRows) {
 		return user.User{}, serrors.WithStackTrace(user.NotFoundByIDError{ID: id})
 	} else if err != nil {
-		return user.User{}, asDBError(err)
+		return user.User{}, database.NewDBErrorWithStackTrace(err)
 	}
 
 	return user.User{ID: id, UUID: uuid.UUID(row.Uuid), Nickname: row.Nickname, LastAccess: row.LastAccess}, nil
@@ -52,7 +52,7 @@ func (r userRepository) GetUserNicknameByID(ctx context.Context, id user.ID) (st
 	if errors.Is(err, sql.ErrNoRows) {
 		return "", serrors.WithStackTrace(user.NotFoundByIDError{ID: id})
 	} else if err != nil {
-		return "", asDBError(err)
+		return "", database.NewDBErrorWithStackTrace(err)
 	}
 	return row, nil
 }
@@ -63,7 +63,7 @@ func (r userRepository) GetUserIDBySub(ctx context.Context, sub string) (user.ID
 	if errors.Is(err, sql.ErrNoRows) {
 		return 0, serrors.WithStackTrace(user.NotFoundBySubError{Sub: sub})
 	} else if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 
 	return user.ID(userID), nil
@@ -76,7 +76,7 @@ func (r userRepository) GetUserIDByLoginKey(ctx context.Context, loginKey int64)
 	if errors.Is(err, sql.ErrNoRows) {
 		return 0, serrors.WithStackTrace(user.NotFoundByLoginKeyError{LoginKey: loginKey})
 	} else if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 
 	return user.ID(userID), nil
@@ -86,7 +86,7 @@ func (r userRepository) DeleteLoginKeyByUserID(ctx context.Context, id user.ID) 
 	q := r.db.Queries(ctx)
 	err := q.DeleteLoginKey(ctx, int32(id))
 	if err != nil {
-		return asDBError(err)
+		return database.NewDBErrorWithStackTrace(err)
 	}
 	return nil
 }
@@ -95,7 +95,7 @@ func (r userRepository) SaveUserSub(ctx context.Context, userID user.ID, sub str
 	q := r.db.Queries(ctx)
 	err := q.InsertSubForUserID(ctx, queries.InsertSubForUserIDParams{UserID: int32(userID), Sub: sub})
 	if err != nil {
-		return asDBError(err)
+		return database.NewDBErrorWithStackTrace(err)
 	}
 	return nil
 }
@@ -104,16 +104,16 @@ func (r userRepository) UpdateLastAccessByID(ctx context.Context, id user.ID, no
 	q := r.db.Queries(ctx)
 	err := q.UpdateUserLastAccessByID(ctx, queries.UpdateUserLastAccessByIDParams{ID: int32(id), LastAccess: now, UpdatedAt: now})
 	if err != nil {
-		return asDBError(err)
+		return database.NewDBErrorWithStackTrace(err)
 	}
 	return nil
 }
 
 func (r userRepository) GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error) {
 	q := r.db.Queries(ctx)
-	rows, err := q.GetUsersWithRoleByUUIDs(ctx, toBytesSlice(uuids))
+	rows, err := q.GetUsersWithRoleByUUIDs(ctx, queries.ToBytesSlice(uuids))
 	if err != nil {
-		return []user.UserWithRole{}, asDBError(err)
+		return []user.UserWithRole{}, database.NewDBErrorWithStackTrace(err)
 	}
 
 	users := make([]user.UserWithRole, 0, len(rows))

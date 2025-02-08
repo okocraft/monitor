@@ -9,41 +9,48 @@ package registry
 import (
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/handler"
-	"github.com/okocraft/monitor/internal/handler/auditlog"
-	"github.com/okocraft/monitor/internal/handler/oapi/auth"
+	auditlog3 "github.com/okocraft/monitor/internal/handler/auditlog"
+	auth3 "github.com/okocraft/monitor/internal/handler/oapi/auth"
 	"github.com/okocraft/monitor/internal/handler/oapi/me"
-	"github.com/okocraft/monitor/internal/handler/oapi/user"
-	"github.com/okocraft/monitor/internal/repositories"
+	user3 "github.com/okocraft/monitor/internal/handler/oapi/user"
+	"github.com/okocraft/monitor/internal/repositories/auditlog"
+	"github.com/okocraft/monitor/internal/repositories/auth"
 	"github.com/okocraft/monitor/internal/repositories/database"
-	"github.com/okocraft/monitor/internal/usecases"
+	"github.com/okocraft/monitor/internal/repositories/permission"
+	"github.com/okocraft/monitor/internal/repositories/user"
+	auditlog2 "github.com/okocraft/monitor/internal/usecases/auditlog"
+	auth2 "github.com/okocraft/monitor/internal/usecases/auth"
+	"github.com/okocraft/monitor/internal/usecases/cleanup"
+	permission2 "github.com/okocraft/monitor/internal/usecases/permission"
+	user2 "github.com/okocraft/monitor/internal/usecases/user"
 )
 
 // Injectors from wire.go:
 
 func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHandler, error) {
 	authConfig := getAuthConfigFromHTTPConfig(cfg)
-	authRepository := repositories.NewAuthRepository(db)
-	authUsecase := usecases.NewAuthUsecase(authConfig, authRepository)
-	userRepository := repositories.NewUserRepository(db)
+	authRepository := auth.NewAuthRepository(db)
+	authUsecase := auth2.NewAuthUsecase(authConfig, authRepository)
+	userRepository := user.NewUserRepository(db)
 	transaction := database.NewTransaction(db)
-	userUsecase := usecases.NewUserUsecase(userRepository, transaction)
-	permissionRepository := repositories.NewPermissionRepository(db)
-	permissionUsecase := usecases.NewPermissionUsecase(permissionRepository)
-	authHandler := auth.NewAuthHandler(authUsecase, userUsecase, permissionUsecase)
+	userUsecase := user2.NewUserUsecase(userRepository, transaction)
+	permissionRepository := permission.NewPermissionRepository(db)
+	permissionUsecase := permission2.NewPermissionUsecase(permissionRepository)
+	authHandler := auth3.NewAuthHandler(authUsecase, userUsecase, permissionUsecase)
 	googleAuthConfig := getGoogleAuthConfigFromHTTPConfig(cfg)
-	googleAuthHandler := auth.NewGoogleAuthHandler(googleAuthConfig, authUsecase, userUsecase)
+	googleAuthHandler := auth3.NewGoogleAuthHandler(googleAuthConfig, authUsecase, userUsecase)
 	meHandler := me.NewMeHandler(userUsecase)
-	userHandler := user.NewUserHandler(userUsecase)
-	auditLogRepository := repositories.NewAuditLogRepository(db)
-	auditLogUsecase := usecases.NewAuditLogUsecase(auditLogRepository)
-	auditLogMiddleware := auditlog.NewAuditLogMiddleware(auditLogUsecase, userUsecase)
+	userHandler := user3.NewUserHandler(userUsecase)
+	auditLogRepository := auditlog.NewAuditLogRepository(db)
+	auditLogUsecase := auditlog2.NewAuditLogUsecase(auditLogRepository)
+	auditLogMiddleware := auditlog3.NewAuditLogMiddleware(auditLogUsecase, userUsecase)
 	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler, userHandler, auditLogMiddleware)
 	return httpHandler, nil
 }
 
-func NewCleanupUsecase(db database.DB) usecases.CleanupUsecase {
-	authRepository := repositories.NewAuthRepository(db)
+func NewCleanupUsecase(db database.DB) cleanup.CleanupUsecase {
+	authRepository := auth.NewAuthRepository(db)
 	transaction := database.NewTransaction(db)
-	cleanupUsecase := usecases.NewCleanupUsecase(authRepository, transaction)
+	cleanupUsecase := cleanup.NewCleanupUsecase(authRepository, transaction)
 	return cleanupUsecase
 }

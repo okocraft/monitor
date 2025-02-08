@@ -6,17 +6,18 @@ import (
 	"github.com/Siroshun09/logs"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/domain/user"
-	"github.com/okocraft/monitor/internal/usecases"
+	auditlog2 "github.com/okocraft/monitor/internal/usecases/auditlog"
+	user2 "github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"net/http"
 )
 
 type AuditLogMiddleware struct {
-	auditLogUsecase usecases.AuditLogUsecase
-	userUsecase     usecases.UserUsecase
+	auditLogUsecase auditlog2.AuditLogUsecase
+	userUsecase     user2.UserUsecase
 }
 
-func NewAuditLogMiddleware(auditLogUsecase usecases.AuditLogUsecase, userUsecase usecases.UserUsecase) AuditLogMiddleware {
+func NewAuditLogMiddleware(auditLogUsecase auditlog2.AuditLogUsecase, userUsecase user2.UserUsecase) AuditLogMiddleware {
 	return AuditLogMiddleware{
 		auditLogUsecase: auditLogUsecase,
 		userUsecase:     userUsecase,

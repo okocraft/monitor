@@ -1,10 +1,10 @@
-package usecases
+package auditlog
 
 import (
 	"context"
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
-	"github.com/okocraft/monitor/internal/repositories"
+	auditlog2 "github.com/okocraft/monitor/internal/repositories/auditlog"
 	"github.com/okocraft/monitor/lib/errlib"
 )
 
@@ -12,14 +12,14 @@ type AuditLogUsecase interface {
 	Record(ctx context.Context, operator auditlog.Operator, records auditlog.AuditLogRecords) error
 }
 
-func NewAuditLogUsecase(auditLogRepo repositories.AuditLogRepository) AuditLogUsecase {
+func NewAuditLogUsecase(auditLogRepo auditlog2.AuditLogRepository) AuditLogUsecase {
 	return auditLogUsecase{
 		auditLogRepo: auditLogRepo,
 	}
 }
 
 type auditLogUsecase struct {
-	auditLogRepo repositories.AuditLogRepository
+	auditLogRepo auditlog2.AuditLogRepository
 }
 
 func (u auditLogUsecase) Record(ctx context.Context, operator auditlog.Operator, records auditlog.AuditLogRecords) error {

@@ -1,4 +1,4 @@
-package repositories
+package auditlog
 
 import (
 	"context"
@@ -34,12 +34,12 @@ func (r auditLogRepository) RecordOperator(ctx context.Context, operator auditlo
 		CreatedAt: time.Now(),
 	})
 	if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 
 	id, err := result.LastInsertId()
 	if err != nil {
-		return 0, asDBError(err)
+		return 0, database.NewDBErrorWithStackTrace(err)
 	}
 	return auditlog.OperatorID(id), nil
 }
@@ -56,7 +56,7 @@ func (r auditLogRepository) RecordUserAuditLog(ctx context.Context, operatorID a
 	sql, args := ib.Build()
 	conn := r.db.Conn(ctx)
 	if _, err := conn.ExecContext(ctx, sql, args...); err != nil {
-		return asDBError(err)
+		return database.NewDBErrorWithStackTrace(err)
 	}
 	return nil
 }

@@ -1,4 +1,4 @@
-package repositories
+package permission
 
 import (
 	"context"
@@ -31,7 +31,7 @@ func (r permissionRepository) HasPermission(ctx context.Context, userID user.ID,
 	if errors.Is(err, sql.ErrNoRows) {
 		return perm.DefaultValue, nil
 	} else if err != nil {
-		return false, asDBError(err)
+		return false, database.NewDBErrorWithStackTrace(err)
 	}
 	return result, nil
 }
@@ -52,7 +52,7 @@ func (r permissionRepository) GetPermissions(ctx context.Context, userID user.ID
 	}
 
 	if err != nil {
-		return permission.EmptyValueMap(), asDBError(err)
+		return permission.EmptyValueMap(), database.NewDBErrorWithStackTrace(err)
 	}
 	return permission.NewValueMap(result), nil
 }

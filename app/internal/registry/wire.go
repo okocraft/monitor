@@ -7,7 +7,7 @@ import (
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/handler"
 	"github.com/okocraft/monitor/internal/repositories/database"
-	"github.com/okocraft/monitor/internal/usecases"
+	"github.com/okocraft/monitor/internal/usecases/cleanup"
 )
 
 //go:generate go run github.com/google/wire/cmd/wire@v0.6.0
@@ -23,10 +23,10 @@ func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHa
 	return handler.HTTPHandler{}, nil
 }
 
-func NewCleanupUsecase(db database.DB) usecases.CleanupUsecase {
+func NewCleanupUsecase(db database.DB) cleanup.CleanupUsecase {
 	wire.Build(
 		repositorySet,
-		usecases.NewCleanupUsecase,
+		cleanup.NewCleanupUsecase,
 	)
-	return usecases.NewCleanupUsecase(nil, nil)
+	return cleanup.NewCleanupUsecase(nil, nil)
 }
