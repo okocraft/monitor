@@ -51,12 +51,14 @@ func (h AuthHandler) SetAuthMethodIntoContext(ctx context.Context, input *openap
 func (h AuthHandler) NewAuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
+		accessLog := ctxlib.GetHTTPAccessLog(ctx)
 
-		switch ctxlib.GetHTTPAccessLog(ctx).AuthMethod {
+		switch accessLog.AuthMethod {
 		case auth.MethodSkip:
 			next.ServeHTTP(w, r)
 		case auth.MethodAccessToken:
 			if userID, ok := h.AuthorizeByAccessToken(ctx, w, r); ok {
+				accessLog.UserID = userID
 				r = r.WithContext(ctxlib.WithUserID(ctx, userID))
 				ctxlib.SetUserIDForAuditLog(ctx, userID)
 				next.ServeHTTP(w, r)

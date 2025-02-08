@@ -3,6 +3,7 @@ package ctxlib
 import (
 	"context"
 	"github.com/okocraft/monitor/internal/domain/auth"
+	"github.com/okocraft/monitor/internal/domain/user"
 	"log/slog"
 	"net"
 	"net/http"
@@ -23,6 +24,8 @@ type HTTPAccessLog struct {
 	Referer       string
 
 	AuthMethod auth.Method
+
+	UserID user.ID
 
 	Response *HTTPResponse
 }
@@ -60,6 +63,7 @@ func (a *HTTPAccessLog) ToAttr() slog.Attr {
 	)
 
 	attrs = append(attrs, slog.Int("auth_method", int(a.AuthMethod)))
+	attrs = append(attrs, slog.Int("user_id", int(a.UserID)))
 
 	if a.Response != nil {
 		attrs = append(attrs, a.Response.ToAttr())
