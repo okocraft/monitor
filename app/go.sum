@@ -3,6 +3,8 @@ cloud.google.com/go/compute/metadata v0.6.0/go.mod h1:FjyFAW1MW0C203CEOMDTu3Dk1F
 filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
 github.com/RaveNoX/go-jsoncommentstrip v1.0.0/go.mod h1:78ihd09MekBnJnxpICcwzCMzGrKSKYe4AqU6PDYYpjk=
+github.com/Siroshun09/go-tablelist-codegen v0.1.1 h1:JQ2yEIpcYm8YQKpAybLemREtxSWBW9eXfDyaWDsyeiY=
+github.com/Siroshun09/go-tablelist-codegen v0.1.1/go.mod h1:8/8hL3a8oza06EjJzVIXqtdmOjrBQLhGcq0J9w0A1yo=
 github.com/Siroshun09/logs v1.0.1 h1:5idKCb/EQbnLJzAXEdwGSAea0LEG+vfNPNnx3pCWlGw=
 github.com/Siroshun09/logs v1.0.1/go.mod h1:NUQOeA7v12g52i0iVWwVLSXhJh8ysf6yB18sdlxVh3Y=
 github.com/Siroshun09/serrors v1.2.0 h1:h6jSFX6g050cWhYmMH81kmHakEBeS9JRus0mYV+HAEc=
