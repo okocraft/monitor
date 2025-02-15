@@ -40,7 +40,7 @@ func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHa
 	googleAuthConfig := getGoogleAuthConfigFromHTTPConfig(cfg)
 	googleAuthHandler := auth3.NewGoogleAuthHandler(googleAuthConfig, authUsecase, userUsecase)
 	meHandler := me.NewMeHandler(userUsecase)
-	userHandler := user3.NewUserHandler(userUsecase)
+	userHandler := user3.NewUserHandler(userUsecase, permissionUsecase)
 	auditLogRepository := auditlog.NewAuditLogRepository(db)
 	auditLogUsecase := auditlog2.NewAuditLogUsecase(auditLogRepository)
 	auditLogMiddleware := auditlog3.NewAuditLogMiddleware(auditLogUsecase, userUsecase)

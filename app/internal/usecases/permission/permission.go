@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/internal/domain/permission"
+	"github.com/okocraft/monitor/internal/domain/user"
 	permission2 "github.com/okocraft/monitor/internal/repositories/permission"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/errlib"
@@ -11,6 +12,7 @@ import (
 
 type PermissionUsecase interface {
 	CalculatePagePermissions(ctx context.Context) (permission.PagePermissions, error)
+	HasPermission(ctx context.Context, userID user.ID, permission permission.Permission) (bool, error)
 }
 
 func NewPermissionUsecase(repo permission2.PermissionRepository) PermissionUsecase {
@@ -34,4 +36,12 @@ func (u permissionUsecase) CalculatePagePermissions(ctx context.Context) (permis
 	}
 
 	return calculator.Calculate(valueMap), nil
+}
+
+func (u permissionUsecase) HasPermission(ctx context.Context, userID user.ID, permission permission.Permission) (bool, error) {
+	hasPermission, err := u.repo.HasPermission(ctx, userID, permission)
+	if err != nil {
+		return false, errlib.AsIs(err)
+	}
+	return hasPermission, nil
 }
