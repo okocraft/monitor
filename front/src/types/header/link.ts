@@ -1,12 +1,11 @@
 import type { ToPathOption } from "@tanstack/react-router";
-import type { RoutePaths } from "@tanstack/react-router";
 import type { AnyRouter, RegisteredRouter } from "@tanstack/react-router";
 import type { PagePermissions } from "../../api/model";
 import type { Me } from "../me.ts";
 
 export type HeaderLink<
     in out TRouter extends AnyRouter = RegisteredRouter,
-    in out TFrom extends RoutePaths<TRouter["routeTree"]> | string = string,
+    in out TFrom extends string = string,
     in out TTo extends string | undefined = ".",
 > = {
     id: string;
@@ -21,7 +20,7 @@ export type HeaderLink<
 
 export type NestedHeaderLink<
     in out TRouter extends AnyRouter = RegisteredRouter,
-    in out TFrom extends RoutePaths<TRouter["routeTree"]> | string = string,
+    in out TFrom extends string = string,
     in out TTo extends string | undefined = ".",
 > = {
     id: string;
