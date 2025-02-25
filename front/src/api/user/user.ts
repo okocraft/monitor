@@ -4,15 +4,23 @@
  * Monitor API
  * OpenAPI spec version: 0.0.0
  */
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
+    DataTag,
+    DefinedInitialDataOptions,
+    DefinedUseQueryResult,
     MutationFunction,
+    QueryFunction,
+    QueryKey,
+    UndefinedInitialDataOptions,
     UseMutationOptions,
     UseMutationResult,
+    UseQueryOptions,
+    UseQueryResult,
 } from "@tanstack/react-query";
 import * as axios from "axios";
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import type { User, Uuid } from ".././model";
+import type { SearchUsersParams, User, Uuid } from ".././model";
 
 /**
  * get users by ids
@@ -89,3 +97,149 @@ export const useGetUsersByIds = <
 
     return useMutation(mutationOptions);
 };
+/**
+ * get user ids
+ */
+export const searchUsers = (
+    params?: SearchUsersParams,
+    options?: AxiosRequestConfig,
+): Promise<AxiosResponse<Uuid[]>> => {
+    return axios.default.get(`/users/search`, {
+        ...options,
+        params: { ...params, ...options?.params },
+    });
+};
+
+export const getSearchUsersQueryKey = (params?: SearchUsersParams) => {
+    return [`/users/search`, ...(params ? [params] : [])] as const;
+};
+
+export const getSearchUsersQueryOptions = <
+    TData = Awaited<ReturnType<typeof searchUsers>>,
+    TError = AxiosError<unknown>,
+>(
+    params?: SearchUsersParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof searchUsers>>,
+                TError,
+                TData
+            >
+        >;
+        axios?: AxiosRequestConfig;
+    },
+) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getSearchUsersQueryKey(params);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchUsers>>> = ({
+        signal,
+    }) => searchUsers(params, { signal, ...axiosOptions });
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof searchUsers>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData> };
+};
+
+export type SearchUsersQueryResult = NonNullable<
+    Awaited<ReturnType<typeof searchUsers>>
+>;
+export type SearchUsersQueryError = AxiosError<unknown>;
+
+export function useSearchUsers<
+    TData = Awaited<ReturnType<typeof searchUsers>>,
+    TError = AxiosError<unknown>,
+>(
+    params: undefined | SearchUsersParams,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof searchUsers>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof searchUsers>>,
+                    TError,
+                    Awaited<ReturnType<typeof searchUsers>>
+                >,
+                "initialData"
+            >;
+        axios?: AxiosRequestConfig;
+    },
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>;
+};
+export function useSearchUsers<
+    TData = Awaited<ReturnType<typeof searchUsers>>,
+    TError = AxiosError<unknown>,
+>(
+    params?: SearchUsersParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof searchUsers>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof searchUsers>>,
+                    TError,
+                    Awaited<ReturnType<typeof searchUsers>>
+                >,
+                "initialData"
+            >;
+        axios?: AxiosRequestConfig;
+    },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useSearchUsers<
+    TData = Awaited<ReturnType<typeof searchUsers>>,
+    TError = AxiosError<unknown>,
+>(
+    params?: SearchUsersParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof searchUsers>>,
+                TError,
+                TData
+            >
+        >;
+        axios?: AxiosRequestConfig;
+    },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+export function useSearchUsers<
+    TData = Awaited<ReturnType<typeof searchUsers>>,
+    TError = AxiosError<unknown>,
+>(
+    params?: SearchUsersParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof searchUsers>>,
+                TError,
+                TData
+            >
+        >;
+        axios?: AxiosRequestConfig;
+    },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+    const queryOptions = getSearchUsersQueryOptions(params, options);
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}

@@ -11,5 +11,8 @@ export * from "./googleLoginURL";
 export * from "./me";
 export * from "./pagePermissions";
 export * from "./role";
+export * from "./searchUsersParams";
+export * from "./sortType";
+export * from "./sortableUserDataType";
 export * from "./user";
 export * from "./uuid";

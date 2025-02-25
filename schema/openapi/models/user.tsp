@@ -9,3 +9,12 @@ model User {
   updated_at: utcDateTime;
   role: Role;
 }
+
+enum SortableUserDataType {
+  NickName,
+  LastAccess,
+  CreatedAt,
+  UpdatedAt,
+  RoleName,
+  RolePriority,
+}

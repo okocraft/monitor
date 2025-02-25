@@ -146,6 +146,9 @@ type ServerInterface interface {
 
 	// (POST /users)
 	GetUsersByIds(w http.ResponseWriter, r *http.Request)
+
+	// (GET /users/search)
+	SearchUsers(w http.ResponseWriter, r *http.Request, params SearchUsersParams)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
@@ -184,6 +187,11 @@ func (_ Unimplemented) GetMe(w http.ResponseWriter, r *http.Request) {
 
 // (POST /users)
 func (_ Unimplemented) GetUsersByIds(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (GET /users/search)
+func (_ Unimplemented) SearchUsers(w http.ResponseWriter, r *http.Request, params SearchUsersParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -347,6 +355,79 @@ func (siw *ServerInterfaceWrapper) GetUsersByIds(w http.ResponseWriter, r *http.
 	handler.ServeHTTP(w, r)
 }
 
+// SearchUsers operation middleware
+func (siw *ServerInterfaceWrapper) SearchUsers(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, AccessTokenAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchUsersParams
+
+	// ------------- Optional query parameter "nickname" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "nickname", r.URL.Query(), &params.Nickname)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "nickname", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "last_access_before" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "last_access_before", r.URL.Query(), &params.LastAccessBefore)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "last_access_before", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "last_access_after" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "last_access_after", r.URL.Query(), &params.LastAccessAfter)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "last_access_after", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "role_id" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "role_id", r.URL.Query(), &params.RoleId)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "role_id", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "sorted_by" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "sorted_by", r.URL.Query(), &params.SortedBy)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sorted_by", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "sort_type" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "sort_type", r.URL.Query(), &params.SortType)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort_type", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.SearchUsers(w, r, params)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
 type UnescapedCookieParamError struct {
 	ParamName string
 	Err       error
@@ -480,6 +561,9 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/users", wrapper.GetUsersByIds)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/users/search", wrapper.SearchUsers)
 	})
 
 	return r
