@@ -19,6 +19,22 @@ const (
 	SkipAuthScopes        = "SkipAuth.Scopes"
 )
 
+// Defines values for SortType.
+const (
+	SortTypeASC  SortType = "ASC"
+	SortTypeDESC SortType = "DESC"
+)
+
+// Defines values for SortableUserDataType.
+const (
+	SortableUserDataTypeCreatedAt    SortableUserDataType = "CreatedAt"
+	SortableUserDataTypeLastAccess   SortableUserDataType = "LastAccess"
+	SortableUserDataTypeNickName     SortableUserDataType = "NickName"
+	SortableUserDataTypeRoleName     SortableUserDataType = "RoleName"
+	SortableUserDataTypeRolePriority SortableUserDataType = "RolePriority"
+	SortableUserDataTypeUpdatedAt    SortableUserDataType = "UpdatedAt"
+)
+
 // AccessTokenWithMeAndPagePermissions defines model for AccessTokenWithMeAndPagePermissions.
 type AccessTokenWithMeAndPagePermissions struct {
 	// AccessToken the access token
@@ -67,6 +83,12 @@ type Role struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// SortType defines model for SortType.
+type SortType string
+
+// SortableUserDataType defines model for SortableUserDataType.
+type SortableUserDataType string
+
 // UUID the UUID
 type UUID = uuid.UUID
 
@@ -84,6 +106,16 @@ type User struct {
 
 // GetUsersByIdsJSONBody defines parameters for GetUsersByIds.
 type GetUsersByIdsJSONBody = []UUID
+
+// SearchUsersParams defines parameters for SearchUsers.
+type SearchUsersParams struct {
+	Nickname         *string               `form:"nickname,omitempty" json:"nickname,omitempty"`
+	LastAccessBefore *time.Time            `form:"last_access_before,omitempty" json:"last_access_before,omitempty"`
+	LastAccessAfter  *time.Time            `form:"last_access_after,omitempty" json:"last_access_after,omitempty"`
+	RoleId           *UUID                 `form:"role_id,omitempty" json:"role_id,omitempty"`
+	SortedBy         *SortableUserDataType `form:"sorted_by,omitempty" json:"sorted_by,omitempty"`
+	SortType         *SortType             `form:"sort_type,omitempty" json:"sort_type,omitempty"`
+}
 
 // LoginWithGoogleJSONRequestBody defines body for LoginWithGoogle for application/json ContentType.
 type LoginWithGoogleJSONRequestBody = CurrentPage
