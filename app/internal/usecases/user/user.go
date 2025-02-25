@@ -7,7 +7,7 @@ import (
 	"github.com/okocraft/monitor/internal/domain/me"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories/database"
-	user2 "github.com/okocraft/monitor/internal/repositories/user"
+	userRepo "github.com/okocraft/monitor/internal/repositories/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/errlib"
 	"time"
@@ -20,9 +20,10 @@ type UserUsecase interface {
 	GetNicknameByID(ctx context.Context, id user.ID) (string, error)
 
 	GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error)
+	SearchForUserUUIDs(ctx context.Context, params user.SearchParams) ([]uuid.UUID, error)
 }
 
-func NewUserUsecase(repo user2.UserRepository, transaction database.Transaction) UserUsecase {
+func NewUserUsecase(repo userRepo.UserRepository, transaction database.Transaction) UserUsecase {
 	return &userUsecase{
 		repo:        repo,
 		transaction: transaction,
@@ -30,7 +31,7 @@ func NewUserUsecase(repo user2.UserRepository, transaction database.Transaction)
 }
 
 type userUsecase struct {
-	repo        user2.UserRepository
+	repo        userRepo.UserRepository
 	transaction database.Transaction
 }
 
@@ -106,4 +107,12 @@ func (u userUsecase) GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.U
 		return nil, errlib.AsIs(err)
 	}
 	return users, nil
+}
+
+func (u userUsecase) SearchForUserUUIDs(ctx context.Context, params user.SearchParams) ([]uuid.UUID, error) {
+	ids, err := u.repo.SearchForUserUUIDs(ctx, params)
+	if err != nil {
+		return nil, errlib.AsIs(err)
+	}
+	return ids, nil
 }

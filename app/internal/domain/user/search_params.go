@@ -10,15 +10,15 @@ import (
 	"time"
 )
 
-type SortableUserDataType int8
+type SortableDataType int8
 
 const (
-	NickName SortableUserDataType = iota + 1
-	LastAccess
-	CreatedAt
-	UpdatedAt
-	RoleName
-	RolePriority
+	SortableDataTypeNickName SortableDataType = iota + 1
+	SortableDataTypeLastAccess
+	SortableDataTypeCreatedAt
+	SortableDataTypeUpdatedAt
+	SortableDataTypeRoleName
+	SortableDataTypeRolePriority
 )
 
 type SearchParams struct {
@@ -26,31 +26,31 @@ type SearchParams struct {
 	LastAccessBefore null.Optional[time.Time]
 	LastAccessAfter  null.Optional[time.Time]
 	RoleId           null.Optional[uuid.UUID]
-	SortedBy         null.Optional[SortableUserDataType]
+	SortedBy         null.Optional[SortableDataType]
 	SortType         null.Optional[sort.Type]
 }
 
 func NewSearchParamsFromRequest(param oapi.SearchUsersParams) (SearchParams, error) {
-	var sortedBy null.Optional[SortableUserDataType]
+	var sortedBy null.Optional[SortableDataType]
 	if param.SortedBy != nil {
 		switch *param.SortedBy {
 		case oapi.SortableUserDataTypeNickName:
-			sortedBy = null.FromValue(NickName)
+			sortedBy = null.FromValue(SortableDataTypeNickName)
 		case oapi.SortableUserDataTypeLastAccess:
-			sortedBy = null.FromValue(LastAccess)
+			sortedBy = null.FromValue(SortableDataTypeLastAccess)
 		case oapi.SortableUserDataTypeCreatedAt:
-			sortedBy = null.FromValue(CreatedAt)
+			sortedBy = null.FromValue(SortableDataTypeCreatedAt)
 		case oapi.SortableUserDataTypeUpdatedAt:
-			sortedBy = null.FromValue(UpdatedAt)
+			sortedBy = null.FromValue(SortableDataTypeUpdatedAt)
 		case oapi.SortableUserDataTypeRoleName:
-			sortedBy = null.FromValue(RoleName)
+			sortedBy = null.FromValue(SortableDataTypeRoleName)
 		case oapi.SortableUserDataTypeRolePriority:
-			sortedBy = null.FromValue(RolePriority)
+			sortedBy = null.FromValue(SortableDataTypeRolePriority)
 		default:
 			return SearchParams{}, serrors.Errorf("invalid sortable user data type: %s", *param.SortedBy)
 		}
 	} else {
-		sortedBy = null.Empty[SortableUserDataType]()
+		sortedBy = null.Empty[SortableDataType]()
 	}
 
 	var sortType null.Optional[sort.Type]

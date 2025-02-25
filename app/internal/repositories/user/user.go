@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"github.com/Siroshun09/logs"
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/internal/domain/role"
 	"time"
@@ -24,6 +25,7 @@ type UserRepository interface {
 	UpdateLastAccessByID(ctx context.Context, id user.ID, now time.Time) error
 
 	GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error)
+	SearchForUserUUIDs(ctx context.Context, params user.SearchParams) ([]uuid.UUID, error)
 }
 
 func NewUserRepository(db database.DB) UserRepository {
@@ -145,4 +147,30 @@ func (r userRepository) GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uui
 	}
 
 	return users, nil
+}
+
+func (r userRepository) SearchForUserUUIDs(ctx context.Context, params user.SearchParams) ([]uuid.UUID, error) {
+	query, args := queries.SearchAndGetUUIDs(params)
+	conn := r.db.Conn(ctx)
+	rows, err := conn.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, database.NewDBErrorWithStackTrace(err)
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			logs.Error(ctx, err)
+		}
+	}(rows)
+
+	uuids := []uuid.UUID{}
+	for rows.Next() {
+		var id uuid.UUID
+		err := rows.Scan(&id)
+		if err != nil {
+			return nil, database.NewDBErrorWithStackTrace(err)
+		}
+		uuids = append(uuids, id)
+	}
+	return uuids, nil
 }
