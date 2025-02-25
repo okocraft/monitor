@@ -16,7 +16,7 @@ import (
 func Test_userRepository_GetUserByID(t *testing.T) {
 	tests := []struct {
 		name          string
-		initialRecord *queries.InsertUserWithIDForTestParams
+		initialRecord *queries.User
 		id            user.ID
 		want          user.User
 		wantErr       bool
@@ -48,7 +48,7 @@ func Test_userRepository_GetUserByID(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			testDB.Run(t, func(ctx context.Context, db database.DB) {
 				if tt.initialRecord != nil {
-					require.NoError(t, db.Queries(ctx).InsertUserWithIDForTest(ctx, *tt.initialRecord))
+					require.NoError(t, records.NewInitialRecords().Table(queries.UsersTable.TableName, *tt.initialRecord).InsertAll(ctx, db))
 				}
 
 				r := userRepository{db: db}

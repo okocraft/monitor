@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-var User1 = queries.InsertUserWithIDForTestParams{
+var User1 = queries.User{
 	ID:         1,
 	Uuid:       uuid.Must(uuid.FromString("88938686-ffa4-4d8f-8478-b8ade2b26e59")).Bytes(),
 	Nickname:   "test_user_1",
