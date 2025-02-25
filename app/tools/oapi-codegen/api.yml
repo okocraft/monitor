@@ -4,3 +4,5 @@ generate:
   chi-server: true
   models: true
 output: ../../internal/handler/oapi/api.gen.go
+compatibility:
+  always-prefix-enum-values: true
