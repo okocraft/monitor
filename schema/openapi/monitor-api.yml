@@ -5,6 +5,7 @@ info:
 tags:
   - name: Auth
   - name: Me
+  - name: Role
   - name: User
 paths:
   /auth/google/callback:
@@ -114,6 +115,34 @@ paths:
                 $ref: '#/components/schemas/Me'
       tags:
         - Me
+  /roles:
+    get:
+      operationId: getRoles
+      description: get all roles
+      parameters:
+        - name: sorted_by
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SortableRoleDataType'
+          explode: false
+        - name: sort_type
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SortType'
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+      tags:
+        - Role
   /users:
     post:
       operationId: getUsersByIds
@@ -280,6 +309,13 @@ components:
       enum:
         - ASC
         - DESC
+    SortableRoleDataType:
+      type: string
+      enum:
+        - Name
+        - Priority
+        - CreatedAt
+        - UpdatedAt
     SortableUserDataType:
       type: string
       enum:

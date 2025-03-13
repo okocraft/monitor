@@ -12,16 +12,19 @@ import (
 	auditlog3 "github.com/okocraft/monitor/internal/handler/auditlog"
 	auth3 "github.com/okocraft/monitor/internal/handler/oapi/auth"
 	"github.com/okocraft/monitor/internal/handler/oapi/me"
+	role3 "github.com/okocraft/monitor/internal/handler/oapi/role"
 	user3 "github.com/okocraft/monitor/internal/handler/oapi/user"
 	"github.com/okocraft/monitor/internal/repositories/auditlog"
 	"github.com/okocraft/monitor/internal/repositories/auth"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/internal/repositories/permission"
+	"github.com/okocraft/monitor/internal/repositories/role"
 	"github.com/okocraft/monitor/internal/repositories/user"
 	auditlog2 "github.com/okocraft/monitor/internal/usecases/auditlog"
 	auth2 "github.com/okocraft/monitor/internal/usecases/auth"
 	"github.com/okocraft/monitor/internal/usecases/cleanup"
 	permission2 "github.com/okocraft/monitor/internal/usecases/permission"
+	role2 "github.com/okocraft/monitor/internal/usecases/role"
 	user2 "github.com/okocraft/monitor/internal/usecases/user"
 )
 
@@ -40,11 +43,14 @@ func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHa
 	googleAuthConfig := getGoogleAuthConfigFromHTTPConfig(cfg)
 	googleAuthHandler := auth3.NewGoogleAuthHandler(googleAuthConfig, authUsecase, userUsecase)
 	meHandler := me.NewMeHandler(userUsecase)
+	roleRepository := role.NewRoleRepository(db)
+	roleUsecase := role2.NewRoleUsecase(roleRepository)
+	roleHandler := role3.NewRoleHandler(roleUsecase)
 	userHandler := user3.NewUserHandler(userUsecase, permissionUsecase)
 	auditLogRepository := auditlog.NewAuditLogRepository(db)
 	auditLogUsecase := auditlog2.NewAuditLogUsecase(auditLogRepository)
 	auditLogMiddleware := auditlog3.NewAuditLogMiddleware(auditLogUsecase, userUsecase)
-	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler, userHandler, auditLogMiddleware)
+	httpHandler := handler.NewHTTPHandler(authHandler, googleAuthHandler, meHandler, roleHandler, userHandler, auditLogMiddleware)
 	return httpHandler, nil
 }
 

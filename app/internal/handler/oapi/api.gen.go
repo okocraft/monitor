@@ -25,6 +25,14 @@ const (
 	SortTypeDESC SortType = "DESC"
 )
 
+// Defines values for SortableRoleDataType.
+const (
+	SortableRoleDataTypeCreatedAt SortableRoleDataType = "CreatedAt"
+	SortableRoleDataTypeName      SortableRoleDataType = "Name"
+	SortableRoleDataTypePriority  SortableRoleDataType = "Priority"
+	SortableRoleDataTypeUpdatedAt SortableRoleDataType = "UpdatedAt"
+)
+
 // Defines values for SortableUserDataType.
 const (
 	SortableUserDataTypeCreatedAt    SortableUserDataType = "CreatedAt"
@@ -86,6 +94,9 @@ type Role struct {
 // SortType defines model for SortType.
 type SortType string
 
+// SortableRoleDataType defines model for SortableRoleDataType.
+type SortableRoleDataType string
+
 // SortableUserDataType defines model for SortableUserDataType.
 type SortableUserDataType string
 
@@ -102,6 +113,12 @@ type User struct {
 	Nickname   string    `json:"nickname"`
 	Role       Role      `json:"role"`
 	UpdatedAt  time.Time `json:"updated_at"`
+}
+
+// GetRolesParams defines parameters for GetRoles.
+type GetRolesParams struct {
+	SortedBy *SortableRoleDataType `form:"sorted_by,omitempty" json:"sorted_by,omitempty"`
+	SortType *SortType             `form:"sort_type,omitempty" json:"sort_type,omitempty"`
 }
 
 // GetUsersByIdsJSONBody defines parameters for GetUsersByIds.
@@ -144,6 +161,9 @@ type ServerInterface interface {
 	// (GET /me)
 	GetMe(w http.ResponseWriter, r *http.Request)
 
+	// (GET /roles)
+	GetRoles(w http.ResponseWriter, r *http.Request, params GetRolesParams)
+
 	// (POST /users)
 	GetUsersByIds(w http.ResponseWriter, r *http.Request)
 
@@ -182,6 +202,11 @@ func (_ Unimplemented) RefreshAccessToken(w http.ResponseWriter, r *http.Request
 
 // (GET /me)
 func (_ Unimplemented) GetMe(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (GET /roles)
+func (_ Unimplemented) GetRoles(w http.ResponseWriter, r *http.Request, params GetRolesParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -326,6 +351,47 @@ func (siw *ServerInterfaceWrapper) GetMe(w http.ResponseWriter, r *http.Request)
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.GetMe(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r)
+}
+
+// GetRoles operation middleware
+func (siw *ServerInterfaceWrapper) GetRoles(w http.ResponseWriter, r *http.Request) {
+
+	var err error
+
+	ctx := r.Context()
+
+	ctx = context.WithValue(ctx, AccessTokenAuthScopes, []string{})
+
+	r = r.WithContext(ctx)
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetRolesParams
+
+	// ------------- Optional query parameter "sorted_by" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "sorted_by", r.URL.Query(), &params.SortedBy)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sorted_by", Err: err})
+		return
+	}
+
+	// ------------- Optional query parameter "sort_type" -------------
+
+	err = runtime.BindQueryParameter("form", false, false, "sort_type", r.URL.Query(), &params.SortType)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort_type", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetRoles(w, r, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -558,6 +624,9 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/me", wrapper.GetMe)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/roles", wrapper.GetRoles)
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/users", wrapper.GetUsersByIds)

@@ -51,6 +51,12 @@ func RenderUnauthorized(ctx context.Context, w http.ResponseWriter, cause error)
 	}
 }
 
+func RenderForbidden(ctx context.Context, w http.ResponseWriter, cause error) {
+	if err := renderError(ctx, w, http.StatusForbidden, cause); err != nil {
+		logs.Error(ctx, err)
+	}
+}
+
 func RenderNotFound(ctx context.Context, w http.ResponseWriter, cause error) {
 	if err := renderError(ctx, w, http.StatusNotFound, cause); err != nil {
 		logs.Error(ctx, err)

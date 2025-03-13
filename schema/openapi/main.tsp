@@ -4,6 +4,7 @@ import "@typespec/openapi3";
 import "./models/auth.tsp";
 import "./endpoints/auth.tsp";
 import "./endpoints/me.tsp";
+import "./endpoints/roles.tsp";
 import "./endpoints/users.tsp";
 
 using TypeSpec.Http;

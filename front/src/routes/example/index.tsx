@@ -1,4 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { useSearchUsers } from "../../api/user/user.ts";
 import { Header } from "../../components/ui/Header";
 import { useAuth } from "../../hooks/useAuth.ts";
 
@@ -19,6 +20,9 @@ function Example() {
     const handleRefreshButton = async () => {
         await auth.me.refresh();
     };
+    const mutation = useSearchUsers({
+        nickname: "siro",
+    });
     return (
         <>
             <Header />
@@ -28,6 +32,7 @@ function Example() {
             <button type={"button"} onClick={handleRefreshButton}>
                 refresh
             </button>
+            {mutation.data?.data}
         </>
     );
 }

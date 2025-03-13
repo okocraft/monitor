@@ -21,7 +21,9 @@ func (role Role) ToResponse() oapi.Role {
 	return oapi.Role{
 		Id:        role.UUID,
 		Name:      role.Name,
+		Priority:  role.Priority,
 		CreatedAt: role.CreatedAt,
+		UpdatedAt: role.UpdatedAt,
 	}
 }
 
@@ -36,4 +38,14 @@ var defaultRole = Role{
 
 func DefaultRole() Role {
 	return defaultRole
+}
+
+type Roles []Role
+
+func (roles Roles) ToResponse() []oapi.Role {
+	res := make([]oapi.Role, len(roles))
+	for i, role := range roles {
+		res[i] = role.ToResponse()
+	}
+	return res
 }

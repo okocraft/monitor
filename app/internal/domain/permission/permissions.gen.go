@@ -37,3 +37,9 @@ var MypageEditNickname = Permission{
 	Name:         "mypage.edit.nickname",
 	DefaultValue: true,
 }
+
+var RoleList = Permission{
+	ID:           7,
+	Name:         "role.list",
+	DefaultValue: false,
+}

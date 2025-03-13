@@ -7,3 +7,10 @@ model Role {
   created_at: utcDateTime;
   updated_at: utcDateTime;
 }
+
+enum SortableRoleDataType {
+  Name,
+  Priority,
+  CreatedAt,
+  UpdatedAt,
+}
