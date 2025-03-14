@@ -20,13 +20,13 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		initial  *records.InitialRecords
 		sortedBy null.Optional[role.SortableDataType]
 		sortType null.Optional[sort.Type]
-		want     []role.Role
+		want     role.Roles
 		wantErr  bool
 	}{
 		{
 			name:    "success: 1 record",
 			initial: records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1),
-			want:    []role.Role{records.Role1.ToDomain()},
+			want:    role.Roles{records.Role1.ToDomain()},
 			wantErr: false,
 		},
 		{
@@ -34,7 +34,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeName),
 			sortType: null.FromValue(sort.ASC),
-			want:     []role.Role{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
+			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
 			wantErr:  false,
 		},
 		{
@@ -42,7 +42,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeName),
 			sortType: null.FromValue(sort.DESC),
-			want:     []role.Role{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
+			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
 			wantErr:  false,
 		},
 		{
@@ -50,7 +50,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypePriority),
 			sortType: null.FromValue(sort.ASC),
-			want:     []role.Role{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
+			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
 			wantErr:  false,
 		},
 		{
@@ -58,7 +58,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypePriority),
 			sortType: null.FromValue(sort.DESC),
-			want:     []role.Role{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
+			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
 			wantErr:  false,
 		},
 		{
@@ -66,7 +66,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeCreatedAt),
 			sortType: null.FromValue(sort.ASC),
-			want:     []role.Role{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
+			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
 			wantErr:  false,
 		},
 		{
@@ -74,7 +74,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeCreatedAt),
 			sortType: null.FromValue(sort.DESC),
-			want:     []role.Role{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
+			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
 			wantErr:  false,
 		},
 		{
@@ -82,7 +82,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeUpdatedAt),
 			sortType: null.FromValue(sort.ASC),
-			want:     []role.Role{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
+			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
 			wantErr:  false,
 		},
 		{
@@ -90,7 +90,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeUpdatedAt),
 			sortType: null.FromValue(sort.DESC),
-			want:     []role.Role{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
+			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
 			wantErr:  false,
 		},
 	}
