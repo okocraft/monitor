@@ -4,10 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"time"
+
 	"github.com/Siroshun09/logs"
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/internal/domain/role"
-	"time"
 
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/user"

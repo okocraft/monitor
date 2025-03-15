@@ -4,17 +4,18 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+	"time"
+
 	"github.com/Siroshun09/serrors"
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/lib/testutils"
 	"github.com/stretchr/testify/require"
-	"os"
-	"path/filepath"
-	"strings"
-	"testing"
-	"time"
 )
 
 type TestDB interface {

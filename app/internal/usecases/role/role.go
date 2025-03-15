@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+
 	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/sort"
 	roleRepo "github.com/okocraft/monitor/internal/repositories/role"

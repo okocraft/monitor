@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/okocraft/monitor/internal/domain/permission/codegen/definition"
-	"github.com/okocraft/monitor/internal/domain/permission/codegen/identifier"
 	"go/format"
 	"os"
 	"strings"
 	"unicode"
+
+	"github.com/okocraft/monitor/internal/domain/permission/codegen/definition"
+	"github.com/okocraft/monitor/internal/domain/permission/codegen/identifier"
 )
 
 func main() {

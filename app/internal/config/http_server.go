@@ -1,9 +1,10 @@
 package config
 
 import (
-	"github.com/okocraft/monitor/lib/errlib"
 	"os"
 	"strings"
+
+	"github.com/okocraft/monitor/lib/errlib"
 )
 
 type HTTPServerConfig struct {

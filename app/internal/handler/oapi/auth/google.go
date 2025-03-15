@@ -6,6 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
+	"sync"
+	"time"
+
 	"github.com/Siroshun09/logs"
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
@@ -18,11 +24,6 @@ import (
 	"github.com/okocraft/monitor/lib/httplib"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	"net/http"
-	"net/url"
-	"strings"
-	"sync"
-	"time"
 )
 
 type GoogleAuthHandler struct {

@@ -2,12 +2,13 @@ package auditlog
 
 import (
 	"context"
+	"iter"
+	"time"
+
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/internal/repositories/queries"
-	"iter"
-	"time"
 )
 
 type AuditLogRepository interface {

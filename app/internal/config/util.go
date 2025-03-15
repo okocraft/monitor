@@ -1,9 +1,10 @@
 package config
 
 import (
-	"github.com/Siroshun09/serrors"
 	"os"
 	"time"
+
+	"github.com/Siroshun09/serrors"
 )
 
 func getRequiredString(key string) (string, error) {

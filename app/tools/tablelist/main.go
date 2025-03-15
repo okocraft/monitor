@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/Siroshun09/go-tablelist-codegen/database"
 	"github.com/Siroshun09/go-tablelist-codegen/generator"
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/lib/testutils"
 	"github.com/okocraft/monitor/lib/testutils/testdb"
-	"os"
 )
 
 //go:generate go run main.go
@@ -45,7 +46,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	file, err := os.OpenFile(root +"/internal/repositories/queries/tables.gen.go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o666)
+	file, err := os.OpenFile(root+"/internal/repositories/queries/tables.gen.go", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o666)
 	if err != nil {
 		printError(err)
 		os.Exit(1)

@@ -2,8 +2,9 @@ package httplib
 
 import (
 	"encoding/json"
-	"github.com/Siroshun09/serrors"
 	"net/http"
+
+	"github.com/Siroshun09/serrors"
 )
 
 func DecodeBody[T any](r *http.Request) (T, error) {

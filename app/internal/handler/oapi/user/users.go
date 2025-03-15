@@ -1,6 +1,8 @@
 package user
 
 import (
+	"net/http"
+
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/internal/domain/permission"
 	"github.com/okocraft/monitor/internal/domain/user"
@@ -9,7 +11,6 @@ import (
 	userUsecase "github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/httplib"
-	"net/http"
 )
 
 type UserHandler struct {

@@ -1,10 +1,11 @@
 package user
 
 import (
-	"github.com/okocraft/monitor/internal/domain/role"
-	"github.com/okocraft/monitor/internal/handler/oapi"
 	"strconv"
 	"time"
+
+	"github.com/okocraft/monitor/internal/domain/role"
+	"github.com/okocraft/monitor/internal/handler/oapi"
 
 	"github.com/gofrs/uuid/v5"
 )

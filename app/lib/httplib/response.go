@@ -3,10 +3,11 @@ package httplib
 import (
 	"context"
 	"encoding/json"
+	"net/http"
+
 	"github.com/Siroshun09/logs"
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/lib/ctxlib"
-	"net/http"
 )
 
 type Response interface {

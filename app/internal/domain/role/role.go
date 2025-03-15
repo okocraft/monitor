@@ -1,9 +1,10 @@
 package role
 
 import (
+	"time"
+
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/handler/oapi"
-	"time"
 )
 
 type ID = int32

@@ -3,9 +3,10 @@ package auth
 import (
 	"context"
 	"fmt"
+	"time"
+
 	auth2 "github.com/okocraft/monitor/internal/repositories/auth"
 	"github.com/okocraft/monitor/lib/ctxlib"
-	"time"
 
 	"github.com/Siroshun09/serrors"
 	"github.com/gofrs/uuid/v5"

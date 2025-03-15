@@ -1,6 +1,8 @@
 package role
 
 import (
+	"net/http"
+
 	"github.com/okocraft/monitor/internal/domain/permission"
 	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/sort"
@@ -11,7 +13,6 @@ import (
 	"github.com/okocraft/monitor/lib/errlib"
 	"github.com/okocraft/monitor/lib/httplib"
 	"github.com/okocraft/monitor/lib/null"
-	"net/http"
 )
 
 type RoleHandler struct {

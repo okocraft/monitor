@@ -2,6 +2,7 @@ package identifier
 
 import (
 	"encoding/json"
+
 	"github.com/Siroshun09/serrors"
 )
 

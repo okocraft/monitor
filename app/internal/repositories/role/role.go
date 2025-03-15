@@ -3,6 +3,7 @@ package role
 import (
 	"context"
 	"database/sql"
+
 	"github.com/Siroshun09/logs"
 	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/sort"

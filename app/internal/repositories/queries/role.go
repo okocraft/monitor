@@ -2,6 +2,7 @@ package queries
 
 import (
 	"database/sql"
+
 	"github.com/Siroshun09/serrors"
 	"github.com/gofrs/uuid/v5"
 	"github.com/huandu/go-sqlbuilder"

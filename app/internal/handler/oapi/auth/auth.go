@@ -3,6 +3,10 @@ package auth
 import (
 	"context"
 	"errors"
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/Siroshun09/logs"
 	"github.com/Siroshun09/serrors"
 	"github.com/getkin/kin-openapi/openapi3filter"
@@ -15,9 +19,6 @@ import (
 	user2 "github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/httplib"
-	"net/http"
-	"strings"
-	"time"
 )
 
 type AuthHandler struct {

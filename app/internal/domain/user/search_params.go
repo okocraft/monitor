@@ -1,13 +1,14 @@
 package user
 
 import (
+	"time"
+
 	"github.com/Siroshun09/serrors"
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/sort"
 	"github.com/okocraft/monitor/internal/handler/oapi"
 	"github.com/okocraft/monitor/lib/errlib"
 	"github.com/okocraft/monitor/lib/null"
-	"time"
 )
 
 type SortableDataType int8

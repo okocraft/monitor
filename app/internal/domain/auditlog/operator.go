@@ -1,8 +1,9 @@
 package auditlog
 
 import (
-	"github.com/okocraft/monitor/internal/domain/user"
 	"net"
+
+	"github.com/okocraft/monitor/internal/domain/user"
 )
 
 type Operator struct {

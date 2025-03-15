@@ -3,6 +3,8 @@ package user
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/me"
 	"github.com/okocraft/monitor/internal/domain/user"
@@ -10,7 +12,6 @@ import (
 	userRepo "github.com/okocraft/monitor/internal/repositories/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/errlib"
-	"time"
 )
 
 type UserUsecase interface {

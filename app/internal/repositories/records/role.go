@@ -1,9 +1,10 @@
 package records
 
 import (
+	"time"
+
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/repositories/queries"
-	"time"
 )
 
 var Role1 = queries.Role{

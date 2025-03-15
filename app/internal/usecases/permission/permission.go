@@ -2,6 +2,7 @@ package permission
 
 import (
 	"context"
+
 	"github.com/Siroshun09/serrors"
 	"github.com/okocraft/monitor/internal/domain/permission"
 	"github.com/okocraft/monitor/internal/domain/user"

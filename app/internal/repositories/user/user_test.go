@@ -2,12 +2,13 @@ package user
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/sort"
 	"github.com/okocraft/monitor/internal/repositories/records"
 	"github.com/okocraft/monitor/lib/null"
-	"testing"
-	"time"
 
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories/database"

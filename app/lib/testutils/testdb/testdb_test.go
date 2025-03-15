@@ -2,9 +2,10 @@ package testdb_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/okocraft/monitor/lib/testutils/testdb"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestNewTestDB(t *testing.T) {

@@ -1,9 +1,10 @@
 package testutils
 
 import (
-	"github.com/Siroshun09/serrors"
 	"os"
 	"path/filepath"
+
+	"github.com/Siroshun09/serrors"
 )
 
 // GetProjectRoot searches for the project root directory containing go.mod

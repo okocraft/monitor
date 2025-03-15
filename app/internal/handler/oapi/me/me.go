@@ -2,10 +2,11 @@ package me
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/okocraft/monitor/internal/domain/user"
 	user2 "github.com/okocraft/monitor/internal/usecases/user"
 	"github.com/okocraft/monitor/lib/httplib"
-	"net/http"
 )
 
 type MeHandler struct {

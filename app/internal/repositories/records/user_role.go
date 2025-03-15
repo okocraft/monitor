@@ -1,8 +1,9 @@
 package records
 
 import (
-	"github.com/okocraft/monitor/internal/repositories/queries"
 	"time"
+
+	"github.com/okocraft/monitor/internal/repositories/queries"
 )
 
 var UserRole1 = queries.UsersRole{

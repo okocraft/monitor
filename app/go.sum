@@ -9,6 +9,8 @@ github.com/Siroshun09/logs v1.0.1 h1:5idKCb/EQbnLJzAXEdwGSAea0LEG+vfNPNnx3pCWlGw
 github.com/Siroshun09/logs v1.0.1/go.mod h1:NUQOeA7v12g52i0iVWwVLSXhJh8ysf6yB18sdlxVh3Y=
 github.com/Siroshun09/serrors v1.2.0 h1:h6jSFX6g050cWhYmMH81kmHakEBeS9JRus0mYV+HAEc=
 github.com/Siroshun09/serrors v1.2.0/go.mod h1:qbxeS+MAp6jC7p8LHZ9zKeNYovNJ9VPsf9vlsp0uzdY=
+github.com/Siroshun09/testrecords v1.0.0 h1:rpj7hf7D7T5p3Ku4T2p6gVKclV18XTHmYx6K0Iw1ZLI=
+github.com/Siroshun09/testrecords v1.0.0/go.mod h1:F/6eoHR5TK3COKir+QRfzgCFXD3GhiekOrM1ke4jUyI=
 github.com/apapsch/go-jsonmerge/v2 v2.0.0 h1:axGnT1gRIfimI7gJifB699GoE/oq+F2MU7Dml6nw9rQ=
 github.com/apapsch/go-jsonmerge/v2 v2.0.0/go.mod h1:lvDnEdqiQrp0O42VQGgmlKpxL1AP2+08jFMw88y4klk=
 github.com/bmatcuk/doublestar v1.1.1/go.mod h1:UD6OnuiIn0yFxxA2le/rnRU1G4RaI4UvFv1sNto9p6w=

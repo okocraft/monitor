@@ -1,10 +1,11 @@
 package permission
 
 import (
-	"github.com/okocraft/monitor/lib/testutils/testdb"
 	"log"
 	"os"
 	"testing"
+
+	"github.com/okocraft/monitor/lib/testutils/testdb"
 )
 
 var testDB testdb.TestDB

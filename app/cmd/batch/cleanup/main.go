@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/Siroshun09/logs"
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/domain/cleanup"
 	"github.com/okocraft/monitor/internal/handler/logger"
 	"github.com/okocraft/monitor/internal/registry"
 	"github.com/okocraft/monitor/internal/repositories/database"
-	"os"
-	"time"
 )
 
 func main() {

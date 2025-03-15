@@ -2,13 +2,14 @@ package ctxlib
 
 import (
 	"context"
-	"github.com/okocraft/monitor/internal/domain/auth"
-	"github.com/okocraft/monitor/internal/domain/user"
 	"log/slog"
 	"net"
 	"net/http"
 	"runtime"
 	"time"
+
+	"github.com/okocraft/monitor/internal/domain/auth"
+	"github.com/okocraft/monitor/internal/domain/user"
 )
 
 type HTTPAccessLog struct {

@@ -2,6 +2,8 @@ package role_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/sort"
 	"github.com/okocraft/monitor/internal/repositories/database"
@@ -11,7 +13,6 @@ import (
 	"github.com/okocraft/monitor/lib/null"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func Test_roleRepository_GetAllRoles(t *testing.T) {

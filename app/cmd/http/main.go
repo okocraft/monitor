@@ -3,12 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/Siroshun09/serrors"
-	"github.com/getkin/kin-openapi/openapi3filter"
-	"github.com/go-chi/cors"
-	nethttpmiddleware "github.com/oapi-codegen/nethttp-middleware"
-	"github.com/okocraft/monitor/internal/handler"
-	"github.com/okocraft/monitor/internal/repositories/database"
 	"maps"
 	"net/http"
 	"os"
@@ -16,6 +10,13 @@ import (
 	"slices"
 	"syscall"
 	"time"
+
+	"github.com/Siroshun09/serrors"
+	"github.com/getkin/kin-openapi/openapi3filter"
+	"github.com/go-chi/cors"
+	nethttpmiddleware "github.com/oapi-codegen/nethttp-middleware"
+	"github.com/okocraft/monitor/internal/handler"
+	"github.com/okocraft/monitor/internal/repositories/database"
 
 	"github.com/Siroshun09/logs"
 	"github.com/go-chi/chi/v5"

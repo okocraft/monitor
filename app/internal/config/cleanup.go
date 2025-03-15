@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/okocraft/monitor/lib/errlib"
 	"time"
+
+	"github.com/okocraft/monitor/lib/errlib"
 )
 
 type CleanupConfig struct {
