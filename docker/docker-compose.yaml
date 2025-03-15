@@ -52,7 +52,6 @@ services:
     env_file: "app_http.env"
   monitor_cleanup_batch:
     image: monitor_cleanup_batch:latest
-    command: cleanup-batch
     networks:
       - monitor_db
     depends_on:
@@ -64,6 +63,20 @@ services:
       MONITOR_DB_USER: monitor_user
       MONITOR_DB_PASSWORD: monitor_pw
       MONITOR_DB_NAME: monitor_db
+  monitor_setup_cmd:
+    image: monitor_setup_cmd:latest
+    networks:
+      - monitor_db
+    depends_on:
+      monitor_db:
+        condition: service_healthy
+    environment:
+      MONITOR_DB_HOST: monitor_db
+      MONITOR_DB_PORT: 3306
+      MONITOR_DB_USER: monitor_user
+      MONITOR_DB_PASSWORD: monitor_pw
+      MONITOR_DB_NAME: monitor_db
+      MONITOR_FORCE_SETUP: true
 
 networks:
   monitor_db:

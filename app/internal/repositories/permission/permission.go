@@ -6,6 +6,7 @@ import (
 	"errors"
 
 	"github.com/okocraft/monitor/internal/domain/permission"
+	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/internal/repositories/queries"
@@ -14,6 +15,7 @@ import (
 type PermissionRepository interface {
 	HasPermission(ctx context.Context, userID user.ID, perm permission.Permission) (bool, error)
 	GetPermissions(ctx context.Context, userID user.ID, perms ...permission.Permission) (permission.ValueMap, error)
+	SaveRolePermissions(ctx context.Context, roleID role.ID, valueMap permission.ValueMap) error
 }
 
 func NewPermissionRepository(db database.DB) PermissionRepository {
@@ -56,4 +58,14 @@ func (r permissionRepository) GetPermissions(ctx context.Context, userID user.ID
 		return permission.EmptyValueMap(), database.NewDBErrorWithStackTrace(err)
 	}
 	return permission.NewValueMap(result), nil
+}
+
+func (r permissionRepository) SaveRolePermissions(ctx context.Context, roleID role.ID, valueMap permission.ValueMap) error {
+	conn := r.db.Conn(ctx)
+	query, args := queries.BulkUpsertRolePermissions(roleID, valueMap)
+	_, err := conn.ExecContext(ctx, query, args...)
+	if err != nil {
+		return database.NewDBErrorWithStackTrace(err)
+	}
+	return nil
 }

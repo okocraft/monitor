@@ -55,7 +55,8 @@ func (q *Queries) DeleteExpiredRefreshTokens(ctx context.Context, createdAt time
 }
 
 const deleteRefreshTokenAndAccessToken = `-- name: DeleteRefreshTokenAndAccessToken :exec
-DELETE FROM users_refresh_tokens
+DELETE
+FROM users_refresh_tokens
 WHERE id = ?
 `
 
@@ -65,7 +66,8 @@ func (q *Queries) DeleteRefreshTokenAndAccessToken(ctx context.Context, id int64
 }
 
 const getUserIDAndRefreshTokenIDByJTI = `-- name: GetUserIDAndRefreshTokenIDByJTI :one
-SELECT id, user_id FROM users_refresh_tokens
+SELECT id, user_id
+FROM users_refresh_tokens
 WHERE jti = ?
 `
 
@@ -82,7 +84,9 @@ func (q *Queries) GetUserIDAndRefreshTokenIDByJTI(ctx context.Context, jti []byt
 }
 
 const getUserIDByAccessTokenJTI = `-- name: GetUserIDByAccessTokenJTI :one
-SELECT user_id FROM users_access_tokens WHERE jti = ?
+SELECT user_id
+FROM users_access_tokens
+WHERE jti = ?
 `
 
 func (q *Queries) GetUserIDByAccessTokenJTI(ctx context.Context, jti []byte) (int32, error) {

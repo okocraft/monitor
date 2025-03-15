@@ -9,6 +9,7 @@ import (
 	"github.com/okocraft/monitor/internal/domain/me"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories/database"
+	roleRepo "github.com/okocraft/monitor/internal/repositories/role"
 	userRepo "github.com/okocraft/monitor/internal/repositories/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 	"github.com/okocraft/monitor/lib/errlib"
@@ -33,6 +34,7 @@ func NewUserUsecase(repo userRepo.UserRepository, transaction database.Transacti
 
 type userUsecase struct {
 	repo        userRepo.UserRepository
+	roleRepo    roleRepo.RoleRepository
 	transaction database.Transaction
 }
 

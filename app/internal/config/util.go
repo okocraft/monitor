@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/Siroshun09/serrors"
@@ -13,6 +14,20 @@ func getRequiredString(key string) (string, error) {
 		return "", serrors.New("env '" + key + "' is required")
 	}
 	return value, nil
+}
+
+func getBoolFromEnv(key string, defaultValue bool) (bool, error) {
+	value, ok := os.LookupEnv(key)
+	if !ok || value == "" {
+		return defaultValue, nil
+	}
+
+	b, err := strconv.ParseBool(value)
+	if err != nil {
+		return false, serrors.WithStackTrace(err)
+	}
+
+	return b, nil
 }
 
 func getDurationFromEnv(key string, defaultValue time.Duration) (time.Duration, error) {

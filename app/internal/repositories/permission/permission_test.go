@@ -259,7 +259,7 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 						Add(queries.UsersRoleTable.TableName, tt.initial.userRoleRecord).
 						InsertAll(ctx, db.Conn(ctx)))
 
-					sql, args := queries.BulkInsertRolePermissions(role.ID(tt.initial.roleRecord.ID), permission.NewValueMap(tt.initial.dbValueMap))
+					sql, args := queries.BulkUpsertRolePermissions(role.ID(tt.initial.roleRecord.ID), permission.NewValueMap(tt.initial.dbValueMap))
 					_, err := db.Conn(ctx).ExecContext(ctx, sql, args...)
 					require.NoError(t, err, sql)
 				}

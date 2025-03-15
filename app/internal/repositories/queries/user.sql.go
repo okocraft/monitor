@@ -12,6 +12,32 @@ import (
 	"time"
 )
 
+const createUserWithIDIfNotExists = `-- name: CreateUserWithIDIfNotExists :exec
+INSERT IGNORE INTO users (id, uuid, nickname, last_access, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?)
+`
+
+type CreateUserWithIDIfNotExistsParams struct {
+	ID         int32     `db:"id"`
+	Uuid       []byte    `db:"uuid"`
+	Nickname   string    `db:"nickname"`
+	LastAccess time.Time `db:"last_access"`
+	CreatedAt  time.Time `db:"created_at"`
+	UpdatedAt  time.Time `db:"updated_at"`
+}
+
+func (q *Queries) CreateUserWithIDIfNotExists(ctx context.Context, arg CreateUserWithIDIfNotExistsParams) error {
+	_, err := q.db.ExecContext(ctx, createUserWithIDIfNotExists,
+		arg.ID,
+		arg.Uuid,
+		arg.Nickname,
+		arg.LastAccess,
+		arg.CreatedAt,
+		arg.UpdatedAt,
+	)
+	return err
+}
+
 const deleteLoginKey = `-- name: DeleteLoginKey :exec
 DELETE
 FROM users_login_key
@@ -104,12 +130,22 @@ func (q *Queries) GetUserNicknameByID(ctx context.Context, id int32) (string, er
 }
 
 const getUsersWithRoleByUUIDs = `-- name: GetUsersWithRoleByUUIDs :many
-SELECT users.id AS user_id, users.uuid AS user_uuid, users.nickname AS user_nickname, users.last_access AS user_last_access, users.created_at AS user_created_at, users.updated_at AS user_updated_at,
-       roles.id AS role_id, roles.uuid AS role_uuid, roles.name AS role_name, roles.priority AS role_priority, roles.created_at AS role_created_at, roles.updated_at AS role_updated_at
+SELECT users.id          AS user_id,
+       users.uuid        AS user_uuid,
+       users.nickname    AS user_nickname,
+       users.last_access AS user_last_access,
+       users.created_at  AS user_created_at,
+       users.updated_at  AS user_updated_at,
+       roles.id          AS role_id,
+       roles.uuid        AS role_uuid,
+       roles.name        AS role_name,
+       roles.priority    AS role_priority,
+       roles.created_at  AS role_created_at,
+       roles.updated_at  AS role_updated_at
 FROM users
-LEFT OUTER JOIN users_role on users.id = users_role.user_id
-LEFT OUTER JOIN roles on users_role.role_id = roles.id
-WHERE users.uuid IN(/*SLICE:uuids*/?)
+         LEFT OUTER JOIN users_role on users.id = users_role.user_id
+         LEFT OUTER JOIN roles on users_role.role_id = roles.id
+WHERE users.uuid IN (/*SLICE:uuids*/?)
 `
 
 type GetUsersWithRoleByUUIDsRow struct {

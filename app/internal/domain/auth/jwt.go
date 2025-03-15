@@ -32,7 +32,7 @@ func GetLoginKeyFromJWT(claims jwt.MapClaims) (int64, bool) {
 		return 0, false
 	}
 
-	loginKey, err := strconv.ParseInt(fmt.Sprintf("%v", rawLoginKey), 10, 64)
+	loginKey, err := strconv.ParseInt(fmt.Sprintf("%v", rawLoginKey), 16, 64)
 	if err != nil {
 		return 0, false
 	}

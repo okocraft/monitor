@@ -1,6 +1,8 @@
 package queries
 
 import (
+	"time"
+
 	"github.com/gofrs/uuid/v5"
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/okocraft/monitor/internal/domain/sort"
@@ -60,4 +62,12 @@ func SearchAndGetUUIDs(params user.SearchParams) (string, []any) {
 
 	query, args := b.Build()
 	return query, args
+}
+
+var usersLoginKeyStruct = sqlbuilder.NewStruct(new(UsersLoginKey)).For(sqlbuilder.MySQL)
+
+func SaveLoginKeyForUserID(id user.ID, loginKey int64, now time.Time) (string, []any) {
+	b := usersLoginKeyStruct.InsertInto(UsersLoginKeyTable.TableName).Values(int(id), loginKey, now)
+	b = ToUpsert(b, UsersLoginKeyTable.LoginKey, UsersLoginKeyTable.CreatedAt)
+	return b.Build()
 }

@@ -25,6 +25,7 @@ import (
 	"github.com/okocraft/monitor/internal/usecases/cleanup"
 	permission2 "github.com/okocraft/monitor/internal/usecases/permission"
 	role2 "github.com/okocraft/monitor/internal/usecases/role"
+	"github.com/okocraft/monitor/internal/usecases/setup"
 	user2 "github.com/okocraft/monitor/internal/usecases/user"
 )
 
@@ -59,4 +60,17 @@ func NewCleanupUsecase(db database.DB) cleanup.CleanupUsecase {
 	transaction := database.NewTransaction(db)
 	cleanupUsecase := cleanup.NewCleanupUsecase(authRepository, transaction)
 	return cleanupUsecase
+}
+
+func NewSetupUsecase(db database.DB) setup.SetupUsecase {
+	roleRepository := role.NewRoleRepository(db)
+	userRepository := user.NewUserRepository(db)
+	permissionRepository := permission.NewPermissionRepository(db)
+	setupUsecase := setup.NewSetupUsecase(roleRepository, userRepository, permissionRepository)
+	return setupUsecase
+}
+
+func NewTransaction(db database.DB) database.Transaction {
+	transaction := database.NewTransaction(db)
+	return transaction
 }

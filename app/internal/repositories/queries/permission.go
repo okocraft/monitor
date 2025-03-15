@@ -8,14 +8,16 @@ import (
 
 var rolePermissionStruct = sqlbuilder.NewStruct(new(RolesPermission)).For(sqlbuilder.MySQL)
 
-func BulkInsertRolePermissions(roleID role.ID, valueMap permission.ValueMap) (string, []any) {
+func BulkUpsertRolePermissions(roleID role.ID, valueMap permission.ValueMap) (string, []any) {
 	values := make([]any, 0, valueMap.Len())
 	for id, state := range valueMap.Iter {
 		values = append(values, RolesPermission{
-			RoleID:       roleID,
+			RoleID:       int32(roleID),
 			PermissionID: id,
 			IsAllowed:    state,
 		})
 	}
-	return rolePermissionStruct.InsertInto("roles_permissions", values...).Build()
+	b := rolePermissionStruct.InsertInto(RolesPermissionsTable.TableName, values...)
+	b = ToUpsert(b, RolesPermissionsTable.IsAllowed)
+	return b.Build()
 }

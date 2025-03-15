@@ -2,10 +2,14 @@ package auth
 
 import (
 	"context"
+	"crypto/rand"
 	"fmt"
+	"math"
+	"math/big"
 	"time"
 
-	auth2 "github.com/okocraft/monitor/internal/repositories/auth"
+	authRepo "github.com/okocraft/monitor/internal/repositories/auth"
+	userRepo "github.com/okocraft/monitor/internal/repositories/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 
 	"github.com/Siroshun09/serrors"
@@ -26,9 +30,10 @@ type AuthUsecase interface {
 	RefreshAccessToken(ctx context.Context, userID user.ID, refreshTokenID int64, maxExpiresAt time.Time) (string, error)
 	InvalidateTokens(ctx context.Context, refreshTokenID int64) error
 	VerifyAccessToken(ctx context.Context, tokenString string) (user.ID, error)
+	CreateLoginKey(ctx context.Context, userID user.ID) (string, error)
 }
 
-func NewAuthUsecase(conf config.AuthConfig, repo auth2.AuthRepository) AuthUsecase {
+func NewAuthUsecase(conf config.AuthConfig, repo authRepo.AuthRepository) AuthUsecase {
 	return authUsecase{
 		conf: conf,
 		repo: repo,
@@ -36,8 +41,9 @@ func NewAuthUsecase(conf config.AuthConfig, repo auth2.AuthRepository) AuthUseca
 }
 
 type authUsecase struct {
-	conf config.AuthConfig
-	repo auth2.AuthRepository
+	conf     config.AuthConfig
+	repo     authRepo.AuthRepository
+	userRepo userRepo.UserRepository
 }
 
 func (u authUsecase) CreateStateJWT(_ context.Context, currentPageURL string) (uuid.UUID, string, error) {
@@ -246,4 +252,17 @@ func (u authUsecase) VerifyAccessToken(ctx context.Context, tokenString string) 
 	}
 
 	return userID, nil
+}
+
+func (u authUsecase) CreateLoginKey(ctx context.Context, userID user.ID) (string, error) {
+	key, err := rand.Int(rand.Reader, big.NewInt(math.MaxInt64))
+	if err != nil {
+		return "", serrors.WithStackTrace(err)
+	}
+
+	err = u.userRepo.SaveLoginKeyForUserID(ctx, userID, key.Int64(), time.Now())
+	if err != nil {
+		return "", errlib.AsIs(err)
+	}
+	return key.Text(16), nil
 }

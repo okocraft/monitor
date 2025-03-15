@@ -68,3 +68,7 @@ FROM users
          LEFT OUTER JOIN users_role on users.id = users_role.user_id
          LEFT OUTER JOIN roles on users_role.role_id = roles.id
 WHERE users.uuid IN (sqlc.slice('uuids'));
+
+-- name: CreateUserWithIDIfNotExists :exec
+INSERT IGNORE INTO users (id, uuid, nickname, last_access, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?);

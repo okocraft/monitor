@@ -21,9 +21,12 @@ type UserRepository interface {
 	GetUserNicknameByID(ctx context.Context, id user.ID) (string, error)
 	GetUserIDBySub(ctx context.Context, sub string) (user.ID, error)
 	GetUserIDByLoginKey(ctx context.Context, loginKey int64) (user.ID, error)
+	SaveLoginKeyForUserID(ctx context.Context, id user.ID, loginKey int64, now time.Time) error
 	DeleteLoginKeyByUserID(ctx context.Context, id user.ID) error
 	SaveUserSub(ctx context.Context, userID user.ID, sub string) error
 	UpdateLastAccessByID(ctx context.Context, id user.ID, now time.Time) error
+
+	CreateUserWithIDIfNotExist(ctx context.Context, user user.User) error
 
 	GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error)
 	SearchForUserUUIDs(ctx context.Context, params user.SearchParams) ([]uuid.UUID, error)
@@ -85,6 +88,16 @@ func (r userRepository) GetUserIDByLoginKey(ctx context.Context, loginKey int64)
 	return user.ID(userID), nil
 }
 
+func (r userRepository) SaveLoginKeyForUserID(ctx context.Context, id user.ID, loginKey int64, now time.Time) error {
+	conn := r.db.Conn(ctx)
+	query, args := queries.SaveLoginKeyForUserID(id, loginKey, now)
+	_, err := conn.ExecContext(ctx, query, args...)
+	if err != nil {
+		return database.NewDBErrorWithStackTrace(err)
+	}
+	return nil
+}
+
 func (r userRepository) DeleteLoginKeyByUserID(ctx context.Context, id user.ID) error {
 	q := r.db.Queries(ctx)
 	err := q.DeleteLoginKey(ctx, int32(id))
@@ -109,6 +122,24 @@ func (r userRepository) UpdateLastAccessByID(ctx context.Context, id user.ID, no
 	if err != nil {
 		return database.NewDBErrorWithStackTrace(err)
 	}
+	return nil
+}
+
+func (r userRepository) CreateUserWithIDIfNotExist(ctx context.Context, user user.User) error {
+	q := r.db.Queries(ctx)
+
+	err := q.CreateUserWithIDIfNotExists(ctx, queries.CreateUserWithIDIfNotExistsParams{
+		ID:         int32(user.ID),
+		Uuid:       user.UUID.Bytes(),
+		Nickname:   user.Nickname,
+		LastAccess: user.LastAccess,
+		CreatedAt:  user.CreatedAt,
+		UpdatedAt:  user.UpdatedAt,
+	})
+	if err != nil {
+		return database.NewDBErrorWithStackTrace(err)
+	}
+
 	return nil
 }
 
