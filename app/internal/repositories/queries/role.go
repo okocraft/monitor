@@ -13,7 +13,7 @@ import (
 
 func (record Role) ToDomain() role.Role {
 	return role.Role{
-		ID:        record.ID,
+		ID:        role.ID(record.ID),
 		UUID:      uuid.UUID(record.Uuid),
 		Name:      record.Name,
 		Priority:  record.Priority,

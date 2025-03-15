@@ -7,7 +7,7 @@ import (
 	"github.com/okocraft/monitor/internal/handler/oapi"
 )
 
-type ID = int32
+type ID int32
 
 type Role struct {
 	ID        ID

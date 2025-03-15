@@ -6,6 +6,7 @@ import (
 
 	"github.com/Siroshun09/testrecords"
 	"github.com/okocraft/monitor/internal/domain/permission"
+	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/internal/repositories/queries"
@@ -258,7 +259,7 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 						Add(queries.UsersRoleTable.TableName, tt.initial.userRoleRecord).
 						InsertAll(ctx, db.Conn(ctx)))
 
-					sql, args := queries.BulkInsertRolePermissions(tt.initial.roleRecord.ID, permission.NewValueMap(tt.initial.dbValueMap))
+					sql, args := queries.BulkInsertRolePermissions(role.ID(tt.initial.roleRecord.ID), permission.NewValueMap(tt.initial.dbValueMap))
 					_, err := db.Conn(ctx).ExecContext(ctx, sql, args...)
 					require.NoError(t, err, sql)
 				}

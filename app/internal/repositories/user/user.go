@@ -124,7 +124,7 @@ func (r userRepository) GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uui
 		var userRole role.Role
 		if row.RoleID.Valid {
 			userRole = role.Role{
-				ID:        row.RoleID.Int32,
+				ID:        role.ID(row.RoleID.Int32),
 				UUID:      uuid.UUID(row.UserUuid),
 				Name:      row.RoleName.String,
 				Priority:  row.RolePriority.Int32,
