@@ -8,6 +8,7 @@ require (
 	github.com/Siroshun09/go-tablelist-codegen v0.1.1
 	github.com/Siroshun09/logs v1.0.1
 	github.com/Siroshun09/serrors v1.2.0
+	github.com/Siroshun09/testrecords v1.0.0
 	github.com/getkin/kin-openapi v0.130.0
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
@@ -26,7 +27,6 @@ require (
 require (
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/Siroshun09/testrecords v1.0.0 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dprotaso/go-yit v0.0.0-20240618133044-5a0af90af097 // indirect
