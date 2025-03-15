@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/Siroshun09/testrecords"
 	"github.com/okocraft/monitor/internal/domain/permission"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories/database"
@@ -100,15 +101,15 @@ func Test_permissionRepository_HasPermission(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			testDB.Run(t, func(ctx context.Context, db database.DB) {
 				if tt.initial != nil {
-					require.NoError(t, records.NewInitialRecords().
-						Table(queries.UsersTable.TableName, tt.initial.userRecord).
-						Table(queries.RolesTable.TableName, tt.initial.roleRecord).
-						Table(queries.UsersRoleTable.TableName, tt.initial.userRoleRecord).
-						Table(queries.RolesPermissionsTable.TableName, queries.RolesPermission{
+					require.NoError(t, testrecords.NewInserterForMySQL().
+						Add(queries.UsersTable.TableName, tt.initial.userRecord).
+						Add(queries.RolesTable.TableName, tt.initial.roleRecord).
+						Add(queries.UsersRoleTable.TableName, tt.initial.userRoleRecord).
+						Add(queries.RolesPermissionsTable.TableName, queries.RolesPermission{
 							RoleID:       tt.initial.roleRecord.ID,
 							PermissionID: tt.perm.ID,
 							IsAllowed:    tt.initial.dbValue,
-						}).InsertAll(ctx, db))
+						}).InsertAll(ctx, db.Conn(ctx)))
 				}
 
 				r := permissionRepository{db: db}
@@ -251,11 +252,11 @@ func Test_permissionRepository_GetPermissions(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			testDB.Run(t, func(ctx context.Context, db database.DB) {
 				if tt.initial != nil {
-					require.NoError(t, records.NewInitialRecords().
-						Table(queries.UsersTable.TableName, tt.initial.userRecord).
-						Table(queries.RolesTable.TableName, tt.initial.roleRecord).
-						Table(queries.UsersRoleTable.TableName, tt.initial.userRoleRecord).
-						InsertAll(ctx, db))
+					require.NoError(t, testrecords.NewInserterForMySQL().
+						Add(queries.UsersTable.TableName, tt.initial.userRecord).
+						Add(queries.RolesTable.TableName, tt.initial.roleRecord).
+						Add(queries.UsersRoleTable.TableName, tt.initial.userRoleRecord).
+						InsertAll(ctx, db.Conn(ctx)))
 
 					sql, args := queries.BulkInsertRolePermissions(tt.initial.roleRecord.ID, permission.NewValueMap(tt.initial.dbValueMap))
 					_, err := db.Conn(ctx).ExecContext(ctx, sql, args...)

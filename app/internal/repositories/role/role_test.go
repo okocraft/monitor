@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/Siroshun09/testrecords"
 	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/sort"
 	"github.com/okocraft/monitor/internal/repositories/database"
@@ -18,7 +19,7 @@ import (
 func Test_roleRepository_GetAllRoles(t *testing.T) {
 	tests := []struct {
 		name     string
-		initial  *records.InitialRecords
+		initial  testrecords.Inserter
 		sortedBy null.Optional[role.SortableDataType]
 		sortType null.Optional[sort.Type]
 		want     role.Roles
@@ -26,13 +27,13 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 	}{
 		{
 			name:    "success: 1 record",
-			initial: records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1),
+			initial: testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1),
 			want:    role.Roles{records.Role1.ToDomain()},
 			wantErr: false,
 		},
 		{
 			name:     "success: 3 records, sorted by name (asc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeName),
 			sortType: null.FromValue(sort.ASC),
 			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
@@ -40,7 +41,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		},
 		{
 			name:     "success: 3 records, sorted by name (desc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeName),
 			sortType: null.FromValue(sort.DESC),
 			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
@@ -48,7 +49,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		},
 		{
 			name:     "success: 3 records, sorted by priority (asc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypePriority),
 			sortType: null.FromValue(sort.ASC),
 			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
@@ -56,7 +57,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		},
 		{
 			name:     "success: 3 records, sorted by priority (desc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypePriority),
 			sortType: null.FromValue(sort.DESC),
 			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
@@ -64,7 +65,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		},
 		{
 			name:     "success: 3 records, sorted by createdAt (asc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeCreatedAt),
 			sortType: null.FromValue(sort.ASC),
 			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
@@ -72,7 +73,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		},
 		{
 			name:     "success: 3 records, sorted by createdAt (desc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeCreatedAt),
 			sortType: null.FromValue(sort.DESC),
 			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
@@ -80,7 +81,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		},
 		{
 			name:     "success: 3 records, sorted by updatedAt (asc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeUpdatedAt),
 			sortType: null.FromValue(sort.ASC),
 			want:     role.Roles{records.Role1.ToDomain(), records.Role2.ToDomain(), records.Role3.ToDomain()},
@@ -88,7 +89,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 		},
 		{
 			name:     "success: 3 records, sorted by updatedAt (desc)",
-			initial:  records.NewInitialRecords().Table(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
+			initial:  testrecords.NewInserterForMySQL().Add(queries.RolesTable.TableName, records.Role1, records.Role2, records.Role3),
 			sortedBy: null.FromValue(role.SortableDataTypeUpdatedAt),
 			sortType: null.FromValue(sort.DESC),
 			want:     role.Roles{records.Role3.ToDomain(), records.Role2.ToDomain(), records.Role1.ToDomain()},
@@ -98,9 +99,7 @@ func Test_roleRepository_GetAllRoles(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			testDB.Run(t, func(ctx context.Context, db database.DB) {
-				if tt.initial != nil {
-					require.NoError(t, tt.initial.InsertAll(ctx, db))
-				}
+				require.NoError(t, tt.initial.InsertAll(ctx, db.Conn(ctx)))
 
 				r := roleRepo.NewRoleRepository(db)
 				got, err := r.GetAllRoles(ctx, tt.sortedBy, tt.sortType)
