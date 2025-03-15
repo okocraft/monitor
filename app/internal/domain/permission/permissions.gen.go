@@ -2,44 +2,50 @@
 
 package permission
 
-var UserList = Permission{
+var Admin = Permission{
 	ID:           1,
+	Name:         "admin",
+	DefaultValue: false,
+}
+
+var UserList = Permission{
+	ID:           2,
 	Name:         "user.list",
 	DefaultValue: false,
 }
 
 var UserCreate = Permission{
-	ID:           2,
+	ID:           3,
 	Name:         "user.create",
 	DefaultValue: false,
 }
 
 var UserEditNickname = Permission{
-	ID:           3,
+	ID:           4,
 	Name:         "user.edit.nickname",
 	DefaultValue: false,
 }
 
 var UserDelete = Permission{
-	ID:           4,
+	ID:           5,
 	Name:         "user.delete",
 	DefaultValue: false,
 }
 
 var MypageView = Permission{
-	ID:           5,
+	ID:           6,
 	Name:         "mypage.view",
 	DefaultValue: true,
 }
 
 var MypageEditNickname = Permission{
-	ID:           6,
+	ID:           7,
 	Name:         "mypage.edit.nickname",
 	DefaultValue: true,
 }
 
 var RoleList = Permission{
-	ID:           7,
+	ID:           8,
 	Name:         "role.list",
 	DefaultValue: false,
 }

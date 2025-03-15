@@ -8,13 +8,13 @@ import (
 
 var (
 	TestPermissionAllowed = Permission{
-		ID:           1,
+		ID:           2,
 		Name:         "test.allowed",
 		DefaultValue: true,
 	}
 
 	TestPermissionNotAllowed = Permission{
-		ID:           2,
+		ID:           3,
 		Name:         "test.not_allowed",
 		DefaultValue: false,
 	}
@@ -46,7 +46,7 @@ func TestValueMap_IsTrue(t *testing.T) {
 			valueMap: valueMap{
 				TestPermissionAllowed.ID: true,
 			},
-			id:   1,
+			id:   TestPermissionAllowed.ID,
 			want: true,
 		},
 		{
@@ -54,7 +54,7 @@ func TestValueMap_IsTrue(t *testing.T) {
 			valueMap: valueMap{
 				TestPermissionAllowed.ID: false,
 			},
-			id:   1,
+			id:   TestPermissionAllowed.ID,
 			want: false,
 		},
 	}
@@ -116,6 +116,14 @@ func TestValueMap_HasPermission(t *testing.T) {
 			perm: TestPermissionNotAllowed,
 			want: false,
 		},
+		{
+			name: "true: admin",
+			valueMap: valueMap{
+				Admin.ID: true,
+			},
+			perm: TestPermissionNotAllowed,
+			want: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -176,6 +184,14 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 			perms: []Permission{TestPermissionNotAllowed},
 			want:  false,
 		},
+		{
+			name: "true: admin",
+			valueMap: valueMap{
+				Admin.ID: true,
+			},
+			perms: []Permission{TestPermissionNotAllowed},
+			want:  true,
+		},
 		// multiple permissions
 		{
 			name:     "multiple permissions: empty -> default allowed",
@@ -200,6 +216,14 @@ func TestValueMap_HasAnyPermissions(t *testing.T) {
 			},
 			perms: []Permission{TestPermissionAllowed, TestPermissionNotAllowed},
 			want:  false,
+		},
+		{
+			name: "multiple permissions: admin",
+			valueMap: valueMap{
+				Admin.ID: true,
+			},
+			perms: []Permission{TestPermissionAllowed, TestPermissionNotAllowed},
+			want:  true,
 		},
 	}
 	for _, tt := range tests {
@@ -261,6 +285,14 @@ func TestValueMap_HasAllPermissions(t *testing.T) {
 			perms: []Permission{TestPermissionNotAllowed},
 			want:  false,
 		},
+		{
+			name: "true: admin",
+			valueMap: valueMap{
+				Admin.ID: true,
+			},
+			perms: []Permission{TestPermissionNotAllowed},
+			want:  true,
+		},
 		// multiple permissions
 		{
 			name:     "multiple permissions: empty -> default not allowed",
@@ -285,6 +317,14 @@ func TestValueMap_HasAllPermissions(t *testing.T) {
 			},
 			perms: []Permission{TestPermissionAllowed, TestPermissionNotAllowed},
 			want:  false,
+		},
+		{
+			name: "multiple permissions: admin",
+			valueMap: valueMap{
+				Admin.ID: true,
+			},
+			perms: []Permission{TestPermissionAllowed, TestPermissionNotAllowed},
+			want:  true,
 		},
 	}
 	for _, tt := range tests {

@@ -1,5 +1,10 @@
 package definition
 
+// admin permissions
+var _ = definer.define(
+	permission("admin", restrictedByDefault),
+)
+
 // user permissions
 var _ = definer.define(
 	permission("user.list", restrictedByDefault),

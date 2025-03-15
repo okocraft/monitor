@@ -1,12 +1,13 @@
 {
   "permissions": {
-    "mypage.edit.nickname": 6,
-    "mypage.view": 5,
-    "role.list": 7,
-    "user.create": 2,
-    "user.delete": 4,
-    "user.edit.nickname": 3,
-    "user.list": 1
+    "admin": 1,
+    "mypage.edit.nickname": 7,
+    "mypage.view": 6,
+    "role.list": 8,
+    "user.create": 3,
+    "user.delete": 5,
+    "user.edit.nickname": 4,
+    "user.list": 2
   },
-  "last_used_id": 7
+  "last_used_id": 8
 }

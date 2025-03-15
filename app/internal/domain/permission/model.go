@@ -35,6 +35,10 @@ func (valueMap valueMap) IsTrue(id ID) bool {
 }
 
 func (valueMap valueMap) HasPermission(perm Permission) bool {
+	if valueMap.IsTrue(Admin.ID) { // special case
+		return true
+	}
+
 	if v, ok := valueMap[perm.ID]; ok {
 		return v
 	}
@@ -42,6 +46,10 @@ func (valueMap valueMap) HasPermission(perm Permission) bool {
 }
 
 func (valueMap valueMap) HasAllPermissions(perms ...Permission) bool {
+	if valueMap.IsTrue(Admin.ID) { // special case
+		return true
+	}
+
 	for _, perm := range perms {
 		if !valueMap.HasPermission(perm) {
 			return false
@@ -51,6 +59,10 @@ func (valueMap valueMap) HasAllPermissions(perms ...Permission) bool {
 }
 
 func (valueMap valueMap) HasAnyPermissions(perms ...Permission) bool {
+	if valueMap.IsTrue(Admin.ID) { // special case
+		return true
+	}
+
 	for _, perm := range perms {
 		if valueMap.HasPermission(perm) {
 			return true
