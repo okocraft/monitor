@@ -24,6 +24,7 @@ type UserRepository interface {
 	SaveLoginKeyForUserID(ctx context.Context, id user.ID, loginKey int64, now time.Time) error
 	DeleteLoginKeyByUserID(ctx context.Context, id user.ID) error
 	SaveUserSub(ctx context.Context, userID user.ID, sub string) error
+	DeleteUserSubBySub(ctx context.Context, sub string) error
 	UpdateLastAccessByID(ctx context.Context, id user.ID, now time.Time) error
 
 	CreateUserWithIDIfNotExist(ctx context.Context, user user.User) error
@@ -110,6 +111,15 @@ func (r userRepository) DeleteLoginKeyByUserID(ctx context.Context, id user.ID) 
 func (r userRepository) SaveUserSub(ctx context.Context, userID user.ID, sub string) error {
 	q := r.db.Queries(ctx)
 	err := q.InsertSubForUserID(ctx, queries.InsertSubForUserIDParams{UserID: int32(userID), Sub: sub})
+	if err != nil {
+		return database.NewDBErrorWithStackTrace(err)
+	}
+	return nil
+}
+
+func (r userRepository) DeleteUserSubBySub(ctx context.Context, sub string) error {
+	q := r.db.Queries(ctx)
+	err := q.DeleteUserSubBySub(ctx, sub)
 	if err != nil {
 		return database.NewDBErrorWithStackTrace(err)
 	}

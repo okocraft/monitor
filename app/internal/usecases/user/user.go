@@ -61,6 +61,11 @@ func (u userUsecase) SaveSubByLoginKey(ctx context.Context, loginKey int64, sub 
 			return errlib.AsIs(err)
 		}
 
+		err = u.repo.DeleteUserSubBySub(ctx, sub)
+		if err != nil {
+			return errlib.AsIs(err)
+		}
+
 		err = u.repo.SaveUserSub(ctx, userID, sub)
 		if err != nil {
 			return errlib.AsIs(err)

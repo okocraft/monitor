@@ -37,6 +37,11 @@ WHERE sub = ?;
 INSERT INTO users_sub (user_id, sub)
 VALUES (?, ?);
 
+-- name: DeleteUserSubBySub :exec
+DELETE
+FROM users_sub
+WHERE sub = ?;
+
 -- name: InsertLoginKey :exec
 INSERT INTO users_login_key (user_id, login_key, created_at)
 VALUES (?, ?, ?);

@@ -49,6 +49,17 @@ func (q *Queries) DeleteLoginKey(ctx context.Context, userID int32) error {
 	return err
 }
 
+const deleteUserSubBySub = `-- name: DeleteUserSubBySub :exec
+DELETE
+FROM users_sub
+WHERE sub = ?
+`
+
+func (q *Queries) DeleteUserSubBySub(ctx context.Context, sub string) error {
+	_, err := q.db.ExecContext(ctx, deleteUserSubBySub, sub)
+	return err
+}
+
 const getUserByID = `-- name: GetUserByID :one
 SELECT uuid, nickname, last_access
 FROM users
