@@ -20,12 +20,12 @@
     color: var(--text-color);
     background-color: var(--primary-light-color);
     &:hover {
-        color: var(--primary-base-color);
+        background-color: var(--primary-base-color);
     }
 }
 
 .outlined {
-    color: var(--primary-text-color);
+    color: var(--text-color);
     border-color: var(--primary-dark-color);
     border-width: 0.05rem;
     border-style: solid;
