@@ -2,6 +2,7 @@
     padding-inline: 0.5rem;
     padding-block: 0.5rem;
     border-radius: 0.5rem;
+    cursor: pointer;
 }
 
 .filled {
