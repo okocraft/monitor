@@ -1,11 +1,21 @@
+import { useAuth } from "../../../hooks/useAuth.ts";
 import type { PageType } from "../../../types/google/pageTypes.ts";
+import { getSearchParam } from "../../../utils/searchParams.ts";
 import { NotFound } from "../../NotFound.tsx";
-import { Success } from "./Success.tsx";
+import { RedirectingSuccess, Success } from "./Success.tsx";
 
 export const Component = ({ type }: { type: PageType }) => {
+    const auth = useAuth();
     switch (type) {
-        case "success":
-            return <Success />;
+        case "success": {
+            const nickname = auth.me.current?.nickname ?? "unknown";
+            const redirectTo = getSearchParam("redirectTo");
+            return redirectTo ? (
+                <RedirectingSuccess nickname={nickname} url={redirectTo} />
+            ) : (
+                <Success nickname={nickname} />
+            );
+        }
         case "not_enabled":
             return <TempResultPage type={type} />;
         case "try_again":

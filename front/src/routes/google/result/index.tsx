@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "../../../components/ui/Header";
 import { NotFound } from "../../../pages/NotFound.tsx";
 import * as Result from "../../../pages/google/Result";
 import { toPageType } from "../../../types/google/pageTypes.ts";
@@ -19,5 +20,10 @@ function Component() {
         return <NotFound />;
     }
 
-    return <Result.Component type={pageType} />;
+    return (
+        <>
+            <Header />
+            <Result.Component type={pageType} />
+        </>
+    );
 }

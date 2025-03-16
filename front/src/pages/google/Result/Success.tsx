@@ -1,24 +1,41 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { getSearchParam } from "../../../utils/searchParams.ts";
+import { Button } from "../../../components/ui/Button";
+import { Text } from "../../../components/ui/Text";
+import { Title } from "../../../components/ui/Title";
 
-export const Success = () => {
-    const redirectTo = getSearchParam("redirectTo");
-    if (redirectTo) {
-        return <RedirectToPage url={redirectTo} />;
-    }
+export type Props = {
+    nickname: string;
+};
 
+export const Success = (props: Props) => {
     return (
-        <>
-            <p>Successfully logged in.</p>
-        </>
+        <div className="m-3">
+            <Title>
+                Successfully logged in to <b>{props.nickname}</b>!
+            </Title>
+            <div className="mt-3">
+                <Link to="/mypage">
+                    <Button
+                        type="button"
+                        variant="tonal"
+                        content={<span className="px-5">Go to my page</span>}
+                    />
+                </Link>
+            </div>
+        </div>
     );
 };
 
-const waitingSecond = 3;
+export type RedirectingProps = {
+    nickname: string;
+    url: string;
+};
 
-const RedirectToPage = ({ url }: { url: string }) => {
+export const RedirectingSuccess = (props: RedirectingProps) => {
     const navigate = useNavigate();
+
+    const waitingSecond = 3;
     const [countdown, setCountdown] = useState(waitingSecond);
     useEffect(() => {
         const interval = setInterval(() => {
@@ -27,20 +44,23 @@ const RedirectToPage = ({ url }: { url: string }) => {
 
         if (countdown === 0) {
             navigate({
-                to: url,
+                to: props.url,
             }).catch((err: Error) => {
                 console.error("Navigation error:", err);
             });
         }
 
         return () => clearInterval(interval);
-    }, [countdown, navigate, url]);
+    }, [countdown, navigate, props.url]);
 
     return (
-        <div>
-            <p>
-                Redirecting to {url} in {countdown} seconds...
-            </p>
+        <div className="m-3">
+            <Title>
+                Successfully logged in to <b>{props.nickname}</b>!
+            </Title>
+            <Text>
+                Redirecting to <b>{props.url}</b> in {countdown} seconds...
+            </Text>
         </div>
     );
 };
