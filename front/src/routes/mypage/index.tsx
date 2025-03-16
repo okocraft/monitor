@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Header } from "../../components/ui/Header";
+import * as MyPage from "../../pages/MyPage";
 
 export const Route = createFileRoute("/mypage/")({
     beforeLoad: async ({ context }) => {
@@ -10,14 +11,14 @@ export const Route = createFileRoute("/mypage/")({
             });
         }
     },
-    component: MyPage,
+    component: Component,
 });
 
-function MyPage() {
+function Component() {
     return (
         <>
             <Header />
-            <div>Hello "/mypage/"!</div>
+            <MyPage.Component />
         </>
     );
 }
