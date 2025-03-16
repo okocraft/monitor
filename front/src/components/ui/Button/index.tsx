@@ -6,7 +6,7 @@ export type Props = {
     onClick?: MouseEventHandler<HTMLButtonElement>;
     disabled?: boolean;
 
-    icon?: SVGElement;
+    icon?: ReactNode;
     content?: ReactNode;
     variant: keyof typeof variants;
     className?: string;
@@ -20,7 +20,7 @@ export const Button = (props: Props) => {
             disabled={props.disabled}
             className={`${styles.base} ${variants[props.variant]} ${props.className}`}
         >
-            {!props.icon && props.icon}
+            {props.icon}
             {props.content}
         </button>
     );
