@@ -56,6 +56,24 @@ DELETE
 FROM users_login_key
 WHERE user_id = ?;
 
+-- name: GetUserWithRoleByID :one
+SELECT users.id          AS user_id,
+       users.uuid        AS user_uuid,
+       users.nickname    AS user_nickname,
+       users.last_access AS user_last_access,
+       users.created_at  AS user_created_at,
+       users.updated_at  AS user_updated_at,
+       roles.id          AS role_id,
+       roles.uuid        AS role_uuid,
+       roles.name        AS role_name,
+       roles.priority    AS role_priority,
+       roles.created_at  AS role_created_at,
+       roles.updated_at  AS role_updated_at
+FROM users
+         LEFT OUTER JOIN users_role on users.id = users_role.user_id
+         LEFT OUTER JOIN roles on users_role.role_id = roles.id
+WHERE users.id = ?;
+
 -- name: GetUsersWithRoleByUUIDs :many
 SELECT users.id          AS user_id,
        users.uuid        AS user_uuid,

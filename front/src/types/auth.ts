@@ -42,6 +42,8 @@ export const UnauthorizedState = {
             return {
                 nickname: "",
                 uuid: "",
+                roleUuid: "",
+                roleName: "",
             } as Me;
         },
         setMe: (_) => {},
@@ -49,6 +51,8 @@ export const UnauthorizedState = {
             return {
                 nickname: "",
                 uuid: "",
+                roleUuid: "",
+                roleName: "",
             } as Me;
         },
     } as MeState,
@@ -81,7 +85,12 @@ export function createAuthState() {
             });
             if (status === 200) {
                 updateAccessToken(data.access_token);
-                meState.setMe(data.me);
+                meState.setMe({
+                    nickname: data.me.nickname,
+                    uuid: data.me.uuid,
+                    roleUuid: data.me.role_uuid,
+                    roleName: data.me.role_name,
+                } as Me);
                 pagePermissionState.setPagePermissions(data.page_permissions);
                 return data.access_token;
             }

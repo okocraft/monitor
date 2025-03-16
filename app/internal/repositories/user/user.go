@@ -29,6 +29,7 @@ type UserRepository interface {
 
 	CreateUserWithIDIfNotExist(ctx context.Context, user user.User) error
 
+	GetUserWithRoleByID(ctx context.Context, id user.ID) (user.UserWithRole, error)
 	GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error)
 	SearchForUserUUIDs(ctx context.Context, params user.SearchParams) ([]uuid.UUID, error)
 }
@@ -151,6 +152,42 @@ func (r userRepository) CreateUserWithIDIfNotExist(ctx context.Context, user use
 	}
 
 	return nil
+}
+
+func (r userRepository) GetUserWithRoleByID(ctx context.Context, id user.ID) (user.UserWithRole, error) {
+	q := r.db.Queries(ctx)
+	row, err := q.GetUserWithRoleByID(ctx, int32(id))
+	if errors.Is(err, sql.ErrNoRows) {
+		return user.UserWithRole{}, serrors.WithStackTrace(user.NotFoundByIDError{ID: id})
+	} else if err != nil {
+		return user.UserWithRole{}, database.NewDBErrorWithStackTrace(err)
+	}
+
+	var userRole role.Role
+	if row.RoleID.Valid {
+		userRole = role.Role{
+			ID:        role.ID(row.RoleID.Int32),
+			UUID:      uuid.UUID(row.UserUuid),
+			Name:      row.RoleName.String,
+			Priority:  row.RolePriority.Int32,
+			CreatedAt: row.RoleCreatedAt.Time,
+			UpdatedAt: row.RoleUpdatedAt.Time,
+		}
+	} else {
+		userRole = role.DefaultRole()
+	}
+
+	return user.UserWithRole{
+		User: user.User{
+			ID:         user.ID(row.UserID),
+			UUID:       uuid.UUID(row.UserUuid),
+			Nickname:   row.UserNickname,
+			LastAccess: row.UserLastAccess,
+			CreatedAt:  row.UserCreatedAt,
+			UpdatedAt:  row.UserUpdatedAt,
+		},
+		Role: userRole,
+	}, nil
 }
 
 func (r userRepository) GetUsersWithRoleByUUIDs(ctx context.Context, uuids []uuid.UUID) ([]user.UserWithRole, error) {

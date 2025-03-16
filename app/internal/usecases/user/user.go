@@ -88,7 +88,7 @@ func (u userUsecase) GetMe(ctx context.Context) (me.Me, error) {
 		return me.Me{}, user.NotFoundByIDError{ID: id}
 	}
 
-	usr, err := u.repo.GetUserByID(ctx, id)
+	userWithRole, err := u.repo.GetUserWithRoleByID(ctx, id)
 	if err != nil {
 		return me.Me{}, errlib.AsIs(err)
 	}
@@ -98,7 +98,12 @@ func (u userUsecase) GetMe(ctx context.Context) (me.Me, error) {
 		return me.Me{}, errlib.AsIs(err)
 	}
 
-	return me.Me{UUID: usr.UUID, Nickname: usr.Nickname}, nil
+	return me.Me{
+		UUID:     userWithRole.UUID,
+		Nickname: userWithRole.Nickname,
+		RoleUUID: userWithRole.Role.UUID,
+		RoleName: userWithRole.Role.Name,
+	}, nil
 }
 
 func (u userUsecase) GetNicknameByID(ctx context.Context, id user.ID) (string, error) {

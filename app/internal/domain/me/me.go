@@ -8,11 +8,15 @@ import (
 type Me struct {
 	UUID     uuid.UUID
 	Nickname string
+	RoleUUID uuid.UUID
+	RoleName string
 }
 
 func (m Me) ToResponse() oapi.Me {
 	return oapi.Me{
 		Uuid:     m.UUID,
 		Nickname: m.Nickname,
+		RoleUuid: m.RoleUUID,
+		RoleName: m.RoleName,
 	}
 }

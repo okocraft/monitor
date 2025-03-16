@@ -4,6 +4,8 @@ import { getMe } from "../api/me/me.ts";
 export type Me = {
     uuid: string;
     nickname: string;
+    roleUuid: string;
+    roleName: string;
 };
 
 export interface MeState {
@@ -23,6 +25,8 @@ export function createMeState() {
                 setMe({
                     nickname: data.nickname,
                     uuid: data.uuid,
+                    roleUuid: data.role_uuid,
+                    roleName: data.role_name,
                 } as Me);
                 return;
             }

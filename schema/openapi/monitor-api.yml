@@ -270,10 +270,16 @@ components:
       required:
         - uuid
         - nickname
+        - role_uuid
+        - role_name
       properties:
         uuid:
           $ref: '#/components/schemas/UUID'
         nickname:
+          type: string
+        role_uuid:
+          $ref: '#/components/schemas/UUID'
+        role_name:
           type: string
     PagePermissions:
       type: object

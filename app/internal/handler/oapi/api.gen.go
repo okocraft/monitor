@@ -70,6 +70,10 @@ type GoogleLoginURL struct {
 // Me defines model for Me.
 type Me struct {
 	Nickname string `json:"nickname"`
+	RoleName string `json:"role_name"`
+
+	// RoleUuid the UUID
+	RoleUuid UUID `json:"role_uuid"`
 
 	// Uuid the UUID
 	Uuid UUID `json:"uuid"`
