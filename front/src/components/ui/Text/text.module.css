@@ -6,6 +6,16 @@
     color: var(--text-error-color);
 }
 
+.primaryColor {
+    color: var(--primary-base-color);
+}
+
+.primaryDarkHoverColor {
+    &:hover {
+        color: var(--primary-dark-color);
+    }
+}
+
 .smallSize {
     font-size: 0.875rem;
 }
