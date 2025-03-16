@@ -10,7 +10,7 @@ export type Props = {
 
 export const Success = (props: Props) => {
     return (
-        <div className="m-3">
+        <div className="m-5">
             <Title>
                 Successfully logged in to <b>{props.nickname}</b>!
             </Title>

@@ -1,10 +1,10 @@
 import { useAuth } from "../../../hooks/useAuth.ts";
-import type { PageType } from "../../../types/google/pageTypes.ts";
 import { getSearchParam } from "../../../utils/searchParams.ts";
-import { NotFound } from "../../NotFound.tsx";
+import { Failure } from "./Failure.tsx";
 import { RedirectingSuccess, Success } from "./Success.tsx";
+import type { PageType } from "./pageTypes.ts";
 
-export const Component = ({ type }: { type: PageType }) => {
+export const Component = ({ type }: { type?: PageType }) => {
     const auth = useAuth();
     switch (type) {
         case "success": {
@@ -17,26 +17,53 @@ export const Component = ({ type }: { type: PageType }) => {
             );
         }
         case "not_enabled":
-            return <TempResultPage type={type} />;
+            return (
+                <Failure
+                    title="Google login is not enabled by the server"
+                    description="If this error is unintentional, contact the administrator to change the server configuration."
+                />
+            );
         case "try_again":
-            return <TempResultPage type={type} />;
+            return (
+                <Failure
+                    title="Login failed due to expiration or other reasons"
+                    description="Please try logging in again."
+                />
+            );
         case "user_not_found":
-            return <TempResultPage type={type} />;
+            return (
+                <Failure
+                    title="Your Google account is not linked to any user"
+                    description="For new accounts, please request the administrator to provide a login URL."
+                />
+            );
         case "login_key_not_found":
-            return <TempResultPage type={type} />;
+            return (
+                <Failure
+                    title="The login key provided for account linking could not be found"
+                    description="Request the administrator to provide the login URL again."
+                />
+            );
         case "invalid_token":
-            return <TempResultPage type={type} />;
+            return (
+                <Failure
+                    title="Invalid token received while logged in"
+                    description="If this error persists even retrying to log in again, please contact the administrator."
+                />
+            );
         case "internal_error":
-            return <TempResultPage type={type} />;
+            return (
+                <Failure
+                    title="Internal server error occurred while logging in"
+                    description="Please report this error to the administrator."
+                />
+            );
         default:
-            return <NotFound />;
+            return (
+                <Failure
+                    title="Unknown result received"
+                    description="Please report this error to the administrator."
+                />
+            );
     }
-};
-
-const TempResultPage = ({ type }: { type: PageType }) => {
-    return (
-        <>
-            <p>{type}</p>
-        </>
-    );
 };
