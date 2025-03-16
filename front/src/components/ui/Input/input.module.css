@@ -1,0 +1,32 @@
+.base {
+    padding-inline: 0.5rem;
+    padding-block: 0.25rem;
+    border-radius: 0.5rem;
+    border-color: var(--border-color);
+    border-style: solid;
+    border-width: 0.05rem;
+    display: block;
+    margin: 0.1rem;
+}
+
+.filled {
+    background-color: var(--disabled-bg-color);
+}
+
+.outlined {
+    background-color: var(--bg-color);
+}
+
+.inputContainer {
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    vertical-align: top;
+}
+
+.inputLabel {
+    display: block;
+    color: var(--text-light-color);
+    font-size: 1.0rem;
+    margin-left: 0.5rem;
+}

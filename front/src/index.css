@@ -3,9 +3,22 @@
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
+    /* Colors */
+    --bg-color: #f5f5f5;
+    --bg-color-hover: #e5e7eb;
+    --border-color: #6a7282;
+    --disabled-bg-color: #f3f4f6;
+    --text-color: #333333;
+    --text-error-color: #ef4444;
+    --text-light-color: #6a7282;
+    --primary-base-color: #428ccb;
+    --primary-light-color: #64b5f6;
+    --primary-dark-color: #1976d2;
+    --primary-text-color: #ffffff;
+
     color-scheme: light dark;
-    color: rgba(0, 0, 0, 0.87);
-    background-color: #ffffff;
+    color: var(--text-color);
+    background-color: var(--bg-color);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;

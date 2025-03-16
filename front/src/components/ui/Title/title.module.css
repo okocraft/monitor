@@ -1,0 +1,19 @@
+.baseColor {
+    color: var(--text-color);
+}
+
+.redColor {
+    color: var(--text-error-color);
+}
+
+.smallSize {
+    font-size: 1.25rem;
+}
+
+.baseSize {
+    font-size: 1.5rem;
+}
+
+.largeSize {
+    font-size: 1.875rem;
+}
