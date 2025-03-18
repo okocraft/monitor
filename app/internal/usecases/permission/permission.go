@@ -31,7 +31,7 @@ func (u permissionUsecase) CalculatePagePermissions(ctx context.Context) (permis
 	}
 
 	calculator := permission.GetPagePermissionCalculator()
-	valueMap, err := u.repo.GetPermissions(ctx, userID, calculator.GetSourcePermissions()...)
+	valueMap, err := u.repo.GetUserPermissions(ctx, userID, calculator.GetSourcePermissions()...)
 	if err != nil {
 		return permission.PagePermissions{}, errlib.AsIs(err)
 	}
@@ -39,10 +39,10 @@ func (u permissionUsecase) CalculatePagePermissions(ctx context.Context) (permis
 	return calculator.Calculate(valueMap), nil
 }
 
-func (u permissionUsecase) HasPermission(ctx context.Context, userID user.ID, permission permission.Permission) (bool, error) {
-	hasPermission, err := u.repo.HasPermission(ctx, userID, permission)
+func (u permissionUsecase) HasPermission(ctx context.Context, userID user.ID, perm permission.Permission) (bool, error) {
+	valueMap, err := u.repo.GetUserPermissions(ctx, userID, perm, permission.Admin)
 	if err != nil {
 		return false, errlib.AsIs(err)
 	}
-	return hasPermission, nil
+	return valueMap.HasPermission(perm), nil
 }

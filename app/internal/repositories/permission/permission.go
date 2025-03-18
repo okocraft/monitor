@@ -2,8 +2,6 @@ package permission
 
 import (
 	"context"
-	"database/sql"
-	"errors"
 
 	"github.com/okocraft/monitor/internal/domain/permission"
 	"github.com/okocraft/monitor/internal/domain/role"
@@ -13,8 +11,7 @@ import (
 )
 
 type PermissionRepository interface {
-	HasPermission(ctx context.Context, userID user.ID, perm permission.Permission) (bool, error)
-	GetPermissions(ctx context.Context, userID user.ID, perms ...permission.Permission) (permission.ValueMap, error)
+	GetUserPermissions(ctx context.Context, userID user.ID, perms ...permission.Permission) (permission.ValueMap, error)
 	SaveRolePermissions(ctx context.Context, roleID role.ID, valueMap permission.ValueMap) error
 }
 
@@ -28,18 +25,7 @@ type permissionRepository struct {
 	db database.DB
 }
 
-func (r permissionRepository) HasPermission(ctx context.Context, userID user.ID, perm permission.Permission) (bool, error) {
-	q := r.db.Queries(ctx)
-	result, err := q.CheckPermissionByUserID(ctx, queries.CheckPermissionByUserIDParams{UserID: int32(userID), PermissionID: perm.ID})
-	if errors.Is(err, sql.ErrNoRows) {
-		return perm.DefaultValue, nil
-	} else if err != nil {
-		return false, database.NewDBErrorWithStackTrace(err)
-	}
-	return result, nil
-}
-
-func (r permissionRepository) GetPermissions(ctx context.Context, userID user.ID, perms ...permission.Permission) (permission.ValueMap, error) {
+func (r permissionRepository) GetUserPermissions(ctx context.Context, userID user.ID, perms ...permission.Permission) (permission.ValueMap, error) {
 	q := r.db.Queries(ctx)
 
 	ids := make([]int16, 0, len(perms))
