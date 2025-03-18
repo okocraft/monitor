@@ -12,9 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as UsersIndexImport } from './routes/users/index'
+import { Route as SettingsIndexImport } from './routes/settings/index'
 import { Route as MypageIndexImport } from './routes/mypage/index'
 import { Route as ExampleIndexImport } from './routes/example/index'
+import { Route as SettingsUsersIndexImport } from './routes/settings/users/index'
 import { Route as GoogleResultIndexImport } from './routes/google/result/index'
 import { Route as GoogleLoginIndexImport } from './routes/google/login/index'
 import { Route as GoogleLinkIndexImport } from './routes/google/link/index'
@@ -27,9 +28,9 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const UsersIndexRoute = UsersIndexImport.update({
-  id: '/users/',
-  path: '/users/',
+const SettingsIndexRoute = SettingsIndexImport.update({
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -42,6 +43,12 @@ const MypageIndexRoute = MypageIndexImport.update({
 const ExampleIndexRoute = ExampleIndexImport.update({
   id: '/example/',
   path: '/example/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsUsersIndexRoute = SettingsUsersIndexImport.update({
+  id: '/settings/users/',
+  path: '/settings/users/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -88,11 +95,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MypageIndexImport
       parentRoute: typeof rootRoute
     }
-    '/users/': {
-      id: '/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof UsersIndexImport
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexImport
       parentRoute: typeof rootRoute
     }
     '/google/link/': {
@@ -116,6 +123,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoogleResultIndexImport
       parentRoute: typeof rootRoute
     }
+    '/settings/users/': {
+      id: '/settings/users/'
+      path: '/settings/users'
+      fullPath: '/settings/users'
+      preLoaderRoute: typeof SettingsUsersIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -125,20 +139,22 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/example': typeof ExampleIndexRoute
   '/mypage': typeof MypageIndexRoute
-  '/users': typeof UsersIndexRoute
+  '/settings': typeof SettingsIndexRoute
   '/google/link': typeof GoogleLinkIndexRoute
   '/google/login': typeof GoogleLoginIndexRoute
   '/google/result': typeof GoogleResultIndexRoute
+  '/settings/users': typeof SettingsUsersIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/example': typeof ExampleIndexRoute
   '/mypage': typeof MypageIndexRoute
-  '/users': typeof UsersIndexRoute
+  '/settings': typeof SettingsIndexRoute
   '/google/link': typeof GoogleLinkIndexRoute
   '/google/login': typeof GoogleLoginIndexRoute
   '/google/result': typeof GoogleResultIndexRoute
+  '/settings/users': typeof SettingsUsersIndexRoute
 }
 
 export interface FileRoutesById {
@@ -146,10 +162,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/example/': typeof ExampleIndexRoute
   '/mypage/': typeof MypageIndexRoute
-  '/users/': typeof UsersIndexRoute
+  '/settings/': typeof SettingsIndexRoute
   '/google/link/': typeof GoogleLinkIndexRoute
   '/google/login/': typeof GoogleLoginIndexRoute
   '/google/result/': typeof GoogleResultIndexRoute
+  '/settings/users/': typeof SettingsUsersIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -158,28 +175,31 @@ export interface FileRouteTypes {
     | '/'
     | '/example'
     | '/mypage'
-    | '/users'
+    | '/settings'
     | '/google/link'
     | '/google/login'
     | '/google/result'
+    | '/settings/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/example'
     | '/mypage'
-    | '/users'
+    | '/settings'
     | '/google/link'
     | '/google/login'
     | '/google/result'
+    | '/settings/users'
   id:
     | '__root__'
     | '/'
     | '/example/'
     | '/mypage/'
-    | '/users/'
+    | '/settings/'
     | '/google/link/'
     | '/google/login/'
     | '/google/result/'
+    | '/settings/users/'
   fileRoutesById: FileRoutesById
 }
 
@@ -187,20 +207,22 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
   MypageIndexRoute: typeof MypageIndexRoute
-  UsersIndexRoute: typeof UsersIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
   GoogleLinkIndexRoute: typeof GoogleLinkIndexRoute
   GoogleLoginIndexRoute: typeof GoogleLoginIndexRoute
   GoogleResultIndexRoute: typeof GoogleResultIndexRoute
+  SettingsUsersIndexRoute: typeof SettingsUsersIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExampleIndexRoute: ExampleIndexRoute,
   MypageIndexRoute: MypageIndexRoute,
-  UsersIndexRoute: UsersIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
   GoogleLinkIndexRoute: GoogleLinkIndexRoute,
   GoogleLoginIndexRoute: GoogleLoginIndexRoute,
   GoogleResultIndexRoute: GoogleResultIndexRoute,
+  SettingsUsersIndexRoute: SettingsUsersIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -216,10 +238,11 @@ export const routeTree = rootRoute
         "/",
         "/example/",
         "/mypage/",
-        "/users/",
+        "/settings/",
         "/google/link/",
         "/google/login/",
-        "/google/result/"
+        "/google/result/",
+        "/settings/users/"
       ]
     },
     "/": {
@@ -231,8 +254,8 @@ export const routeTree = rootRoute
     "/mypage/": {
       "filePath": "mypage/index.tsx"
     },
-    "/users/": {
-      "filePath": "users/index.tsx"
+    "/settings/": {
+      "filePath": "settings/index.tsx"
     },
     "/google/link/": {
       "filePath": "google/link/index.tsx"
@@ -242,6 +265,9 @@ export const routeTree = rootRoute
     },
     "/google/result/": {
       "filePath": "google/result/index.tsx"
+    },
+    "/settings/users/": {
+      "filePath": "settings/users/index.tsx"
     }
   }
 }

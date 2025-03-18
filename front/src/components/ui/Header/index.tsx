@@ -57,7 +57,11 @@ function createHeaderLink(
         return undefined;
     }
 
-    const filtered = filterChildren(link, me);
+    const filtered = filterChildren(link, me, perms);
+    if (link.hideWhenNoNestedLinks && filtered.nestedLinks?.length === 0) {
+        return undefined;
+    }
+
     return (
         <div key={`header-links-${link.id}`} className="ml-2">
             {filtered.nestedLinks && 0 < filtered.nestedLinks.length ? (

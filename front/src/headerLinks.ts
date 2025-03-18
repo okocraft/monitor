@@ -8,9 +8,18 @@ export const headerLinks: HeaderLink[] = [
         canView: (me, _) => !!me,
     },
     {
-        id: "users",
-        name: "Users",
-        link: "/users",
-        canView: (_, perms) => !!perms && perms.users,
+        id: "settings",
+        name: "Settings",
+        link: "/settings",
+        hideWhenNoNestedLinks: true,
+        nestedLinks: [
+            {
+                id: "users",
+                name: "Users",
+                link: "/settings/users",
+                canView: (_, perms) => perms?.users ?? false,
+            },
+        ],
+        canView: () => true,
     },
 ];

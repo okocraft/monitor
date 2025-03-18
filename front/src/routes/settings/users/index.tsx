@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Header } from "../../components/ui/Header";
+import { Header } from "../../../components/ui/Header";
 
-export const Route = createFileRoute("/users/")({
+export const Route = createFileRoute("/settings/users/")({
     beforeLoad: async ({ context }) => {
         const isAuthenticated = await context.auth.isAuthenticated();
         if (!isAuthenticated || !context.auth.pagePermission.current?.users) {

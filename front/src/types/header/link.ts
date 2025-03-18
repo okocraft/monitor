@@ -12,6 +12,7 @@ export type HeaderLink<
     name: string;
     link?: ToPathOption<TRouter, TFrom, TTo> & {};
     nestedLinks?: NestedHeaderLink[];
+    hideWhenNoNestedLinks?: boolean;
     canView: (
         me: Me | undefined,
         pagePermissions: PagePermissions | undefined,
@@ -41,10 +42,7 @@ export function filterChildren(
         child.canView(me, perms),
     );
     return {
-        id: link.id,
-        name: link.name,
-        link: link.link,
-        canView: link.canView,
+        ...link,
         nestedLinks: filtered && 0 < filtered.length ? filtered : [],
     } as HeaderLink;
 }
