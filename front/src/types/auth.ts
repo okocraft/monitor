@@ -74,6 +74,7 @@ export function createAuthState() {
     const updateAccessToken = (accessToken: string) => {
         setAccessToken(accessToken);
         accessTokenRef.current = accessToken;
+        refreshed.current = accessToken !== "";
     };
 
     const refresh = async () => {
