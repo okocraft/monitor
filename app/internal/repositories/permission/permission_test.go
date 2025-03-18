@@ -3,10 +3,10 @@ package permission
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/Siroshun09/testrecords"
 	"github.com/okocraft/monitor/internal/domain/permission"
-	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/internal/repositories/queries"
@@ -16,14 +16,24 @@ import (
 )
 
 func Test_permissionRepository_GetUserPermissions(t *testing.T) {
+	newInserter := func(user queries.User, role queries.Role, perms ...queries.RolesPermission) testrecords.Inserter {
+		return testrecords.NewInserterForMySQL().
+			Add(queries.UsersTable.TableName, user).
+			Add(queries.RolesTable.TableName, role).
+			Add(queries.UsersRoleTable.TableName, queries.UsersRole{
+				UserID:    user.ID,
+				RoleID:    role.ID,
+				UpdatedAt: time.Date(2025, 3, 18, 0, 0, 0, 0, time.UTC),
+			}).
+			Add(queries.RolesPermissionsTable.TableName, queries.ToAnySlice(perms)...)
 	}
 	tests := []struct {
-		name    string
-		initial *initial
-		userID  user.ID
-		perms   []permission.Permission
-		want    permission.ValueMapSource
-		wantErr assert.ErrorAssertionFunc
+		name     string
+		inserter testrecords.Inserter
+		userID   user.ID
+		perms    []permission.Permission
+		want     permission.ValueMapSource
+		wantErr  assert.ErrorAssertionFunc
 	}{
 		{
 			name:   "ok: no records inserted (default allowed)",
@@ -45,14 +55,14 @@ func Test_permissionRepository_GetUserPermissions(t *testing.T) {
 		},
 		{
 			name: "ok: single permission true (default not allowed)",
-			initial: &initial{
-				userRecord:     records.User1,
-				roleRecord:     records.Role1,
-				userRoleRecord: records.UserRole1,
-				dbValueMap: permission.ValueMapSource{
-					records.TestPermissionNotAllowed.ID: true,
+			inserter: newInserter(
+				records.User1, records.Role1,
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionNotAllowed.ID,
+					IsAllowed:    true,
 				},
-			},
+			),
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionNotAllowed},
 			want: permission.ValueMapSource{
@@ -62,14 +72,14 @@ func Test_permissionRepository_GetUserPermissions(t *testing.T) {
 		},
 		{
 			name: "ok: single permission false (default allowed)",
-			initial: &initial{
-				userRecord:     records.User1,
-				roleRecord:     records.Role1,
-				userRoleRecord: records.UserRole1,
-				dbValueMap: permission.ValueMapSource{
-					records.TestPermissionAllowed.ID: false,
+			inserter: newInserter(
+				records.User1, records.Role1,
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionAllowed.ID,
+					IsAllowed:    false,
 				},
-			},
+			),
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed},
 			want: permission.ValueMapSource{
@@ -79,15 +89,19 @@ func Test_permissionRepository_GetUserPermissions(t *testing.T) {
 		},
 		{
 			name: "ok: multiple permissions (all inserted)",
-			initial: &initial{
-				userRecord:     records.User1,
-				roleRecord:     records.Role1,
-				userRoleRecord: records.UserRole1,
-				dbValueMap: permission.ValueMapSource{
-					records.TestPermissionAllowed.ID:    false,
-					records.TestPermissionNotAllowed.ID: true,
+			inserter: newInserter(
+				records.User1, records.Role1,
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionAllowed.ID,
+					IsAllowed:    false,
 				},
-			},
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionNotAllowed.ID,
+					IsAllowed:    true,
+				},
+			),
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
 			want: permission.ValueMapSource{
@@ -98,14 +112,14 @@ func Test_permissionRepository_GetUserPermissions(t *testing.T) {
 		},
 		{
 			name: "ok: multiple permissions (not all inserted: default true)",
-			initial: &initial{
-				userRecord:     records.User1,
-				roleRecord:     records.Role1,
-				userRoleRecord: records.UserRole1,
-				dbValueMap: permission.ValueMapSource{
-					records.TestPermissionNotAllowed.ID: true,
+			inserter: newInserter(
+				records.User1, records.Role1,
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionNotAllowed.ID,
+					IsAllowed:    true,
 				},
-			},
+			),
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
 			want: permission.ValueMapSource{
@@ -116,14 +130,14 @@ func Test_permissionRepository_GetUserPermissions(t *testing.T) {
 		},
 		{
 			name: "ok: multiple permissions (not all inserted: default false)",
-			initial: &initial{
-				userRecord:     records.User1,
-				roleRecord:     records.Role1,
-				userRoleRecord: records.UserRole1,
-				dbValueMap: permission.ValueMapSource{
-					records.TestPermissionAllowed.ID: false,
+			inserter: newInserter(
+				records.User1, records.Role1,
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionAllowed.ID,
+					IsAllowed:    false,
 				},
-			},
+			),
 			userID: user.ID(records.User1.ID),
 			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
 			want: permission.ValueMapSource{
@@ -132,25 +146,73 @@ func Test_permissionRepository_GetUserPermissions(t *testing.T) {
 			},
 			wantErr: assert.NoError,
 		},
+		{
+			name: "ok: multiple permissions (all inserted, is admin)",
+			inserter: newInserter(
+				records.User1, records.Role1,
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: permission.Admin.ID,
+					IsAllowed:    true,
+				},
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionAllowed.ID,
+					IsAllowed:    false,
+				},
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionNotAllowed.ID,
+					IsAllowed:    true,
+				},
+			),
+			userID: user.ID(records.User1.ID),
+			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
+			want: permission.ValueMapSource{
+				permission.Admin.ID:                 true,
+				records.TestPermissionAllowed.ID:    false,
+				records.TestPermissionNotAllowed.ID: true,
+			},
+			wantErr: assert.NoError,
+		},
+		{
+			name: "ok: multiple permissions (all inserted, is not admin)",
+			inserter: newInserter(
+				records.User1, records.Role1,
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: permission.Admin.ID,
+					IsAllowed:    false,
+				},
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionAllowed.ID,
+					IsAllowed:    false,
+				},
+				queries.RolesPermission{
+					RoleID:       records.Role1.ID,
+					PermissionID: records.TestPermissionNotAllowed.ID,
+					IsAllowed:    true,
+				},
+			),
+			userID: user.ID(records.User1.ID),
+			perms:  []permission.Permission{records.TestPermissionAllowed, records.TestPermissionNotAllowed},
+			want: permission.ValueMapSource{
+				permission.Admin.ID:                 false,
+				records.TestPermissionAllowed.ID:    false,
+				records.TestPermissionNotAllowed.ID: true,
+			},
+			wantErr: assert.NoError,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			testDB.Run(t, func(ctx context.Context, db database.DB) {
-				if tt.initial != nil {
-					require.NoError(t, testrecords.NewInserterForMySQL().
-						Add(queries.UsersTable.TableName, tt.initial.userRecord).
-						Add(queries.RolesTable.TableName, tt.initial.roleRecord).
-						Add(queries.UsersRoleTable.TableName, tt.initial.userRoleRecord).
-						InsertAll(ctx, db.Conn(ctx)))
-
-					sql, args := queries.BulkUpsertRolePermissions(role.ID(tt.initial.roleRecord.ID), permission.NewValueMap(tt.initial.dbValueMap))
-					_, err := db.Conn(ctx).ExecContext(ctx, sql, args...)
-					require.NoError(t, err, sql)
-				}
+				require.NoError(t, tt.inserter.InsertAll(ctx, db.Conn(ctx)))
 
 				r := permissionRepository{db: db}
 
-				got, err := r.GetPermissions(ctx, tt.userID, tt.perms...)
+				got, err := r.GetUserPermissions(ctx, tt.userID, tt.perms...)
 				if !tt.wantErr(t, err) {
 					return
 				}

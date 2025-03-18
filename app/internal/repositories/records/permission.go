@@ -6,13 +6,13 @@ import (
 
 var (
 	TestPermissionAllowed = permission.Permission{
-		ID:           1,
+		ID:           2,
 		Name:         "test.allowed",
 		DefaultValue: true,
 	}
 
 	TestPermissionNotAllowed = permission.Permission{
-		ID:           2,
+		ID:           3,
 		Name:         "test.not_allowed",
 		DefaultValue: false,
 	}

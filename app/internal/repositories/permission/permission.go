@@ -28,12 +28,14 @@ type permissionRepository struct {
 func (r permissionRepository) GetUserPermissions(ctx context.Context, userID user.ID, perms ...permission.Permission) (permission.ValueMap, error) {
 	q := r.db.Queries(ctx)
 
-	ids := make([]int16, 0, len(perms))
-	result := make(permission.ValueMapSource, len(perms))
+	ids := make([]int16, 0, len(perms)+1)
+	result := make(permission.ValueMapSource, len(perms)+1)
 	for _, perm := range perms {
 		ids = append(ids, perm.ID)
 		result[perm.ID] = perm.DefaultValue
 	}
+
+	ids = append(ids, permission.Admin.ID) // default false
 
 	records, err := q.GetPermissionsByUserID(ctx, queries.GetPermissionsByUserIDParams{UserID: int32(userID), PermissionIds: ids})
 	for _, record := range records {
