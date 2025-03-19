@@ -11,16 +11,16 @@
     "gen:front": "cd ../../front && pnpm gen-api && pnpm biome format --write ./src/api"
 },
   "peerDependencies": {
-    "@typespec/compiler": "0.66.0",
-    "@typespec/http": "0.66.0",
-    "@typespec/rest": "0.66.0",
-    "@typespec/openapi3": "0.66.0"
+    "@typespec/compiler": "0.67.1",
+    "@typespec/http": "0.67.1",
+    "@typespec/rest": "0.67.1",
+    "@typespec/openapi3": "0.67.1"
   },
   "devDependencies": {
-    "@typespec/compiler": "0.66.0",
-    "@typespec/http": "0.66.0",
-    "@typespec/rest": "0.66.0",
-    "@typespec/openapi3": "0.66.0"
+    "@typespec/compiler": "0.67.1",
+    "@typespec/http": "0.67.1",
+    "@typespec/rest": "0.67.1",
+    "@typespec/openapi3": "0.67.1"
   },
   "private": true
 }
