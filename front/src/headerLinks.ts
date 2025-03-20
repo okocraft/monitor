@@ -19,12 +19,12 @@ export const headerLinks: HeaderLink[] = [
                 link: "/settings/users",
                 canView: (_, perms) => perms?.settings.users ?? false,
             },
-			{
-				id: "roles",
-				name: "Roles",
-				link: "/settings/roles",
-				canView: (_, perms) => perms?.settings.roles ?? false,
-			},
+            {
+                id: "roles",
+                name: "Roles",
+                link: "/settings/roles",
+                canView: (_, perms) => perms?.settings.roles ?? false,
+            },
         ],
         canView: () => true,
     },
