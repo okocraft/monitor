@@ -76,7 +76,6 @@ services:
       MONITOR_DB_USER: monitor_user
       MONITOR_DB_PASSWORD: monitor_pw
       MONITOR_DB_NAME: monitor_db
-      MONITOR_FORCE_SETUP: true
 
 networks:
   monitor_db:
