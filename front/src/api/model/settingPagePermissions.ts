@@ -7,4 +7,5 @@
 
 export interface SettingPagePermissions {
     users: boolean;
+    roles: boolean;
 }

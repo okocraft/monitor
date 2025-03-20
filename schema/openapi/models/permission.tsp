@@ -4,4 +4,5 @@ model PagePermissions {
 
 model SettingPagePermissions {
   users: boolean;
+  roles: boolean;
 }

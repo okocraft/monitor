@@ -16,6 +16,7 @@ import { Route as SettingsIndexImport } from './routes/settings/index'
 import { Route as MypageIndexImport } from './routes/mypage/index'
 import { Route as ExampleIndexImport } from './routes/example/index'
 import { Route as SettingsUsersIndexImport } from './routes/settings/users/index'
+import { Route as SettingsRolesIndexImport } from './routes/settings/roles/index'
 import { Route as GoogleResultIndexImport } from './routes/google/result/index'
 import { Route as GoogleLoginIndexImport } from './routes/google/login/index'
 import { Route as GoogleLinkIndexImport } from './routes/google/link/index'
@@ -49,6 +50,12 @@ const ExampleIndexRoute = ExampleIndexImport.update({
 const SettingsUsersIndexRoute = SettingsUsersIndexImport.update({
   id: '/settings/users/',
   path: '/settings/users/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsRolesIndexRoute = SettingsRolesIndexImport.update({
+  id: '/settings/roles/',
+  path: '/settings/roles/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -123,6 +130,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoogleResultIndexImport
       parentRoute: typeof rootRoute
     }
+    '/settings/roles/': {
+      id: '/settings/roles/'
+      path: '/settings/roles'
+      fullPath: '/settings/roles'
+      preLoaderRoute: typeof SettingsRolesIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/settings/users/': {
       id: '/settings/users/'
       path: '/settings/users'
@@ -143,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/google/link': typeof GoogleLinkIndexRoute
   '/google/login': typeof GoogleLoginIndexRoute
   '/google/result': typeof GoogleResultIndexRoute
+  '/settings/roles': typeof SettingsRolesIndexRoute
   '/settings/users': typeof SettingsUsersIndexRoute
 }
 
@@ -154,6 +169,7 @@ export interface FileRoutesByTo {
   '/google/link': typeof GoogleLinkIndexRoute
   '/google/login': typeof GoogleLoginIndexRoute
   '/google/result': typeof GoogleResultIndexRoute
+  '/settings/roles': typeof SettingsRolesIndexRoute
   '/settings/users': typeof SettingsUsersIndexRoute
 }
 
@@ -166,6 +182,7 @@ export interface FileRoutesById {
   '/google/link/': typeof GoogleLinkIndexRoute
   '/google/login/': typeof GoogleLoginIndexRoute
   '/google/result/': typeof GoogleResultIndexRoute
+  '/settings/roles/': typeof SettingsRolesIndexRoute
   '/settings/users/': typeof SettingsUsersIndexRoute
 }
 
@@ -179,6 +196,7 @@ export interface FileRouteTypes {
     | '/google/link'
     | '/google/login'
     | '/google/result'
+    | '/settings/roles'
     | '/settings/users'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -189,6 +207,7 @@ export interface FileRouteTypes {
     | '/google/link'
     | '/google/login'
     | '/google/result'
+    | '/settings/roles'
     | '/settings/users'
   id:
     | '__root__'
@@ -199,6 +218,7 @@ export interface FileRouteTypes {
     | '/google/link/'
     | '/google/login/'
     | '/google/result/'
+    | '/settings/roles/'
     | '/settings/users/'
   fileRoutesById: FileRoutesById
 }
@@ -211,6 +231,7 @@ export interface RootRouteChildren {
   GoogleLinkIndexRoute: typeof GoogleLinkIndexRoute
   GoogleLoginIndexRoute: typeof GoogleLoginIndexRoute
   GoogleResultIndexRoute: typeof GoogleResultIndexRoute
+  SettingsRolesIndexRoute: typeof SettingsRolesIndexRoute
   SettingsUsersIndexRoute: typeof SettingsUsersIndexRoute
 }
 
@@ -222,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   GoogleLinkIndexRoute: GoogleLinkIndexRoute,
   GoogleLoginIndexRoute: GoogleLoginIndexRoute,
   GoogleResultIndexRoute: GoogleResultIndexRoute,
+  SettingsRolesIndexRoute: SettingsRolesIndexRoute,
   SettingsUsersIndexRoute: SettingsUsersIndexRoute,
 }
 
@@ -242,6 +264,7 @@ export const routeTree = rootRoute
         "/google/link/",
         "/google/login/",
         "/google/result/",
+        "/settings/roles/",
         "/settings/users/"
       ]
     },
@@ -265,6 +288,9 @@ export const routeTree = rootRoute
     },
     "/google/result/": {
       "filePath": "google/result/index.tsx"
+    },
+    "/settings/roles/": {
+      "filePath": "settings/roles/index.tsx"
     },
     "/settings/users/": {
       "filePath": "settings/users/index.tsx"

@@ -97,6 +97,7 @@ type Role struct {
 
 // SettingPagePermissions defines model for SettingPagePermissions.
 type SettingPagePermissions struct {
+	Roles bool `json:"roles"`
 	Users bool `json:"users"`
 }
 

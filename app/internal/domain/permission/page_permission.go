@@ -8,6 +8,7 @@ type PagePermissions struct {
 
 type SettingPagePermissions struct {
 	Users bool
+	Roles bool
 }
 
 func (p PagePermissions) ToResponse() oapi.PagePermissions {
@@ -39,11 +40,13 @@ func (p pagePermissionCalculator) Calculate(valueMap ValueMap) PagePermissions {
 var impl = pagePermissionCalculator{
 	sourcePermissions: []Permission{
 		UserList,
+		RoleList,
 	},
 	calculator: func(valueMap ValueMap) PagePermissions {
 		return PagePermissions{
 			Settings: SettingPagePermissions{
 				Users: valueMap.HasPermission(UserList),
+				Roles: valueMap.HasPermission(RoleList),
 			},
 		}
 	},

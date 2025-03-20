@@ -314,8 +314,11 @@ components:
       type: object
       required:
         - users
+        - roles
       properties:
         users:
+          type: boolean
+        roles:
           type: boolean
     SortType:
       type: string
