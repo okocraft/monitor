@@ -3,12 +3,18 @@ package permission
 import "github.com/okocraft/monitor/internal/handler/oapi"
 
 type PagePermissions struct {
+	Settings SettingPagePermissions
+}
+
+type SettingPagePermissions struct {
 	Users bool
 }
 
 func (p PagePermissions) ToResponse() oapi.PagePermissions {
 	return oapi.PagePermissions{
-		Users: p.Users,
+		Settings: oapi.SettingPagePermissions{
+			Users: p.Settings.Users,
+		},
 	}
 }
 
@@ -36,7 +42,9 @@ var impl = pagePermissionCalculator{
 	},
 	calculator: func(valueMap ValueMap) PagePermissions {
 		return PagePermissions{
-			Users: valueMap.HasPermission(UserList),
+			Settings: SettingPagePermissions{
+				Users: valueMap.HasPermission(UserList),
+			},
 		}
 	},
 }

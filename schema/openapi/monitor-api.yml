@@ -284,10 +284,10 @@ components:
     PagePermissions:
       type: object
       required:
-        - users
+        - settings
       properties:
-        users:
-          type: boolean
+        settings:
+          $ref: '#/components/schemas/SettingPagePermissions'
     Role:
       type: object
       required:
@@ -310,6 +310,13 @@ components:
         updated_at:
           type: string
           format: date-time
+    SettingPagePermissions:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: boolean
     SortType:
       type: string
       enum:

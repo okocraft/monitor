@@ -81,7 +81,7 @@ type Me struct {
 
 // PagePermissions defines model for PagePermissions.
 type PagePermissions struct {
-	Users bool `json:"users"`
+	Settings SettingPagePermissions `json:"settings"`
 }
 
 // Role defines model for Role.
@@ -93,6 +93,11 @@ type Role struct {
 	Name      string    `json:"name"`
 	Priority  int32     `json:"priority"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// SettingPagePermissions defines model for SettingPagePermissions.
+type SettingPagePermissions struct {
+	Users bool `json:"users"`
 }
 
 // SortType defines model for SortType.

@@ -4,7 +4,8 @@
  * Monitor API
  * OpenAPI spec version: 0.0.0
  */
+import type { SettingPagePermissions } from "./settingPagePermissions";
 
 export interface PagePermissions {
-    users: boolean;
+    settings: SettingPagePermissions;
 }

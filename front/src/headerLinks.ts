@@ -17,7 +17,7 @@ export const headerLinks: HeaderLink[] = [
                 id: "users",
                 name: "Users",
                 link: "/settings/users",
-                canView: (_, perms) => perms?.users ?? false,
+                canView: (_, perms) => perms?.settings.users ?? false,
             },
         ],
         canView: () => true,

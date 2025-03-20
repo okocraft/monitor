@@ -13,6 +13,7 @@ export * from "./me";
 export * from "./pagePermissions";
 export * from "./role";
 export * from "./searchUsersParams";
+export * from "./settingPagePermissions";
 export * from "./sortType";
 export * from "./sortableRoleDataType";
 export * from "./sortableUserDataType";
