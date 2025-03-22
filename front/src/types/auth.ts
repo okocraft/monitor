@@ -108,7 +108,7 @@ export function createAuthState() {
     };
 
     const firstRefresh = async () => {
-        if (!refreshed.current) {
+        if (!accessTokenRef.current || !refreshed.current) {
             await refresh();
         }
     };
