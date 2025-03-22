@@ -9,6 +9,7 @@ junit = "5.12.1"
 
 # gradle plugins
 shadow = "8.3.6"
+run-task = "2.3.1"
 
 # platform api
 paper = "1.21.4-R0.1-SNAPSHOT"
@@ -32,5 +33,9 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 platform-paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 platform-velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 
-# Gradle plugins
+# Gradle plugins (build-logic)
 build-shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
+
+[plugins]
+
+run-task = { id = "xyz.jpenilla.run-paper", version.ref = "run-task"}

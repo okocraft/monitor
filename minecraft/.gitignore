@@ -186,3 +186,6 @@ gradle-app.setting
 
 # Staging directory
 staging
+
+# Server directory
+platform-paper/run
