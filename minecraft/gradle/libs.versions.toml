@@ -1,0 +1,36 @@
+[versions]
+# common libraries
+adventure = "4.19.0"
+annotations = "26.0.2"
+slf4j = "2.0.17"
+
+# for testing
+junit = "5.12.1"
+
+# gradle plugins
+shadow = "8.3.6"
+
+# platform api
+paper = "1.21.4-R0.1-SNAPSHOT"
+velocity = "3.4.0-SNAPSHOT"
+
+[libraries]
+
+# common libraries
+annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+adventure = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+adventure-text-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
+adventure-text-serializer-plain = { module = "net.kyori:adventure-text-serializer-plain", version.ref = "adventure" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
+# for testing
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+
+# platform api
+platform-paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+platform-velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
+
+# Gradle plugins
+build-shadow = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
