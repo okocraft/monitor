@@ -1,8 +1,13 @@
+import { Spin } from "../Spin";
+import { Text } from "../Text";
+
 export const Loading = () => {
-    // TODO
     return (
-        <>
-            <p>Loading</p>
-        </>
+        <div className="flex m-auto min-h-full">
+            <Spin />
+            <Text type="large" className="ml-2 my-auto">
+                Loading...
+            </Text>
+        </div>
     );
 };
