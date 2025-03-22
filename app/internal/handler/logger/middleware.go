@@ -2,12 +2,12 @@ package logger
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
 
 	"github.com/Siroshun09/logs"
+	"github.com/Siroshun09/serrors"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/okocraft/monitor/lib/ctxlib"
 )
@@ -21,7 +21,7 @@ func (f factory) NewHTTPMiddlewareWithRecover(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if rvr := recover(); rvr != nil {
-				fmt.Printf("%v", rvr)
+				l.Error(r.Context(), serrors.Errorf("%v", rvr))
 			}
 		}()
 
