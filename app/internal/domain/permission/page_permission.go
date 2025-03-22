@@ -15,6 +15,7 @@ func (p PagePermissions) ToResponse() oapi.PagePermissions {
 	return oapi.PagePermissions{
 		Settings: oapi.SettingPagePermissions{
 			Users: p.Settings.Users,
+			Roles: p.Settings.Roles,
 		},
 	}
 }
