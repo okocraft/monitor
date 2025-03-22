@@ -25,11 +25,7 @@ public class MonitorPaperPlugin extends JavaPlugin {
             return;
         }
 
-        try {
-            this.monitor.start();
-        } catch (Exception e) {
-            MonitorLogger.logger().error("Failed to start Monitor", e);
-        }
+        this.monitor.start();
     }
 
     @Override
@@ -38,10 +34,6 @@ public class MonitorPaperPlugin extends JavaPlugin {
             return;
         }
 
-        try {
-            this.monitor.shutdown();
-        } catch (Exception e) {
-            MonitorLogger.logger().error("Failed to shutdown Monitor", e);
-        }
+        this.monitor.shutdown();
     }
 }
