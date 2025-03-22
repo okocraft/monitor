@@ -101,4 +101,14 @@ CREATE TABLE IF NOT EXISTS minecraft_player_name_histories
     player_id  INT         NOT NULL REFERENCES minecraft_players (id),
     name       VARCHAR(16) NOT NULL,
     created_at DATETIME    NOT NULL
-)
+);
+
+CREATE TABLE IF NOT EXISTS minecraft_servers
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    uuid       BINARY(16)  NOT NULL UNIQUE,
+    name       VARCHAR(32) NOT NULL,
+    created_at DATETIME    NOT NULL,
+    updated_at DATETIME    NOT NULL
+);
+
