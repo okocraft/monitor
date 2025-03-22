@@ -67,5 +67,5 @@ func (h RoleHandler) GetRoles(w http.ResponseWriter, r *http.Request, params oap
 		return
 	}
 
-	httplib.RenderOK(ctx, w, roles)
+	httplib.RenderOK(ctx, w, roles.ToResponse())
 }
