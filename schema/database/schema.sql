@@ -86,3 +86,19 @@ CREATE TABLE IF NOT EXISTS audit_log_user
     changed_to   VARCHAR(16) NOT NULL,
     created_at   DATETIME    NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS minecraft_players
+(
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    uuid        BINARY(16)  NOT NULL UNIQUE,
+    name        VARCHAR(16) NOT NULL,
+    last_access DATETIME    NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS minecraft_player_name_histories
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    player_id  INT         NOT NULL REFERENCES minecraft_players (id),
+    name       VARCHAR(16) NOT NULL,
+    created_at DATETIME    NOT NULL
+)
