@@ -46,7 +46,7 @@ func NewHTTPHandler(cfg config.HTTPServerConfig, db database.DB) (handler.HTTPHa
 	meHandler := me.NewMeHandler(userUsecase)
 	roleRepository := role.NewRoleRepository(db)
 	roleUsecase := role2.NewRoleUsecase(roleRepository)
-	roleHandler := role3.NewRoleHandler(roleUsecase)
+	roleHandler := role3.NewRoleHandler(roleUsecase, permissionUsecase)
 	userHandler := user3.NewUserHandler(userUsecase, permissionUsecase)
 	auditLogRepository := auditlog.NewAuditLogRepository(db)
 	auditLogUsecase := auditlog2.NewAuditLogUsecase(auditLogRepository)

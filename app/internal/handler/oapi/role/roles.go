@@ -20,8 +20,8 @@ type RoleHandler struct {
 	permissionUsecase permissionUsecase.PermissionUsecase
 }
 
-func NewRoleHandler(usecase roleUsecase.RoleUsecase) RoleHandler {
-	return RoleHandler{usecase: usecase}
+func NewRoleHandler(usecase roleUsecase.RoleUsecase, permissionUsecase permissionUsecase.PermissionUsecase) RoleHandler {
+	return RoleHandler{usecase: usecase, permissionUsecase: permissionUsecase}
 }
 
 func (h RoleHandler) GetRoles(w http.ResponseWriter, r *http.Request, params oapi.GetRolesParams) {
