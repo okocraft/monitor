@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Header } from "../../../components/ui/Header";
+import * as RoleSetting from "../../../pages/settings/RoleSetting";
 
 export const Route = createFileRoute("/settings/roles/")({
     beforeLoad: async ({ context }) => {
@@ -20,7 +21,9 @@ function RouteComponent() {
     return (
         <>
             <Header />
-            <div>Hello "/settings/roles/"!</div>
+            <main>
+                <RoleSetting.Component />
+            </main>
         </>
     );
 }
