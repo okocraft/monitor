@@ -1,0 +1,23 @@
+.base {
+    border-radius: calc(infinity * 1px);
+}
+
+.baseSize {
+    width: 3rem;
+    height: 3rem;
+}
+
+.primaryColor {
+    border-top-color: var(--primary-base-color);
+    color: var(--border-light-color);
+}
+
+.redColor {
+    border-top-color: var(--text-error-color);
+    color: var(--border-light-color);
+}
+
+.solidStyle {
+    border-style: solid;
+    border-width: 0.25rem;
+}
