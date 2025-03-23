@@ -106,7 +106,6 @@ CREATE TABLE IF NOT EXISTS minecraft_player_name_histories
 CREATE TABLE IF NOT EXISTS minecraft_servers
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
-    uuid       BINARY(16)  NOT NULL UNIQUE,
     name       VARCHAR(32) NOT NULL,
     created_at DATETIME    NOT NULL,
     updated_at DATETIME    NOT NULL
