@@ -3,7 +3,6 @@ package net.okocraft.monitor.core.storage;
 import net.okocraft.monitor.core.database.Database;
 import org.jetbrains.annotations.NotNullByDefault;
 
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.OptionalInt;

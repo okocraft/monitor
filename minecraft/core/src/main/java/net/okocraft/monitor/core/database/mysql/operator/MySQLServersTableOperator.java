@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.OptionalInt;
 
 @NotNullByDefault
@@ -32,7 +31,7 @@ public class MySQLServersTableOperator implements ServersTableOperator {
     public int insertNewServer(Connection connection, String serverName) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO minecraft_servers (name, created_at, updated_at) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, serverName);
-            Timestamp now = Timestamp.from(Instant.now());
+            Timestamp now = MySQLDateTime.now();
             statement.setTimestamp(2,now);
             statement.setTimestamp(3, now);
             statement.executeUpdate();
@@ -49,7 +48,7 @@ public class MySQLServersTableOperator implements ServersTableOperator {
     public void updateServerInfo(Connection connection, int serverId, String serverName) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("UPDATE minecraft_servers SET name = ?, updated_at = ? WHERE id = ?")) {
             statement.setString(1, serverName);
-            statement.setTimestamp(2, Timestamp.from(Instant.now()));
+            statement.setTimestamp(2, MySQLDateTime.now());
             statement.setInt(3, serverId);
             statement.execute();
         }
