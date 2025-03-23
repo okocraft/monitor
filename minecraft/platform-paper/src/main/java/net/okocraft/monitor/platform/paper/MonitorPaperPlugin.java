@@ -2,10 +2,13 @@ package net.okocraft.monitor.platform.paper;
 
 import net.okocraft.monitor.core.Monitor;
 import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
+import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
+import net.okocraft.monitor.core.platform.PlatformAdapter;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MonitorPaperPlugin extends JavaPlugin {
+public class MonitorPaperPlugin extends JavaPlugin implements PlatformAdapter {
 
     private Monitor monitor;
 
@@ -25,7 +28,7 @@ public class MonitorPaperPlugin extends JavaPlugin {
             return;
         }
 
-        this.monitor.start();
+        this.monitor.start(this);
     }
 
     @Override
@@ -34,6 +37,16 @@ public class MonitorPaperPlugin extends JavaPlugin {
             return;
         }
 
-        this.monitor.shutdown();
+        this.monitor.shutdown(this);
+    }
+
+    @Override
+    public void registerEventListeners(Handlers handlers) {
+        // TODO
+    }
+
+    @Override
+    public void unregisterEventListeners() {
+        HandlerList.unregisterAll(this);
     }
 }

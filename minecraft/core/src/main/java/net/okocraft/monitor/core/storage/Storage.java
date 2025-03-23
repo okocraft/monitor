@@ -9,12 +9,18 @@ import java.nio.file.Path;
 public class Storage {
 
     private final ServerInfoStorage serverInfoStorage;
+    private final PlayerStorage playerStorage;
 
     public Storage(Path dataDirectory, Database database) {
         this.serverInfoStorage = new ServerInfoStorage(database);
+        this.playerStorage = new PlayerStorage(database);
     }
 
     public ServerInfoStorage getServerInfoStorage() {
         return this.serverInfoStorage;
+    }
+
+    public PlayerStorage getPlayerStorage() {
+        return this.playerStorage;
     }
 }

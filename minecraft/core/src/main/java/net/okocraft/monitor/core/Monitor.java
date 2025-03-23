@@ -3,7 +3,10 @@ package net.okocraft.monitor.core;
 import net.okocraft.monitor.core.config.MonitorConfig;
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.mysql.MySQLDatabase;
+import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
+import net.okocraft.monitor.core.manager.PlayerManager;
+import net.okocraft.monitor.core.platform.PlatformAdapter;
 import net.okocraft.monitor.core.storage.Storage;
 import org.jetbrains.annotations.NotNullByDefault;
 
@@ -22,7 +25,7 @@ public final class Monitor {
         this.database = new MySQLDatabase(configHolder.get().database().mysql());
     }
 
-    public void start() {
+    public void start(PlatformAdapter adapter) {
         MonitorLogger.logger().info("Starting Monitor...");
 
         MonitorLogger.logger().info("Connecting to database...");
@@ -53,11 +56,20 @@ public final class Monitor {
 
         MonitorLogger.logger().info("{}'s server id: {}", serverName, serverId);
 
+        PlayerManager playerManager = new PlayerManager();
+        Handlers handlers = Handlers.initialize(serverId, storage, playerManager);
+
+        MonitorLogger.logger().info("Registering event listeners...");
+        adapter.registerEventListeners(handlers);
+
         MonitorLogger.logger().info("Successfully started Monitor!");
     }
 
-    public void shutdown() {
+    public void shutdown(PlatformAdapter adapter) {
         MonitorLogger.logger().info("Shutting down Monitor...");
+
+        MonitorLogger.logger().info("Unregistering event listeners...");
+        adapter.unregisterEventListeners();
 
         try {
             this.database.shutdown();

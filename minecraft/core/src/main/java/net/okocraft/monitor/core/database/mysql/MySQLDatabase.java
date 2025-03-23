@@ -3,6 +3,8 @@ package net.okocraft.monitor.core.database.mysql;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import net.okocraft.monitor.core.database.Database;
+import net.okocraft.monitor.core.database.mysql.operator.MySQLPlayerNameHistoryTableOperator;
+import net.okocraft.monitor.core.database.mysql.operator.MySQLPlayersTableOperator;
 import net.okocraft.monitor.core.database.mysql.operator.MySQLServersTableOperator;
 import net.okocraft.monitor.core.database.operator.Operators;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +26,9 @@ public class MySQLDatabase implements Database {
     public MySQLDatabase(MySQLSetting setting) {
         this.mySQLSetting = setting;
         this.operators = new Operators(
-            new MySQLServersTableOperator()
+            new MySQLServersTableOperator(),
+            new MySQLPlayersTableOperator(),
+            new MySQLPlayerNameHistoryTableOperator()
         );
     }
 

@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNullByDefault;
 
 @NotNullByDefault
 public record Operators(
-    ServersTableOperator servers
+    ServersTableOperator servers,
+    PlayersTableOperator players,
+    PlayerNameHistoryTableOperator playerNameHistory
 ) {
 }
