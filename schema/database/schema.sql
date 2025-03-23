@@ -91,8 +91,7 @@ CREATE TABLE IF NOT EXISTS minecraft_players
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
     uuid        BINARY(16)  NOT NULL UNIQUE,
-    name        VARCHAR(16) NOT NULL,
-    last_access DATETIME    NOT NULL
+    name        VARCHAR(16) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS minecraft_player_name_histories
