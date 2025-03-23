@@ -24,8 +24,15 @@ public class MySQLDatabase implements Database {
 
     @Override
     public void prepare() throws Exception {
-        Class.forName("com.mysql.cj.jdbc.Driver"); // checks if the driver exists
+        if (this.mySQLSetting.username().isEmpty() || this.mySQLSetting.password().isEmpty()) {
+            throw new Exception("MySQL database requires a username and password");
+        }
 
+        Class.forName("com.mysql.cj.jdbc.Driver"); // checks if the driver exists
+        this.hikariDataSource = new HikariDataSource(this.createHikariConfig());
+    }
+
+    private @NotNull HikariConfig createHikariConfig() {
         var config = new HikariConfig();
 
         config.setJdbcUrl("jdbc:mysql://" + this.mySQLSetting.address() + ":" + this.mySQLSetting.port() + "/" + this.mySQLSetting.databaseName());
@@ -40,7 +47,7 @@ public class MySQLDatabase implements Database {
 
         this.configureDataSourceProperties(config.getDataSourceProperties());
 
-        this.hikariDataSource = new HikariDataSource(config);
+        return config;
     }
 
     @Override
