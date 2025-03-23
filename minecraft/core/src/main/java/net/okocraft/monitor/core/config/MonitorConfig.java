@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicReference;
 
 @NotNullByDefault
-public record MonitorConfig(DatabaseConfig database) {
+public record MonitorConfig(DatabaseConfig database, ServerConfig server) {
 
     private static final RecordSerialization<MonitorConfig> SERIALIZATION = RecordSerialization.create(MonitorConfig.class, KeyGenerator.CAMEL_TO_KEBAB);
 

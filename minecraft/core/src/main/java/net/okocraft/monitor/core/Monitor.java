@@ -4,6 +4,7 @@ import net.okocraft.monitor.core.config.MonitorConfig;
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.mysql.MySQLDatabase;
 import net.okocraft.monitor.core.logger.MonitorLogger;
+import net.okocraft.monitor.core.storage.Storage;
 import org.jetbrains.annotations.NotNullByDefault;
 
 import java.nio.file.Path;
@@ -38,6 +39,19 @@ public final class Monitor {
 
             return;
         }
+
+        Storage storage = new Storage(this.dataDirectory, this.database);
+
+        String serverName = this.configHolder.get().server().getServerName();
+        int serverId;
+        try {
+            serverId = storage.getServerInfoStorage().initializeServerId(serverName);
+        } catch (Exception e) {
+            MonitorLogger.logger().error("Failed to initialize server id", e);
+            return;
+        }
+
+        MonitorLogger.logger().info("{}'s server id: {}", serverName, serverId);
 
         MonitorLogger.logger().info("Successfully started Monitor!");
     }

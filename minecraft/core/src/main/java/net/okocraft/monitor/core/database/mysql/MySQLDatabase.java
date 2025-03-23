@@ -3,6 +3,8 @@ package net.okocraft.monitor.core.database.mysql;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import net.okocraft.monitor.core.database.Database;
+import net.okocraft.monitor.core.database.mysql.operator.MySQLServersTableOperator;
+import net.okocraft.monitor.core.database.operator.Operators;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
@@ -16,10 +18,14 @@ import java.util.concurrent.TimeUnit;
 public class MySQLDatabase implements Database {
 
     private final MySQLSetting mySQLSetting;
+    private final Operators operators;
     private @Nullable HikariDataSource hikariDataSource;
 
     public MySQLDatabase(MySQLSetting setting) {
         this.mySQLSetting = setting;
+        this.operators = new Operators(
+            new MySQLServersTableOperator()
+        );
     }
 
     @Override
@@ -64,6 +70,11 @@ public class MySQLDatabase implements Database {
         }
 
         return this.hikariDataSource.getConnection();
+    }
+
+    @Override
+    public Operators getOperators() {
+        return this.operators;
     }
 
     private void configureDataSourceProperties(@NotNull Properties properties) {
