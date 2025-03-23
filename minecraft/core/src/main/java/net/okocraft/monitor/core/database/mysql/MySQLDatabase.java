@@ -35,7 +35,7 @@ public class MySQLDatabase implements Database {
     private @NotNull HikariConfig createHikariConfig() {
         var config = new HikariConfig();
 
-        config.setJdbcUrl("jdbc:mysql://" + this.mySQLSetting.address() + ":" + this.mySQLSetting.port() + "/" + this.mySQLSetting.databaseName());
+        config.setJdbcUrl("jdbc:mysql://" + this.mySQLSetting.host() + ":" + this.mySQLSetting.port() + "/" + this.mySQLSetting.databaseName());
         config.setUsername(this.mySQLSetting.username());
         config.setPassword(this.mySQLSetting.password());
 

@@ -1,6 +1,7 @@
 package net.okocraft.monitor.core.config;
 
 import dev.siroshun.configapi.core.node.MapNode;
+import dev.siroshun.configapi.core.serialization.key.KeyGenerator;
 import dev.siroshun.configapi.core.serialization.record.RecordSerialization;
 import dev.siroshun.configapi.format.yaml.YamlFormat;
 import org.jetbrains.annotations.NotNullByDefault;
@@ -11,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @NotNullByDefault
 public record MonitorConfig(DatabaseConfig database) {
 
-    private static final RecordSerialization<MonitorConfig> SERIALIZATION = RecordSerialization.create(MonitorConfig.class);
+    private static final RecordSerialization<MonitorConfig> SERIALIZATION = RecordSerialization.create(MonitorConfig.class, KeyGenerator.CAMEL_TO_KEBAB);
 
     public static Holder load(Path filepath) throws Exception {
         var loaded = YamlFormat.COMMENT_PROCESSING.load(filepath);

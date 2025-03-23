@@ -4,7 +4,7 @@ import dev.siroshun.configapi.core.serialization.annotation.DefaultInt;
 import dev.siroshun.configapi.core.serialization.annotation.DefaultString;
 
 public record MySQLSetting(
-    @DefaultString("address") String address,
+    @DefaultString("localhost") String host,
     @DefaultInt(3306) int port,
     @DefaultString("monitor_db") String databaseName,
     String username,
