@@ -2,6 +2,7 @@
 # common libraries
 adventure = "4.19.0"
 annotations = "26.0.2"
+configapi = "5.0.0-beta.4"
 hikaricp = "6.2.1"
 slf4j = "2.0.17"
 
@@ -23,6 +24,7 @@ annotations = { module = "org.jetbrains:annotations", version.ref = "annotations
 adventure = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 adventure-text-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
 adventure-text-serializer-plain = { module = "net.kyori:adventure-text-serializer-plain", version.ref = "adventure" }
+configapi-format-yaml = { module = "dev.siroshun.configapi:configapi-format-yaml", version.ref = "configapi" }
 hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 

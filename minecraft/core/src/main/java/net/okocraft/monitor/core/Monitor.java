@@ -12,13 +12,13 @@ import java.nio.file.Path;
 public final class Monitor {
 
     private final Path dataDirectory;
-    private final MonitorConfig config;
+    private final MonitorConfig.Holder configHolder;
     private final Database database;
 
-    public Monitor(Path dataDirectory, MonitorConfig config) {
+    public Monitor(Path dataDirectory, MonitorConfig.Holder configHolder) {
         this.dataDirectory = dataDirectory;
-        this.config = config;
-        this.database = new MySQLDatabase(null); // TODO: load from config
+        this.configHolder = configHolder;
+        this.database = new MySQLDatabase(configHolder.get().database().mysql());
     }
 
     public void start() {

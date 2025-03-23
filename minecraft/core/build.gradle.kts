@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     implementation(libs.hikaricp)
+    implementation(libs.configapi.format.yaml)
 }

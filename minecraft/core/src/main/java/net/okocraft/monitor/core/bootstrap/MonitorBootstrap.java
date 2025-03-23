@@ -24,9 +24,15 @@ public final class MonitorBootstrap {
         return Optional.of(new Monitor(dataDirectory, config.get()));
     }
 
-    private static Optional<MonitorConfig> loadConfig(Path filepath) {
+    private static Optional<MonitorConfig.Holder> loadConfig(Path filepath) {
         MonitorLogger.logger().info("Loading configuration from {}", Path.of(".").relativize(filepath));
-        return Optional.of(new MonitorConfig());
+
+        try {
+            return Optional.of(MonitorConfig.load(filepath));
+        } catch (Exception e) {
+            MonitorLogger.logger().error("Failed to load configuration: {}", e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     private MonitorBootstrap() {
