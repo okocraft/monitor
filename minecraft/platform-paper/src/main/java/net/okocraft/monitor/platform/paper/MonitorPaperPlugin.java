@@ -5,8 +5,12 @@ import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
+import net.okocraft.monitor.platform.paper.listener.PlayerListener;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.stream.Stream;
 
 public class MonitorPaperPlugin extends JavaPlugin implements PlatformAdapter {
 
@@ -42,7 +46,9 @@ public class MonitorPaperPlugin extends JavaPlugin implements PlatformAdapter {
 
     @Override
     public void registerEventListeners(Handlers handlers) {
-        // TODO
+        Stream.<Listener>of(
+            new PlayerListener(handlers.player())
+        ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
     }
 
     @Override
