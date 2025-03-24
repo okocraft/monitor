@@ -34,7 +34,7 @@
         "globals": "16.0.0",
         "orval": "7.7.0",
         "typescript": "5.8.2",
-        "vite": "6.2.2"
+        "vite": "6.2.3"
     },
     "pnpm": {
         "onlyBuiltDependencies": ["@biomejs/biome", "@swc/core", "esbuild"]
