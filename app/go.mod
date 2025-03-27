@@ -13,7 +13,7 @@ require (
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/go-chi/cors v1.2.1
 	github.com/go-sql-driver/mysql v1.9.1
-	github.com/gofrs/uuid/v5 v5.3.1
+	github.com/gofrs/uuid/v5 v5.3.2
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/wire v0.6.0
 	github.com/huandu/go-sqlbuilder v1.35.0
