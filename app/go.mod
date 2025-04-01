@@ -2,7 +2,7 @@ module github.com/okocraft/monitor
 
 go 1.24
 
-toolchain go1.24.1
+toolchain go1.24.2
 
 require (
 	github.com/Siroshun09/go-tablelist-codegen v0.1.1
