@@ -4,7 +4,6 @@ import "@typespec/rest";
 import "@typespec/openapi";
 
 using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.OpenAPI;
 
 @service
