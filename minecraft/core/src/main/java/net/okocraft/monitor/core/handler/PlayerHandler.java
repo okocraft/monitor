@@ -22,14 +22,14 @@ public class PlayerHandler {
     private final int serverId;
     private final PlayerStorage playerStorage;
     private final PlayerManager playerManager;
-    private final LoggingQueue<PlayerConnectLog> queue;
+    private final LoggingQueue<PlayerConnectLog> connectLogQueue;
 
     public PlayerHandler(int serverId, PlayerStorage playerStorage, PlayerManager playerManager,
                          LoggingQueueHolder queueHolder, PlayerLogStorage playerLogStorage) {
         this.serverId = serverId;
         this.playerStorage = playerStorage;
         this.playerManager = playerManager;
-        this.queue = queueHolder.createQueue(playerLogStorage::saveConnectLogs, 100);
+        this.connectLogQueue = queueHolder.createQueue(playerLogStorage::saveConnectLogs, 100);
     }
 
     public void onJoin(UUID uuid, String name, @Nullable SocketAddress address) {
@@ -42,7 +42,7 @@ public class PlayerHandler {
             return;
         }
 
-        this.queue.push(new PlayerConnectLog(player.playerId(), this.serverId, PlayerConnectLog.Action.CONNECT, Objects.toString(address), "", LocalDateTime.now()));
+        this.connectLogQueue.push(new PlayerConnectLog(player.playerId(), this.serverId, PlayerConnectLog.Action.CONNECT, Objects.toString(address), "", LocalDateTime.now()));
     }
 
     public void onLeave(UUID uuid, PlayerConnectLog.Action action, @Nullable SocketAddress address, Component reason) {
@@ -50,6 +50,6 @@ public class PlayerHandler {
         if (player == null) {
             return;
         }
-        this.queue.push(new PlayerConnectLog(player.playerId(), this.serverId, action, Objects.toString(address), PlainTextComponentSerializer.plainText().serialize(reason), LocalDateTime.now()));
+        this.connectLogQueue.push(new PlayerConnectLog(player.playerId(), this.serverId, action, Objects.toString(address), PlainTextComponentSerializer.plainText().serialize(reason), LocalDateTime.now()));
     }
 }
