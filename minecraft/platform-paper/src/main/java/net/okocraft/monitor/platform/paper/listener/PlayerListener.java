@@ -2,7 +2,7 @@ package net.okocraft.monitor.platform.paper.listener;
 
 import net.kyori.adventure.text.Component;
 import net.okocraft.monitor.core.handler.PlayerHandler;
-import net.okocraft.monitor.core.models.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

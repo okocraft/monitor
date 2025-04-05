@@ -1,4 +1,4 @@
-package net.okocraft.monitor.core.models;
+package net.okocraft.monitor.core.models.logs;
 
 import org.jetbrains.annotations.NotNullByDefault;
 

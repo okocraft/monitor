@@ -5,7 +5,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.manager.PlayerManager;
 import net.okocraft.monitor.core.models.MonitorPlayer;
-import net.okocraft.monitor.core.models.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 import net.okocraft.monitor.core.queue.LoggingQueue;
 import net.okocraft.monitor.core.queue.LoggingQueueHolder;
 import net.okocraft.monitor.core.storage.PlayerLogStorage;

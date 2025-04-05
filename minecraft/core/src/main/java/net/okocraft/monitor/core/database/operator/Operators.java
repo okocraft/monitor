@@ -8,6 +8,6 @@ public record Operators(
     PlayersTableOperator players,
     WorldsTableOperator worlds,
     PlayerNameHistoryTableOperator playerNameHistory,
-    PlayerConnectLogsTableOperator playerConnectLogs
+    LogsTableOperator logs
 ) {
 }

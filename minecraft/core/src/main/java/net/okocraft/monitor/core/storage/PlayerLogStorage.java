@@ -2,7 +2,7 @@ package net.okocraft.monitor.core.storage;
 
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.operator.Operators;
-import net.okocraft.monitor.core.models.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,7 +20,7 @@ public class PlayerLogStorage {
 
     public void saveConnectLogs(List<PlayerConnectLog> list) throws SQLException {
         try (Connection connection = this.database.getConnection()) {
-            this.operators.playerConnectLogs().insertLogs(connection, list);
+            this.operators.logs().insertPlayerConnectLogs(connection, list);
         }
     }
 }
