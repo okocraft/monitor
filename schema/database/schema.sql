@@ -110,13 +110,23 @@ CREATE TABLE IF NOT EXISTS minecraft_servers
     updated_at DATETIME    NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS minecraft_worlds
+(
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    server_id INT          NOT NULL REFERENCES minecraft_servers (id),
+    uid       BINARY(16)   NOT NULL,
+    name      VARCHAR(256) NOT NULL,
+
+    UNIQUE INDEX uidx_minecraft_worlds_server_id_uid (server_id, uid)
+);
+
 CREATE TABLE IF NOT EXISTS minecraft_player_connect_logs
 (
-    id        BIGINT PRIMARY KEY KEY AUTO_INCREMENT,
-    player_id INT          NOT NULL REFERENCES minecraft_players (id),
-    server_id INT          NOT NULL REFERENCES minecraft_servers (id),
-    action    SMALLINT     NOT NULL,
-    address   VARCHAR(64)   NOT NULL,
-    reason    VARCHAR(128) NOT NULL,
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    player_id  INT          NOT NULL REFERENCES minecraft_players (id),
+    server_id  INT          NOT NULL REFERENCES minecraft_servers (id),
+    action     SMALLINT     NOT NULL,
+    address    VARCHAR(64)  NOT NULL,
+    reason     VARCHAR(128) NOT NULL,
     created_at DATETIME     NOT NULL
 );

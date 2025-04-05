@@ -8,8 +8,8 @@ import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
 import net.okocraft.monitor.platform.paper.listener.PlayerListener;
+import net.okocraft.monitor.platform.paper.listener.WorldListener;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
@@ -52,8 +52,9 @@ public class MonitorPaperPlugin extends JavaPlugin implements PlatformAdapter {
 
     @Override
     public void registerEventListeners(Handlers handlers) {
-        Stream.<Listener>of(
-            new PlayerListener(handlers.player())
+        Stream.of(
+            new PlayerListener(handlers.player()),
+            new WorldListener(handlers.world())
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
     }
 

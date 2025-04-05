@@ -6,6 +6,7 @@ import net.okocraft.monitor.core.database.mysql.MySQLDatabase;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.manager.PlayerManager;
+import net.okocraft.monitor.core.manager.WorldManager;
 import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
 import net.okocraft.monitor.core.queue.LoggingQueueHolder;
@@ -64,8 +65,9 @@ public final class Monitor {
         MonitorLogger.logger().info("{}'s server id: {}", serverName, serverId);
 
         PlayerManager playerManager = new PlayerManager();
+        WorldManager worldManager = new WorldManager();
         this.loggingQueueHolder = new LoggingQueueHolder();
-        Handlers handlers = Handlers.initialize(serverId, storage, playerManager,  this.loggingQueueHolder);
+        Handlers handlers = Handlers.initialize(serverId, storage, playerManager, worldManager, this.loggingQueueHolder);
 
         MonitorLogger.logger().info("Registering event listeners...");
         adapter.registerEventListeners(handlers);
