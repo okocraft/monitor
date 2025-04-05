@@ -1,6 +1,6 @@
 [versions]
 # common libraries
-adventure = "4.19.0"
+adventure = "4.20.0"
 annotations = "26.0.2"
 concurrent-util = "0.0.3"
 configapi = "5.0.0-beta.4"
