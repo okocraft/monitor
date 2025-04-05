@@ -10,10 +10,12 @@ public class Storage {
 
     private final ServerInfoStorage serverInfoStorage;
     private final PlayerStorage playerStorage;
+    private final PlayerLogStorage playerLogStorage;
 
     public Storage(Path dataDirectory, Database database) {
         this.serverInfoStorage = new ServerInfoStorage(database);
         this.playerStorage = new PlayerStorage(database);
+        this.playerLogStorage = new PlayerLogStorage(database);
     }
 
     public ServerInfoStorage getServerInfoStorage() {
@@ -22,5 +24,9 @@ public class Storage {
 
     public PlayerStorage getPlayerStorage() {
         return this.playerStorage;
+    }
+
+    public PlayerLogStorage getPlayerLogStorage() {
+        return this.playerLogStorage;
     }
 }

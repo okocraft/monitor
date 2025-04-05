@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNullByDefault;
 public record Operators(
     ServersTableOperator servers,
     PlayersTableOperator players,
-    PlayerNameHistoryTableOperator playerNameHistory
+    PlayerNameHistoryTableOperator playerNameHistory,
+    PlayerConnectLogsTableOperator playerConnectLogs
 ) {
 }

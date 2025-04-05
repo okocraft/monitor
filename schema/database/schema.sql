@@ -89,9 +89,9 @@ CREATE TABLE IF NOT EXISTS audit_log_user
 
 CREATE TABLE IF NOT EXISTS minecraft_players
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    uuid        BINARY(16)  NOT NULL UNIQUE,
-    name        VARCHAR(16) NOT NULL
+    id   INT PRIMARY KEY AUTO_INCREMENT,
+    uuid BINARY(16)  NOT NULL UNIQUE,
+    name VARCHAR(16) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS minecraft_player_name_histories
@@ -110,3 +110,13 @@ CREATE TABLE IF NOT EXISTS minecraft_servers
     updated_at DATETIME    NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS minecraft_player_connect_logs
+(
+    id        BIGINT PRIMARY KEY KEY AUTO_INCREMENT,
+    player_id INT          NOT NULL REFERENCES minecraft_players (id),
+    server_id INT          NOT NULL REFERENCES minecraft_servers (id),
+    action    SMALLINT     NOT NULL,
+    address   VARCHAR(64)   NOT NULL,
+    reason    VARCHAR(128) NOT NULL,
+    created_at DATETIME     NOT NULL
+);

@@ -6,11 +6,15 @@ import net.okocraft.monitor.core.database.mysql.MySQLDatabase;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.manager.PlayerManager;
+import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
+import net.okocraft.monitor.core.queue.LoggingQueueHolder;
 import net.okocraft.monitor.core.storage.Storage;
 import org.jetbrains.annotations.NotNullByDefault;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
 @NotNullByDefault
 public final class Monitor {
@@ -18,6 +22,9 @@ public final class Monitor {
     private final Path dataDirectory;
     private final MonitorConfig.Holder configHolder;
     private final Database database;
+
+    private @Nullable CancellableTask saveLogTask;
+    private @Nullable LoggingQueueHolder loggingQueueHolder;
 
     public Monitor(Path dataDirectory, MonitorConfig.Holder configHolder) {
         this.dataDirectory = dataDirectory;
@@ -57,10 +64,14 @@ public final class Monitor {
         MonitorLogger.logger().info("{}'s server id: {}", serverName, serverId);
 
         PlayerManager playerManager = new PlayerManager();
-        Handlers handlers = Handlers.initialize(serverId, storage, playerManager);
+        this.loggingQueueHolder = new LoggingQueueHolder();
+        Handlers handlers = Handlers.initialize(serverId, storage, playerManager,  this.loggingQueueHolder);
 
         MonitorLogger.logger().info("Registering event listeners...");
         adapter.registerEventListeners(handlers);
+
+        MonitorLogger.logger().info("Scheduling logging task...");
+        this.saveLogTask = adapter.scheduleTask( this.loggingQueueHolder::handleLimited, 10, 5, TimeUnit.SECONDS);
 
         MonitorLogger.logger().info("Successfully started Monitor!");
     }
@@ -70,6 +81,15 @@ public final class Monitor {
 
         MonitorLogger.logger().info("Unregistering event listeners...");
         adapter.unregisterEventListeners();
+
+        MonitorLogger.logger().info("Cancelling logging task...");
+        if (this.saveLogTask != null) {
+            this.saveLogTask.cancel();
+        }
+
+        if (this.loggingQueueHolder != null) {
+            this.loggingQueueHolder.handleAll();
+        }
 
         try {
             this.database.shutdown();
