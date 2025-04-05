@@ -22,7 +22,7 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
                 statement.setInt(parameterIndex++, log.action().id());
                 statement.setString(parameterIndex++, log.address().substring(0, Math.min(64, log.address().length())));
                 statement.setString(parameterIndex++, log.reason());
-                statement.setTimestamp(parameterIndex++, MySQLDateTime.now());
+                statement.setTimestamp(parameterIndex++, MySQLDateTime.from(log.time()));
             }
             statement.executeUpdate();
         }

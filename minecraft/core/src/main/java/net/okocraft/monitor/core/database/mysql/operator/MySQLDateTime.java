@@ -9,6 +9,10 @@ final class MySQLDateTime {
         return Timestamp.valueOf(LocalDateTime.now());
     }
 
+    static Timestamp from(LocalDateTime localDateTime) {
+        return Timestamp.valueOf(localDateTime);
+    }
+
     private MySQLDateTime() {
         throw new UnsupportedOperationException();
     }

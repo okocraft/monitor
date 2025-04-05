@@ -13,6 +13,7 @@ import net.okocraft.monitor.core.storage.PlayerStorage;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.SocketAddress;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class PlayerHandler {
             return;
         }
 
-        this.queue.push(new PlayerConnectLog(player.playerId(), this.serverId, PlayerConnectLog.Action.CONNECT, Objects.toString(address), ""));
+        this.queue.push(new PlayerConnectLog(player.playerId(), this.serverId, PlayerConnectLog.Action.CONNECT, Objects.toString(address), "", LocalDateTime.now()));
     }
 
     public void onLeave(UUID uuid, PlayerConnectLog.Action action, @Nullable SocketAddress address, Component reason) {
@@ -49,6 +50,6 @@ public class PlayerHandler {
         if (player == null) {
             return;
         }
-        this.queue.push(new PlayerConnectLog(player.playerId(), this.serverId, action, Objects.toString(address), PlainTextComponentSerializer.plainText().serialize(reason)));
+        this.queue.push(new PlayerConnectLog(player.playerId(), this.serverId, action, Objects.toString(address), PlainTextComponentSerializer.plainText().serialize(reason), LocalDateTime.now()));
     }
 }
