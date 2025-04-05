@@ -11,8 +11,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.OpenAPI;
 
-@service({
-  title: "Monitor API",
-})
+@service(#{ title: "Monitor API" })
 @useAuth(AccessTokenAuth)
 namespace MonitorAPI;
