@@ -1,5 +1,6 @@
 package net.okocraft.monitor.core.database.operator;
 
+import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 
 import java.sql.Connection;
@@ -9,5 +10,7 @@ import java.util.List;
 public interface LogsTableOperator {
 
     void insertPlayerConnectLogs(Connection connection, List<PlayerConnectLog> logs) throws SQLException;
+
+    void insertPlayerChatLogs(Connection connection, List<PlayerChatLog> logs) throws SQLException;
 
 }

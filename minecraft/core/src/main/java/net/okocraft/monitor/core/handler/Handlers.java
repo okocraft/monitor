@@ -9,7 +9,7 @@ public record Handlers(PlayerHandler player, WorldHandler world) {
 
     public static Handlers initialize(int serverId, Storage storage, PlayerManager playerManager, WorldManager worldManager, LoggingQueueHolder queueHolder) {
         return new Handlers(
-            new PlayerHandler(serverId, storage.getPlayerStorage(), playerManager, queueHolder, storage.getPlayerLogStorage()),
+            new PlayerHandler(serverId, storage.getPlayerStorage(), playerManager, worldManager, queueHolder, storage.getPlayerLogStorage()),
             new WorldHandler(serverId, storage.getWorldStorage(), worldManager)
         );
     }

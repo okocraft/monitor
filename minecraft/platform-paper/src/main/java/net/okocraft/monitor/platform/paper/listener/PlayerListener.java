@@ -1,10 +1,13 @@
 package net.okocraft.monitor.platform.paper.listener;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.okocraft.monitor.core.handler.PlayerHandler;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
+import net.okocraft.monitor.platform.paper.adapter.PositionAdapter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -44,5 +47,11 @@ public class PlayerListener implements Listener {
             case ERRONEOUS_STATE -> PlayerConnectLog.Action.ERRONEOUS_STATE;
         };
         this.handler.onLeave(player.getUniqueId(), action, player.getAddress(), Component.empty());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onChat(AsyncChatEvent event) {
+        Player player = event.getPlayer();
+        this.handler.onChat(player.getUniqueId(), player.getWorld().getUID(), PositionAdapter.fromLocation(player.getLocation()), event.originalMessage());
     }
 }
