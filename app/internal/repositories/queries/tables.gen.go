@@ -3,151 +3,285 @@
 package queries
 
 var AuditLogOperatorsTable = struct {
-    TableName string
-    Id string
-    UserId string
-    Name string
-    Ip string
-    CreatedAt string
+	TableName string
+	Id        string
+	UserId    string
+	Name      string
+	Ip        string
+	CreatedAt string
 }{
-    TableName: "audit_log_operators",
-    Id: "id",
-    UserId: "user_id",
-    Name: "name",
-    Ip: "ip",
-    CreatedAt: "created_at",
+	TableName: "audit_log_operators",
+	Id:        "id",
+	UserId:    "user_id",
+	Name:      "name",
+	Ip:        "ip",
+	CreatedAt: "created_at",
 }
 
 var AuditLogUserTable = struct {
-    TableName string
-    Id string
-    OperatorId string
-    ActionType string
-    ChangedFrom string
-    ChangedTo string
-    CreatedAt string
+	TableName   string
+	Id          string
+	OperatorId  string
+	ActionType  string
+	ChangedFrom string
+	ChangedTo   string
+	CreatedAt   string
 }{
-    TableName: "audit_log_user",
-    Id: "id",
-    OperatorId: "operator_id",
-    ActionType: "action_type",
-    ChangedFrom: "changed_from",
-    ChangedTo: "changed_to",
-    CreatedAt: "created_at",
+	TableName:   "audit_log_user",
+	Id:          "id",
+	OperatorId:  "operator_id",
+	ActionType:  "action_type",
+	ChangedFrom: "changed_from",
+	ChangedTo:   "changed_to",
+	CreatedAt:   "created_at",
+}
+
+var MinecraftPlayerChatLogsTable = struct {
+	TableName string
+	Id        string
+	PlayerId  string
+	WorldId   string
+	PositionX string
+	PositionY string
+	PositionZ string
+	Message   string
+	CreatedAt string
+}{
+	TableName: "minecraft_player_chat_logs",
+	Id:        "id",
+	PlayerId:  "player_id",
+	WorldId:   "world_id",
+	PositionX: "position_x",
+	PositionY: "position_y",
+	PositionZ: "position_z",
+	Message:   "message",
+	CreatedAt: "created_at",
+}
+
+var MinecraftPlayerConnectLogsTable = struct {
+	TableName string
+	Id        string
+	PlayerId  string
+	ServerId  string
+	Action    string
+	Address   string
+	Reason    string
+	CreatedAt string
+}{
+	TableName: "minecraft_player_connect_logs",
+	Id:        "id",
+	PlayerId:  "player_id",
+	ServerId:  "server_id",
+	Action:    "action",
+	Address:   "address",
+	Reason:    "reason",
+	CreatedAt: "created_at",
+}
+
+var MinecraftPlayerNameHistoriesTable = struct {
+	TableName string
+	Id        string
+	PlayerId  string
+	Name      string
+	CreatedAt string
+}{
+	TableName: "minecraft_player_name_histories",
+	Id:        "id",
+	PlayerId:  "player_id",
+	Name:      "name",
+	CreatedAt: "created_at",
+}
+
+var MinecraftPlayerProxyCommandLogsTable = struct {
+	TableName string
+	Id        string
+	PlayerId  string
+	ServerId  string
+	Command   string
+	CreatedAt string
+}{
+	TableName: "minecraft_player_proxy_command_logs",
+	Id:        "id",
+	PlayerId:  "player_id",
+	ServerId:  "server_id",
+	Command:   "command",
+	CreatedAt: "created_at",
+}
+
+var MinecraftPlayerWorldCommandLogsTable = struct {
+	TableName string
+	Id        string
+	PlayerId  string
+	WorldId   string
+	PositionX string
+	PositionY string
+	PositionZ string
+	Command   string
+	CreatedAt string
+}{
+	TableName: "minecraft_player_world_command_logs",
+	Id:        "id",
+	PlayerId:  "player_id",
+	WorldId:   "world_id",
+	PositionX: "position_x",
+	PositionY: "position_y",
+	PositionZ: "position_z",
+	Command:   "command",
+	CreatedAt: "created_at",
+}
+
+var MinecraftPlayersTable = struct {
+	TableName string
+	Id        string
+	Uuid      string
+	Name      string
+}{
+	TableName: "minecraft_players",
+	Id:        "id",
+	Uuid:      "uuid",
+	Name:      "name",
+}
+
+var MinecraftServersTable = struct {
+	TableName string
+	Id        string
+	Name      string
+	CreatedAt string
+	UpdatedAt string
+}{
+	TableName: "minecraft_servers",
+	Id:        "id",
+	Name:      "name",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
+}
+
+var MinecraftWorldsTable = struct {
+	TableName string
+	Id        string
+	ServerId  string
+	Uid       string
+	Name      string
+}{
+	TableName: "minecraft_worlds",
+	Id:        "id",
+	ServerId:  "server_id",
+	Uid:       "uid",
+	Name:      "name",
 }
 
 var RolesTable = struct {
-    TableName string
-    Id string
-    Uuid string
-    Name string
-    Priority string
-    CreatedAt string
-    UpdatedAt string
+	TableName string
+	Id        string
+	Uuid      string
+	Name      string
+	Priority  string
+	CreatedAt string
+	UpdatedAt string
 }{
-    TableName: "roles",
-    Id: "id",
-    Uuid: "uuid",
-    Name: "name",
-    Priority: "priority",
-    CreatedAt: "created_at",
-    UpdatedAt: "updated_at",
+	TableName: "roles",
+	Id:        "id",
+	Uuid:      "uuid",
+	Name:      "name",
+	Priority:  "priority",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
 }
 
 var RolesPermissionsTable = struct {
-    TableName string
-    RoleId string
-    PermissionId string
-    IsAllowed string
+	TableName    string
+	RoleId       string
+	PermissionId string
+	IsAllowed    string
 }{
-    TableName: "roles_permissions",
-    RoleId: "role_id",
-    PermissionId: "permission_id",
-    IsAllowed: "is_allowed",
+	TableName:    "roles_permissions",
+	RoleId:       "role_id",
+	PermissionId: "permission_id",
+	IsAllowed:    "is_allowed",
 }
 
 var UsersTable = struct {
-    TableName string
-    Id string
-    Uuid string
-    Nickname string
-    LastAccess string
-    CreatedAt string
-    UpdatedAt string
+	TableName  string
+	Id         string
+	Uuid       string
+	Nickname   string
+	LastAccess string
+	CreatedAt  string
+	UpdatedAt  string
 }{
-    TableName: "users",
-    Id: "id",
-    Uuid: "uuid",
-    Nickname: "nickname",
-    LastAccess: "last_access",
-    CreatedAt: "created_at",
-    UpdatedAt: "updated_at",
+	TableName:  "users",
+	Id:         "id",
+	Uuid:       "uuid",
+	Nickname:   "nickname",
+	LastAccess: "last_access",
+	CreatedAt:  "created_at",
+	UpdatedAt:  "updated_at",
 }
 
 var UsersAccessTokensTable = struct {
-    TableName string
-    Id string
-    UserId string
-    RefreshTokenId string
-    Jti string
-    CreatedAt string
+	TableName      string
+	Id             string
+	UserId         string
+	RefreshTokenId string
+	Jti            string
+	CreatedAt      string
 }{
-    TableName: "users_access_tokens",
-    Id: "id",
-    UserId: "user_id",
-    RefreshTokenId: "refresh_token_id",
-    Jti: "jti",
-    CreatedAt: "created_at",
+	TableName:      "users_access_tokens",
+	Id:             "id",
+	UserId:         "user_id",
+	RefreshTokenId: "refresh_token_id",
+	Jti:            "jti",
+	CreatedAt:      "created_at",
 }
 
 var UsersLoginKeyTable = struct {
-    TableName string
-    UserId string
-    LoginKey string
-    CreatedAt string
+	TableName string
+	UserId    string
+	LoginKey  string
+	CreatedAt string
 }{
-    TableName: "users_login_key",
-    UserId: "user_id",
-    LoginKey: "login_key",
-    CreatedAt: "created_at",
+	TableName: "users_login_key",
+	UserId:    "user_id",
+	LoginKey:  "login_key",
+	CreatedAt: "created_at",
 }
 
 var UsersRefreshTokensTable = struct {
-    TableName string
-    Id string
-    UserId string
-    Jti string
-    Ip string
-    UserAgent string
-    CreatedAt string
+	TableName string
+	Id        string
+	UserId    string
+	Jti       string
+	Ip        string
+	UserAgent string
+	CreatedAt string
 }{
-    TableName: "users_refresh_tokens",
-    Id: "id",
-    UserId: "user_id",
-    Jti: "jti",
-    Ip: "ip",
-    UserAgent: "user_agent",
-    CreatedAt: "created_at",
+	TableName: "users_refresh_tokens",
+	Id:        "id",
+	UserId:    "user_id",
+	Jti:       "jti",
+	Ip:        "ip",
+	UserAgent: "user_agent",
+	CreatedAt: "created_at",
 }
 
 var UsersRoleTable = struct {
-    TableName string
-    UserId string
-    RoleId string
-    UpdatedAt string
+	TableName string
+	UserId    string
+	RoleId    string
+	UpdatedAt string
 }{
-    TableName: "users_role",
-    UserId: "user_id",
-    RoleId: "role_id",
-    UpdatedAt: "updated_at",
+	TableName: "users_role",
+	UserId:    "user_id",
+	RoleId:    "role_id",
+	UpdatedAt: "updated_at",
 }
 
 var UsersSubTable = struct {
-    TableName string
-    UserId string
-    Sub string
+	TableName string
+	UserId    string
+	Sub       string
 }{
-    TableName: "users_sub",
-    UserId: "user_id",
-    Sub: "sub",
+	TableName: "users_sub",
+	UserId:    "user_id",
+	Sub:       "sub",
 }

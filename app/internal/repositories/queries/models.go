@@ -25,6 +25,73 @@ type AuditLogUser struct {
 	CreatedAt   time.Time `db:"created_at"`
 }
 
+type MinecraftPlayer struct {
+	ID   int32  `db:"id"`
+	Uuid []byte `db:"uuid"`
+	Name string `db:"name"`
+}
+
+type MinecraftPlayerChatLog struct {
+	ID        int64     `db:"id"`
+	PlayerID  int32     `db:"player_id"`
+	WorldID   int32     `db:"world_id"`
+	PositionX int32     `db:"position_x"`
+	PositionY int32     `db:"position_y"`
+	PositionZ int32     `db:"position_z"`
+	Message   string    `db:"message"`
+	CreatedAt time.Time `db:"created_at"`
+}
+
+type MinecraftPlayerConnectLog struct {
+	ID        int64     `db:"id"`
+	PlayerID  int32     `db:"player_id"`
+	ServerID  int32     `db:"server_id"`
+	Action    int16     `db:"action"`
+	Address   string    `db:"address"`
+	Reason    string    `db:"reason"`
+	CreatedAt time.Time `db:"created_at"`
+}
+
+type MinecraftPlayerNameHistory struct {
+	ID        int32     `db:"id"`
+	PlayerID  int32     `db:"player_id"`
+	Name      string    `db:"name"`
+	CreatedAt time.Time `db:"created_at"`
+}
+
+type MinecraftPlayerProxyCommandLog struct {
+	ID        int64     `db:"id"`
+	PlayerID  int32     `db:"player_id"`
+	ServerID  int32     `db:"server_id"`
+	Command   string    `db:"command"`
+	CreatedAt time.Time `db:"created_at"`
+}
+
+type MinecraftPlayerWorldCommandLog struct {
+	ID        int64     `db:"id"`
+	PlayerID  int32     `db:"player_id"`
+	WorldID   int32     `db:"world_id"`
+	PositionX int32     `db:"position_x"`
+	PositionY int32     `db:"position_y"`
+	PositionZ int32     `db:"position_z"`
+	Command   string    `db:"command"`
+	CreatedAt time.Time `db:"created_at"`
+}
+
+type MinecraftServer struct {
+	ID        int32     `db:"id"`
+	Name      string    `db:"name"`
+	CreatedAt time.Time `db:"created_at"`
+	UpdatedAt time.Time `db:"updated_at"`
+}
+
+type MinecraftWorld struct {
+	ID       int32  `db:"id"`
+	ServerID int32  `db:"server_id"`
+	Uid      []byte `db:"uid"`
+	Name     string `db:"name"`
+}
+
 type Role struct {
 	ID        int32     `db:"id"`
 	Uuid      []byte    `db:"uuid"`
