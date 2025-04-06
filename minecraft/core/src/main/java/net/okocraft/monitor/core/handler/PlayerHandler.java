@@ -10,6 +10,8 @@ import net.okocraft.monitor.core.models.MonitorPlayer;
 import net.okocraft.monitor.core.models.MonitorWorld;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
+import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
 import net.okocraft.monitor.core.queue.LoggingQueue;
 import net.okocraft.monitor.core.queue.LoggingQueueHolder;
 import net.okocraft.monitor.core.storage.PlayerLogStorage;
@@ -29,6 +31,8 @@ public class PlayerHandler {
     private final WorldManager worldManager;
     private final LoggingQueue<PlayerConnectLog> connectLogQueue;
     private final LoggingQueue<PlayerChatLog> chatLogQueue;
+    private final LoggingQueue<PlayerWorldCommandLog> worldCommandLogQueue;
+    private final LoggingQueue<PlayerProxyCommandLog> proxyCommandLogQueue;
 
     public PlayerHandler(int serverId, PlayerStorage playerStorage,
                          PlayerManager playerManager, WorldManager worldManager,
@@ -39,6 +43,8 @@ public class PlayerHandler {
         this.worldManager = worldManager;
         this.connectLogQueue = queueHolder.createQueue(playerLogStorage::saveConnectLogs, 100);
         this.chatLogQueue = queueHolder.createQueue(playerLogStorage::saveChatLogs, 100);
+        this.worldCommandLogQueue = queueHolder.createQueue(playerLogStorage::saveWorldCommandLogs, 100);
+        this.proxyCommandLogQueue = queueHolder.createQueue(playerLogStorage::saveProxyCommandLogs, 100);
     }
 
     public void onJoin(UUID uuid, String name, @Nullable SocketAddress address) {
@@ -68,7 +74,29 @@ public class PlayerHandler {
             return;
         }
         MonitorWorld world = this.worldManager.getWorldByUUID(worldUid);
-        int worldId = world != null ? world.worldId() : 0;
-        this.chatLogQueue.push(new PlayerChatLog(player.playerId(), worldId, position, PlainTextComponentSerializer.plainText().serialize(message), LocalDateTime.now()));
+        if (world == null) {
+            return;
+        }
+        this.chatLogQueue.push(new PlayerChatLog(player.playerId(), world.worldId(), position, PlainTextComponentSerializer.plainText().serialize(message), LocalDateTime.now()));
+    }
+
+    public void onWorldCommand(UUID uuid, UUID worldUid, BlockPosition position, String command) {
+        MonitorPlayer player = this.playerManager.getPlayerByUUID(uuid);
+        if (player == null) {
+            return;
+        }
+        MonitorWorld world = this.worldManager.getWorldByUUID(worldUid);
+        if (world == null) {
+            return;
+        }
+        this.worldCommandLogQueue.push(new PlayerWorldCommandLog(player.playerId(), world.worldId(), position, command, LocalDateTime.now()));
+    }
+
+    public void onProxyCommand(UUID uuid, String command) {
+        MonitorPlayer player = this.playerManager.getPlayerByUUID(uuid);
+        if (player == null) {
+            return;
+        }
+        this.proxyCommandLogQueue.push(new PlayerProxyCommandLog(player.playerId(), this.serverId, command, LocalDateTime.now()));
     }
 }

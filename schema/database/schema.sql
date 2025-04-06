@@ -142,3 +142,24 @@ CREATE TABLE IF NOT EXISTS minecraft_player_chat_logs
     message    TEXT     NOT NULL,
     created_at DATETIME NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS minecraft_player_world_command_logs
+(
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    player_id  INT      NOT NULL REFERENCES minecraft_players (id),
+    world_id   INT      NOT NULL REFERENCES minecraft_worlds (id),
+    position_x INT      NOT NULL,
+    position_y INT      NOT NULL,
+    position_z INT      NOT NULL,
+    command    TEXT     NOT NULL,
+    created_at DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS minecraft_player_proxy_command_logs
+(
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    player_id  INT      NOT NULL REFERENCES minecraft_players (id),
+    server_id  INT      NOT NULL REFERENCES minecraft_worlds (id),
+    command    TEXT     NOT NULL,
+    created_at DATETIME NOT NULL
+);
