@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.14.0@sha256:4c68376a702446fc3c79af22de146a148bc3367e73c25a5803d453b6b3f722fb
-FROM golang:1.24.2@sha256:991aa6a6e4431f2f01e869a812934bd60fbc87fb939e4a1ea54b8494ab9d2fc6 AS base
+FROM golang:1.24.2@sha256:b51b7beeabe2e2d8438ba4295c59d584049873a480ba0e7b56d80db74b3e3a3a AS base
 
 WORKDIR /tmp/app
 
