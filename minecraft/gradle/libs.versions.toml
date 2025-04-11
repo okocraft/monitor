@@ -8,7 +8,7 @@ hikaricp = "6.3.0"
 slf4j = "2.0.17"
 
 # for testing
-junit = "5.12.1"
+junit = "5.12.2"
 
 # gradle plugins
 shadow = "8.3.6"
