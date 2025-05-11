@@ -3,7 +3,7 @@
 adventure = "4.21.0"
 annotations = "26.0.2"
 concurrent-util = "0.0.3"
-configapi = "5.0.0-beta.6"
+configapi = "5.0.0-rc.1"
 hikaricp = "6.3.0"
 slf4j = "2.0.17"
 
