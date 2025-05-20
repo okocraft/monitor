@@ -1,0 +1,11 @@
+{
+  "id": "monitor",
+  "name": "Monitor",
+  "version": "${projectVersion}",
+  "description": "A Velocity implementation of Monitor.",
+  "authors": [
+    "Siroshun09"
+  ],
+  "main": "net.okocraft.monitor.platform.velocity.MonitorVelocity"
+}
+
