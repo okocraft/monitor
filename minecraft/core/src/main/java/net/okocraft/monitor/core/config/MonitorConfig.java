@@ -1,9 +1,8 @@
 package net.okocraft.monitor.core.config;
 
-import dev.siroshun.configapi.core.node.MapNode;
-import dev.siroshun.configapi.core.serialization.key.KeyGenerator;
-import dev.siroshun.configapi.core.serialization.record.RecordSerialization;
-import dev.siroshun.configapi.format.yaml.YamlFormat;
+import dev.siroshun.codec4j.api.codec.Codec;
+import dev.siroshun.codec4j.api.codec.object.ObjectCodec;
+import dev.siroshun.codec4j.io.yaml.YamlIO;
 import org.jetbrains.annotations.NotNullByDefault;
 
 import java.nio.file.Path;
@@ -12,30 +11,18 @@ import java.util.concurrent.atomic.AtomicReference;
 @NotNullByDefault
 public record MonitorConfig(DatabaseConfig database, ServerConfig server) {
 
-    private static final RecordSerialization<MonitorConfig> SERIALIZATION = RecordSerialization.create(MonitorConfig.class, KeyGenerator.CAMEL_TO_KEBAB);
+    public static final Codec<MonitorConfig> CODEC = ObjectCodec.create(
+        MonitorConfig::new,
+        DatabaseConfig.CODEC.toFieldCodec("database").required(MonitorConfig::database),
+        ServerConfig.CODEC.toFieldCodec("server").required(MonitorConfig::server)
+    );
 
     public static Holder load(Path filepath) throws Exception {
-        var loaded = YamlFormat.COMMENT_PROCESSING.load(filepath);
-        var defaultConfig = SERIALIZATION.serializer().serializeDefault(MonitorConfig.class);
-        applyDefaults(loaded, defaultConfig);
-        YamlFormat.COMMENT_PROCESSING.save(loaded, filepath);
-        return new Holder(filepath, SERIALIZATION.deserializer().deserialize(loaded));
-    }
-
-    private static void applyDefaults(MapNode target, MapNode defaults) {
-        for (var entry : defaults.value().entrySet()) {
-            var key = entry.getKey();
-            var value = entry.getValue();
-            if (!target.containsKey(key)) {
-                target.set(key, value);
-                continue;
-            }
-
-            if (value instanceof MapNode defaultChild &&
-                target.get(key) instanceof MapNode targetChild) {
-                applyDefaults(targetChild, defaultChild);
-            }
+        var result = YamlIO.DEFAULT.decodeFrom(filepath, CODEC);
+        if (result.isFailure()) {
+            throw new Exception("Unable to load config.yml: " + result);
         }
+        return new Holder(filepath, result.unwrap());
     }
 
     public static final class Holder {
@@ -53,8 +40,11 @@ public record MonitorConfig(DatabaseConfig database, ServerConfig server) {
         }
 
         public void reload() throws Exception {
-            var loaded = YamlFormat.DEFAULT.load(this.filepath);
-            this.ref.set(SERIALIZATION.deserializer().deserialize(loaded));
+            var result = YamlIO.DEFAULT.decodeFrom(this.filepath, CODEC);
+            if (result.isFailure()) {
+                throw new Exception("Unable to load config.yml: " + result);
+            }
+            this.ref.set(result.unwrap());
         }
     }
 }

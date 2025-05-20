@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation(libs.hikaricp)
-    implementation(libs.configapi.format.yaml)
+    implementation(libs.codec4j.api)
+    implementation(libs.codec4j.io.yaml)
     compileOnly(libs.concurrent.util)
 }
