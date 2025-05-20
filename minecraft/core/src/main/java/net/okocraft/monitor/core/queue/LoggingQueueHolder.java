@@ -4,6 +4,7 @@ import net.okocraft.monitor.core.logger.MonitorLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
@@ -13,11 +14,19 @@ public final class LoggingQueueHolder {
 
     private final List<RegisteredLoggingQueue<?>> queues = new ArrayList<>();
     private final ReentrantLock lock = new ReentrantLock();
+    private final AtomicBoolean restrictQueueCreation = new AtomicBoolean(false);
 
     public <T> LoggingQueue<T> createQueue(LogHandler<T> handler, int handleLimit) {
+        if (this.restrictQueueCreation.get()) {
+            throw new IllegalStateException("Cannot create new queue because the queue holder is restricting queue creation.");
+        }
         LoggingQueue<T> queue = new LoggingQueue<>();
         this.queues.add(new RegisteredLoggingQueue<>(queue, handler, handleLimit));
         return queue;
+    }
+
+    public void restrictQueueCreation() {
+        this.restrictQueueCreation.set(true);
     }
 
     public void handleLimited() {

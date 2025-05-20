@@ -73,7 +73,8 @@ public final class Monitor {
         adapter.registerEventListeners(handlers);
 
         MonitorLogger.logger().info("Scheduling logging task...");
-        this.saveLogTask = adapter.scheduleTask( this.loggingQueueHolder::handleLimited, 10, 5, TimeUnit.SECONDS);
+        this.loggingQueueHolder.restrictQueueCreation();
+        this.saveLogTask = adapter.scheduleTask(this.loggingQueueHolder::handleLimited, 10, 5, TimeUnit.SECONDS);
 
         MonitorLogger.logger().info("Successfully started Monitor!");
     }
