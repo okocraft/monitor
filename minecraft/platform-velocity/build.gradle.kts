@@ -1,17 +1,17 @@
 plugins {
-    id("monitor.common-conventions")
+    alias(libs.plugins.bundler)
 }
 
-project.extra["monitor.plugin-name"] = "Monitor-Velocity"
-
-repositories {
-    maven {
-        url = uri("https://repo.papermc.io/repository/maven-public/")
+jcommon {
+    setupPaperRepository()
+    commonDependencies {
+        implementation(projects.monitorCore)
+        compileOnly(libs.platform.velocity)
     }
 }
 
-dependencies {
-    implementation(projects.monitorCore)
-    compileOnly(libs.platform.velocity)
+bundler {
+    copyToRootBuildDirectory("Monitor-Velocity-${project.version}")
+    replacePluginVersionForVelocity(project.version)
 }
 

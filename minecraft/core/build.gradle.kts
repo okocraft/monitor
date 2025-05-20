@@ -1,7 +1,3 @@
-plugins {
-    id("monitor.common-conventions")
-}
-
 repositories {
     maven {
         name = "paper"
