@@ -5,7 +5,7 @@ annotations = "26.0.2"
 codec4j = "0.1.1"
 concurrent-util = "0.0.3"
 hikaricp = "6.3.0"
-mysql = "9.2.0"
+mysql = "9.3.0"
 slf4j = "2.0.17"
 
 # for testing
