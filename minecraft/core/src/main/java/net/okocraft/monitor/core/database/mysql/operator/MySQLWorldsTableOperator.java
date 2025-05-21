@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @NotNullByDefault
@@ -36,10 +37,13 @@ public class MySQLWorldsTableOperator implements WorldsTableOperator {
 
     @Override
     public int insertWorld(Connection connection, int serverId, UUID uuid, String name) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO minecraft_worlds (server_id, uid, name) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO minecraft_worlds (server_id, uid, name, created_at, updated_at) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, serverId);
             statement.setBytes(2, MySQLUUID.uuidToBytes(uuid));
             statement.setString(3, name);
+            Timestamp now = MySQLDateTime.now();
+            statement.setTimestamp(4, now);
+            statement.setTimestamp(5, now);
             statement.executeUpdate();
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -52,9 +56,10 @@ public class MySQLWorldsTableOperator implements WorldsTableOperator {
 
     @Override
     public void updateWorld(Connection connection, MonitorWorld world) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement("UPDATE minecraft_worlds SET name = ? WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("UPDATE minecraft_worlds SET name = ?, updated_at = ? WHERE id = ?")) {
             statement.setString(1, world.name());
-            statement.setInt(2, world.worldId());
+            statement.setTimestamp(2, MySQLDateTime.now());
+            statement.setInt(3, world.worldId());
             statement.executeUpdate();
         }
     }
