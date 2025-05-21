@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS minecraft_player_proxy_command_logs
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
     player_id  INT      NOT NULL REFERENCES minecraft_players (id),
-    server_id  INT      NOT NULL REFERENCES minecraft_worlds (id),
+    server_id  INT      NOT NULL REFERENCES minecraft_servers (id),
     command    TEXT     NOT NULL,
     created_at DATETIME NOT NULL
 );
