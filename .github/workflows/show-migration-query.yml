@@ -1,0 +1,70 @@
+name: Show Migration Query
+on:
+  workflow_dispatch:
+    inputs:
+      base_commit_hash:
+        type: string
+        required: true
+        description: A base hash to compare to the latest schema.
+
+jobs:
+  run-atlas:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:11.7.2@sha256:11706a6fd276c2eada52d0d69b1a2aa1f1484cbe78137678e02cca8f7a0ae502
+        ports:
+          - "3306:3306"
+        env:
+          MYSQL_DATABASE: ${{ env.MONITOR_DB_NAME }}
+          MYSQL_ROOT_PASSWORD: ${{ env.MONITOR_DB_PASSWORD }}
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      MONITOR_DB_HOST: 127.0.0.1
+      MONITOR_DB_PORT: 3306
+      MONITOR_DB_USER: root
+      MONITOR_DB_PASSWORD: monitor_pw
+      MONITOR_DB_NAME: monitor_db
+    steps:
+      - name: Checkout base schema.sql
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        id: base
+        with:
+          ref: ${{ inputs.base_commit_hash }}
+          path: ./base
+          sparse-checkout: |
+            schema/database
+      - name: Checkout latest schema.sql
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        id: latest
+        with:
+          path: ./latest
+          sparse-checkout: |
+            schema/database
+      - name: Install Atlas
+        run: |
+          curl -sSf https://atlasgo.sh | sh
+          echo "$HOME/.atlas/bin" >> "$GITHUB_PATH"
+      - name: Run atlas migrate diff
+        id: atlas_diff
+        run: |
+          migration_query=$(atlas schema diff \
+            --from "file://./base/schema/database/schema.sql"  \
+            --to "file://./latest/schema/database/schema.sql" \
+            --dev-url "maria://${{ env.MONITOR_DB_USER }}:${{ env.MONITOR_DB_PASSWORD }}@${{ env.MONITOR_DB_HOST }}:${{ env.MONITOR_DB_PORT }}/monitor_db" \
+            --format '{{ sql . "  " }}')
+
+          echo "migration_query<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$migration_query" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+      - name: Output migration query to GitHub Actions Summary
+        run: |
+          echo '## Migration Query' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Compare: https://github.com/${{ github.repository }}/compare/${{ steps.base.outputs.commit }}...${{ steps.latest.outputs.commit }}' >> "$GITHUB_STEP_SUMMARY"
+          echo '```sql' >> "$GITHUB_STEP_SUMMARY"
+          echo '${{ steps.atlas_diff.outputs.migration_query }}' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
