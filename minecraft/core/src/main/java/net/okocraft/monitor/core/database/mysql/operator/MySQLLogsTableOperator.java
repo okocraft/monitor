@@ -1,10 +1,13 @@
 package net.okocraft.monitor.core.database.mysql.operator;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.okocraft.monitor.core.database.operator.LogsTableOperator;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
 import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
@@ -16,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MySQLLogsTableOperator implements LogsTableOperator {
 
@@ -24,6 +28,7 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
     private static final MySQLBulkInserter PLAYER_WORLD_COMMAND_LOG_INSERTER = MySQLBulkInserter.create("minecraft_player_world_command_logs", List.of("player_id", "world_id", "position_x", "position_y", "position_z", "command", "created_at"));
     private static final MySQLBulkInserter PLAYER_PROXY_COMMAND_LOG_INSERTER = MySQLBulkInserter.create("minecraft_player_proxy_command_logs", List.of("player_id", "server_id", "command", "created_at"));
     private static final MySQLBulkInserter PLAYER_RENAME_ITEM_LOG_INSERTER = MySQLBulkInserter.create("minecraft_player_rename_item_logs", List.of("player_id", "world_id", "position_x", "position_y", "position_z", "item_type", "item_name", "item_name_component", "amount", "created_at"));
+    private static final MySQLBulkInserter PLAYER_EDIT_SIGN_LOG_INSERTER = MySQLBulkInserter.create("minecraft_player_edit_sign_logs", List.of("player_id", "world_id", "block_position_x", "block_position_y", "block_position_z", "block_type", "side", "lines", "lines_component", "created_at"));
 
     @Override
     public void insertPlayerConnectLogs(Connection connection, List<PlayerConnectLog> logs) throws SQLException {
@@ -108,6 +113,31 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
                     // ByteArrayInputStream never throws IOException
                 }
                 statement.setInt(parameterIndex++, log.amount());
+                statement.setTimestamp(parameterIndex++, MySQLDateTime.from(log.time()));
+            }
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void insertPlayerEditSignLogs(Connection connection, List<PlayerEditSignLog> logs) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(PLAYER_EDIT_SIGN_LOG_INSERTER.createQuery(logs.size()))) {
+            int parameterIndex = 1;
+            for (PlayerEditSignLog log : logs) {
+                statement.setInt(parameterIndex++, log.playerId());
+                statement.setInt(parameterIndex++, log.worldId());
+                statement.setInt(parameterIndex++, log.position().x());
+                statement.setInt(parameterIndex++, log.position().y());
+                statement.setInt(parameterIndex++, log.position().z());
+                statement.setString(parameterIndex++, log.blockType().asMinimalString());
+                statement.setInt(parameterIndex++, log.side().id());
+                statement.setString(parameterIndex++, log.lines().stream().map(PlainTextComponentSerializer.plainText()::serialize).collect(Collectors.joining(System.lineSeparator())));
+                String linesJson = GsonComponentSerializer.gson().serialize(Component.join(JoinConfiguration.newlines(), log.lines()));
+                try (ByteArrayInputStream in = new ByteArrayInputStream(linesJson.getBytes(StandardCharsets.UTF_8))) {
+                    statement.setBinaryStream(parameterIndex++, in);
+                } catch (IOException ignored) {
+                    // ByteArrayInputStream never throws IOException
+                }
                 statement.setTimestamp(parameterIndex++, MySQLDateTime.from(log.time()));
             }
             statement.executeUpdate();

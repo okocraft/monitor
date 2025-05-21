@@ -11,6 +11,7 @@ import net.okocraft.monitor.core.models.MonitorPlayer;
 import net.okocraft.monitor.core.models.MonitorWorld;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
 import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.net.SocketAddress;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -36,6 +38,7 @@ public class PlayerHandler {
     private final LoggingQueue<PlayerWorldCommandLog> worldCommandLogQueue;
     private final LoggingQueue<PlayerProxyCommandLog> proxyCommandLogQueue;
     private final LoggingQueue<PlayerRenameItemLog> renameItemLogQueue;
+    private final LoggingQueue<PlayerEditSignLog> editSignLogQueue;
 
     public PlayerHandler(int serverId, PlayerStorage playerStorage,
                          PlayerManager playerManager, WorldManager worldManager,
@@ -49,6 +52,7 @@ public class PlayerHandler {
         this.worldCommandLogQueue = queueHolder.createQueue(playerLogStorage::saveWorldCommandLogs, 100);
         this.proxyCommandLogQueue = queueHolder.createQueue(playerLogStorage::saveProxyCommandLogs, 100);
         this.renameItemLogQueue = queueHolder.createQueue(playerLogStorage::saveRenameItemLogs, 15);
+        this.editSignLogQueue = queueHolder.createQueue(playerLogStorage::saveEditSignLog, 5);
     }
 
     public void onJoin(UUID uuid, String name, @Nullable SocketAddress address) {
@@ -114,5 +118,17 @@ public class PlayerHandler {
             return;
         }
         this.renameItemLogQueue.push(new PlayerRenameItemLog(player.playerId(), world.worldId(), position, itemType, itemName, amount, LocalDateTime.now()));
+    }
+
+    public void onEditSign(UUID uuid, UUID worldUid, BlockPosition position, Key blockType, PlayerEditSignLog.Side side, List<Component> lines) {
+        MonitorPlayer player = this.playerManager.getPlayerByUUID(uuid);
+        if (player == null) {
+            return;
+        }
+        MonitorWorld world = this.worldManager.getWorldByUUID(worldUid);
+        if (world == null) {
+            return;
+        }
+        this.editSignLogQueue.push(new PlayerEditSignLog(player.playerId(), world.worldId(), position, blockType, side, lines, LocalDateTime.now()));
     }
 }

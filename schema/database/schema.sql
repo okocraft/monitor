@@ -179,4 +179,19 @@ CREATE TABLE IF NOT EXISTS minecraft_player_rename_item_logs
     item_name_component JSON     NOT NULL,
     amount              INT      NOT NULL,
     created_at          DATETIME NOT NULL
-)
+);
+
+CREATE TABLE IF NOT EXISTS minecraft_player_edit_sign_logs
+(
+    id               BIGINT PRIMARY KEY AUTO_INCREMENT,
+    player_id        INT      NOT NULL REFERENCES minecraft_players (id),
+    world_id         INT      NOT NULL REFERENCES minecraft_worlds (id),
+    block_position_x INT      NOT NULL,
+    block_position_y INT      NOT NULL,
+    block_position_z INT      NOT NULL,
+    block_type       TEXT     NOT NULL,
+    side             SMALLINT NOT NULL,
+    `lines`          TEXT     NOT NULL,
+    lines_component  JSON     NOT NULL,
+    created_at       DATETIME NOT NULL
+);

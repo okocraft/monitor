@@ -4,6 +4,7 @@ import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.operator.Operators;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
 import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
@@ -49,6 +50,12 @@ public class PlayerLogStorage {
     public void saveRenameItemLogs(List<PlayerRenameItemLog> list) throws SQLException {
         try (Connection connection = this.database.getConnection()) {
             this.operators.logs().insertPlayerRenameItemLogs(connection, list);
+        }
+    }
+
+    public void saveEditSignLog(List<PlayerEditSignLog> list) throws SQLException {
+        try (Connection connection = this.database.getConnection()) {
+            this.operators.logs().insertPlayerEditSignLogs(connection, list);
         }
     }
 }

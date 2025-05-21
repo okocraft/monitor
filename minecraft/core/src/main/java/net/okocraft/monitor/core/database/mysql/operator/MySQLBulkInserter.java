@@ -19,7 +19,7 @@ public final class MySQLBulkInserter {
 
     public static MySQLBulkInserter create(String tableName, List<String> columns) {
         return new MySQLBulkInserter(
-            "INSERT INTO " + tableName + " (" + String.join(", ", columns) + ") VALUES ",
+            "INSERT INTO " + tableName + " (" + columns.stream().map(column -> "`" + column + "`").collect(Collectors.joining(", ")) + ") VALUES ",
             "(" + IntStream.range(0, columns.size()).mapToObj(ignored -> "?").collect(Collectors.joining(", ")) + ")"
         );
     }

@@ -5,12 +5,16 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.okocraft.monitor.core.handler.PlayerHandler;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
+import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
 import net.okocraft.monitor.platform.paper.adapter.PositionAdapter;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -104,5 +108,27 @@ public class PlayerListener implements Listener {
 
         Location location = Objects.requireNonNullElseGet(anvilInventory.getLocation(), player::getLocation);
         this.handler.onRenameItem(player.getUniqueId(), player.getWorld().getUID(), PositionAdapter.fromLocation(location), outputItem.getType().key(), resultName, outputItem.getAmount());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onEditSign(SignChangeEvent event) {
+        PlayerEditSignLog.Side side = switch (event.getSide()) {
+            case BACK -> PlayerEditSignLog.Side.BACK;
+            case FRONT -> PlayerEditSignLog.Side.FRONT;
+        };
+
+        Block block = event.getBlock();
+        if (!(block.getState() instanceof Sign sign)) {
+            return;
+        }
+
+        if (sign.getSide(event.getSide()).lines().equals(event.lines())) {
+            return;
+        }
+
+        this.handler.onEditSign(
+            event.getPlayer().getUniqueId(), block.getWorld().getUID(), PositionAdapter.fromLocation(block.getLocation()),
+            block.getType().key(), side, event.lines()
+        );
     }
 }
