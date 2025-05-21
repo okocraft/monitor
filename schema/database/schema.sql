@@ -112,10 +112,12 @@ CREATE TABLE IF NOT EXISTS minecraft_servers
 
 CREATE TABLE IF NOT EXISTS minecraft_worlds
 (
-    id        INT PRIMARY KEY AUTO_INCREMENT,
-    server_id INT          NOT NULL REFERENCES minecraft_servers (id),
-    uid       BINARY(16)   NOT NULL,
-    name      VARCHAR(256) NOT NULL,
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    server_id  INT          NOT NULL REFERENCES minecraft_servers (id),
+    uid        BINARY(16)   NOT NULL,
+    name       VARCHAR(256) NOT NULL,
+    created_at DATETIME     NOT NULL,
+    updated_at DATETIME     NOT NULL,
 
     UNIQUE INDEX uidx_minecraft_worlds_server_id_uid (server_id, uid)
 );
