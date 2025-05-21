@@ -1,5 +1,6 @@
 package net.okocraft.monitor.core.handler;
 
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.okocraft.monitor.core.logger.MonitorLogger;
@@ -11,6 +12,7 @@ import net.okocraft.monitor.core.models.MonitorWorld;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
+import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
 import net.okocraft.monitor.core.queue.LoggingQueue;
 import net.okocraft.monitor.core.queue.LoggingQueueHolder;
@@ -33,6 +35,7 @@ public class PlayerHandler {
     private final LoggingQueue<PlayerChatLog> chatLogQueue;
     private final LoggingQueue<PlayerWorldCommandLog> worldCommandLogQueue;
     private final LoggingQueue<PlayerProxyCommandLog> proxyCommandLogQueue;
+    private final LoggingQueue<PlayerRenameItemLog> renameItemLogQueue;
 
     public PlayerHandler(int serverId, PlayerStorage playerStorage,
                          PlayerManager playerManager, WorldManager worldManager,
@@ -45,6 +48,7 @@ public class PlayerHandler {
         this.chatLogQueue = queueHolder.createQueue(playerLogStorage::saveChatLogs, 100);
         this.worldCommandLogQueue = queueHolder.createQueue(playerLogStorage::saveWorldCommandLogs, 100);
         this.proxyCommandLogQueue = queueHolder.createQueue(playerLogStorage::saveProxyCommandLogs, 100);
+        this.renameItemLogQueue = queueHolder.createQueue(playerLogStorage::saveRenameItemLogs, 15);
     }
 
     public void onJoin(UUID uuid, String name, @Nullable SocketAddress address) {
@@ -98,5 +102,17 @@ public class PlayerHandler {
             return;
         }
         this.proxyCommandLogQueue.push(new PlayerProxyCommandLog(player.playerId(), this.serverId, command, LocalDateTime.now()));
+    }
+
+    public void onRenameItem(UUID uuid, UUID worldUid, BlockPosition position, Key itemType, Component itemName, int amount) {
+        MonitorPlayer player = this.playerManager.getPlayerByUUID(uuid);
+        if (player == null) {
+            return;
+        }
+        MonitorWorld world = this.worldManager.getWorldByUUID(worldUid);
+        if (world == null) {
+            return;
+        }
+        this.renameItemLogQueue.push(new PlayerRenameItemLog(player.playerId(), world.worldId(), position, itemType, itemName, amount, LocalDateTime.now()));
     }
 }

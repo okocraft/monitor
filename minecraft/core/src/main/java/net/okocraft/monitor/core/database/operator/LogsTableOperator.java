@@ -3,6 +3,7 @@ package net.okocraft.monitor.core.database.operator;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
+import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
 
 import java.sql.Connection;
@@ -18,4 +19,7 @@ public interface LogsTableOperator {
     void insertPlayerWorldCommandLogs(Connection connection, List<PlayerWorldCommandLog> logs) throws SQLException;
 
     void insertPlayerProxyCommandLogs(Connection connection, List<PlayerProxyCommandLog> logs) throws SQLException;
+
+    void insertPlayerRenameItemLogs(Connection connection, List<PlayerRenameItemLog> logs) throws SQLException;
+
 }

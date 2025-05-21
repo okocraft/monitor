@@ -1,20 +1,30 @@
 package net.okocraft.monitor.platform.paper.listener;
 
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.okocraft.monitor.core.handler.PlayerHandler;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 import net.okocraft.monitor.platform.paper.adapter.PositionAdapter;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.AnvilInventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public class PlayerListener implements Listener {
+
+    private static final int ANVIL_INPUT_SLOT = 0;
+    private static final int ANVIL_OUTPUT_SLOT = 2;
 
     private final PlayerHandler handler;
 
@@ -60,5 +70,39 @@ public class PlayerListener implements Listener {
     public void onCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
         this.handler.onWorldCommand(player.getUniqueId(), player.getWorld().getUID(), PositionAdapter.fromLocation(player.getLocation()), event.getMessage());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onRenameItem(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+
+        if (!(event.getClickedInventory() instanceof AnvilInventory anvilInventory)) {
+            return;
+        }
+
+        int clickedSlotIndex = event.getRawSlot();
+        if (clickedSlotIndex != ANVIL_OUTPUT_SLOT) {
+            return;
+        }
+
+        ItemStack inputItem = anvilInventory.getItem(ANVIL_INPUT_SLOT);
+
+        ItemStack outputItem = event.getCurrentItem();
+        if (outputItem == null) {
+            return;
+        }
+
+        Component originalName = inputItem == null ? null : inputItem.getData(DataComponentTypes.CUSTOM_NAME);
+        Component resultName = outputItem.getData(DataComponentTypes.CUSTOM_NAME);
+
+        if ((originalName == null && resultName == null) ||
+            (originalName != null && originalName.equals(resultName))) {
+            return;
+        }
+
+        Location location = Objects.requireNonNullElseGet(anvilInventory.getLocation(), player::getLocation);
+        this.handler.onRenameItem(player.getUniqueId(), player.getWorld().getUID(), PositionAdapter.fromLocation(location), outputItem.getType().key(), resultName, outputItem.getAmount());
     }
 }
