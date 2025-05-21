@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.bundler)
-    alias(libs.plugins.run.task)
+    alias(libs.plugins.run.paper)
 }
 
 jcommon {
