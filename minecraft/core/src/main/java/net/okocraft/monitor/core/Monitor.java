@@ -3,6 +3,7 @@ package net.okocraft.monitor.core;
 import net.okocraft.monitor.core.cloud.sign.HmacSigner;
 import net.okocraft.monitor.core.cloud.storage.CloudStorage;
 import net.okocraft.monitor.core.cloud.storage.local.LocalStorage;
+import net.okocraft.monitor.core.command.MonitorCommand;
 import net.okocraft.monitor.core.config.MonitorConfig;
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.mysql.MySQLDatabase;
@@ -86,6 +87,20 @@ public final class Monitor {
 
         MonitorLogger.logger().info("Registering event listeners...");
         adapter.registerEventListeners(handlers);
+
+        if (this.configHolder.get().command().enabled()) {
+            String customLabel = this.configHolder.get().command().customLabel();
+            MonitorCommand command = new MonitorCommand(
+                adapter.pluginVersion()
+            );
+            if (customLabel.isEmpty()) {
+                adapter.registerCommand(MonitorCommand.LABEL, command);
+                MonitorLogger.logger().info("Registered command: /{}", MonitorCommand.LABEL);
+            } else {
+                adapter.registerCommand(customLabel, command);
+                MonitorLogger.logger().info("Registered command with custom label: /{}", customLabel);
+            }
+        }
 
         MonitorLogger.logger().info("Scheduling logging task...");
         this.loggingQueueHolder.restrictQueueCreation();
