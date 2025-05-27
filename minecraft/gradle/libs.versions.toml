@@ -2,7 +2,7 @@
 # common libraries
 adventure = "4.21.0"
 annotations = "26.0.2"
-codec4j = "0.1.1"
+codec4j = "0.2.0-beta.1"
 concurrent-util = "0.0.3"
 hikaricp = "6.3.0"
 mysql = "9.3.0"
@@ -28,6 +28,7 @@ adventure-text-serializer-gson = { module = "net.kyori:adventure-text-serializer
 adventure-text-serializer-plain = { module = "net.kyori:adventure-text-serializer-plain", version.ref = "adventure" }
 codec4j-api = { module = "dev.siroshun.codec4j:codec4j-api", version.ref = "codec4j" }
 codec4j-io-yaml = { module = "dev.siroshun.codec4j:codec4j-io-yaml", version.ref = "codec4j" }
+codec4j-io-gson = { module = "dev.siroshun.codec4j:codec4j-io-gson", version.ref = "codec4j" }
 concurrent-util = { module = "ca.spottedleaf:concurrentutil", version.ref = "concurrent-util" }
 hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
 mysql = { module = "com.mysql:mysql-connector-j", version.ref = "mysql" }

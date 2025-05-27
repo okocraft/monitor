@@ -11,6 +11,11 @@ repositories {
 dependencies {
     implementation(libs.hikaricp)
     implementation(libs.codec4j.api)
-    implementation(libs.codec4j.io.yaml)
+    implementation(libs.codec4j.io.yaml) {
+        exclude("org.yaml", "snakeyaml")
+    }
+    implementation(libs.codec4j.io.gson) {
+        exclude("com.google.code.gson", "gson")
+    }
     compileOnly(libs.concurrent.util)
 }

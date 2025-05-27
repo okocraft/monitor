@@ -9,12 +9,13 @@ import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicReference;
 
 @NotNullByDefault
-public record MonitorConfig(DatabaseConfig database, ServerConfig server) {
+public record MonitorConfig(DatabaseConfig database, ServerConfig server, UploadConfig upload) {
 
     public static final Codec<MonitorConfig> CODEC = ObjectCodec.create(
         MonitorConfig::new,
         DatabaseConfig.CODEC.toFieldCodec("database").required(MonitorConfig::database),
-        ServerConfig.CODEC.toFieldCodec("server").required(MonitorConfig::server)
+        ServerConfig.CODEC.toFieldCodec("server").required(MonitorConfig::server),
+        UploadConfig.CODEC.toFieldCodec("upload").defaultValue(UploadConfig.EMPTY).required(MonitorConfig::upload)
     );
 
     public static Holder load(Path filepath) throws Exception {
