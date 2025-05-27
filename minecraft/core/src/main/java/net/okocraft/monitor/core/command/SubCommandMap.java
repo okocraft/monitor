@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Predicate;
 
 @NotNullByDefault
 public class SubCommandMap {
@@ -35,7 +36,7 @@ public class SubCommandMap {
     public List<String> findLabelsWithPermission(String prefix, CommandSender sender) {
         String filter = prefix.toLowerCase(Locale.ENGLISH);
         return this.commandMap.values().stream()
-            .filter(RegisteredCommand::isAlias)
+            .filter(Predicate.not(RegisteredCommand::isAlias))
             .filter(command -> command.label().startsWith(filter))
             .filter(command -> sender.hasPermission(command.permission()))
             .map(RegisteredCommand::label)
