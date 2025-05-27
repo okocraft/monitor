@@ -18,7 +18,9 @@ jcommon {
     commonDependencies {
         implementation(projects.monitorCore)
         implementation(libs.mysql) // Velocity does not bundle MySQL driver
-        implementation(libs.concurrent.util)
+        implementation(libs.concurrent.util) {
+            exclude("org.slf4j", "slf4j-api")
+        }
         compileOnly(libs.platform.velocity)
     }
 }

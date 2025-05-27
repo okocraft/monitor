@@ -9,7 +9,9 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.hikaricp)
+    implementation(libs.hikaricp) {
+        exclude("org.slf4j", "slf4j-api")
+    }
     implementation(libs.codec4j.api)
     implementation(libs.codec4j.io.yaml) {
         exclude("org.yaml", "snakeyaml")
@@ -17,5 +19,7 @@ dependencies {
     implementation(libs.codec4j.io.gson) {
         exclude("com.google.code.gson", "gson")
     }
-    compileOnly(libs.concurrent.util)
+    compileOnly(libs.concurrent.util) {
+        exclude("org.slf4j", "slf4j-api")
+    }
 }
