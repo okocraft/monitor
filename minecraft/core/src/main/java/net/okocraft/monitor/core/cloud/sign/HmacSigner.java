@@ -5,6 +5,7 @@ import dev.siroshun.codec4j.api.error.EncodeError;
 import dev.siroshun.codec4j.io.gson.GsonIO;
 import dev.siroshun.jfun.result.Result;
 import net.okocraft.monitor.core.cloud.data.SignedData;
+import org.jetbrains.annotations.Nullable;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -18,13 +19,13 @@ public class HmacSigner {
     private static final String ALGORITHM = "HmacSHA256";
 
     public static HmacSigner create(String secretKey) {
-        Key key = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), ALGORITHM);
+        Key key = secretKey.isEmpty() ? null : new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), ALGORITHM);
         return new HmacSigner(key);
     }
 
-    private final Key key;
+    private final @Nullable Key key;
 
-    private HmacSigner(Key key) {
+    private HmacSigner(@Nullable Key key) {
         this.key = key;
     }
 
@@ -55,6 +56,10 @@ public class HmacSigner {
     }
 
     private Result<byte[], EncodeError> generateHmac(byte[] data) {
+        if (this.key == null) {
+            return Result.failure();
+        }
+
         Mac mac;
         try {
             mac = Mac.getInstance(ALGORITHM);
