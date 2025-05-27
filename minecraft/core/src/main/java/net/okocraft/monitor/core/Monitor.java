@@ -90,7 +90,7 @@ public final class Monitor {
 
         if (this.configHolder.get().command().enabled()) {
             String customLabel = this.configHolder.get().command().customLabel();
-            MonitorCommand command = new MonitorCommand(adapter.pluginVersion(), storage);
+            MonitorCommand command = new MonitorCommand(adapter.pluginVersion(), storage, this.cloudStorage, this.signer);
             if (customLabel.isEmpty()) {
                 adapter.registerCommand(MonitorCommand.LABEL, command);
                 MonitorLogger.logger().info("Registered command: /{}", MonitorCommand.LABEL);

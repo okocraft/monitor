@@ -15,7 +15,7 @@ import java.util.UUID;
 public record PlayerConnectLogData(UUID uuid, String name, String serverName, PlayerConnectLog.Action action,
                                    String address, String reason, LocalDateTime time) {
 
-    private static final Encoder<PlayerConnectLogData> ENCODER = ObjectEncoder.create(
+    public static final Encoder<PlayerConnectLogData> ENCODER = ObjectEncoder.create(
         UUIDCodec.UUID_AS_STRING.toFieldEncoder("uuid", PlayerConnectLogData::uuid),
         Codec.STRING.toFieldEncoder("name", PlayerConnectLogData::name),
         Codec.STRING.toFieldEncoder("server_name", PlayerConnectLogData::serverName),

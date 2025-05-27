@@ -9,8 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
@@ -29,30 +27,19 @@ public class HmacSigner {
         this.key = key;
     }
 
-    public <T> Result<SignedData<T>, EncodeError> sign(T data, Encoder<T> encoder) {
-        Result<byte[], EncodeError> encodeResult = this.encode(data, encoder);
-        if (encodeResult.isFailure()) {
-            return encodeResult.asFailure();
-        }
+    public boolean hasKey() {
+        return this.key != null;
+    }
 
-        Result<byte[], EncodeError> hmacResult = this.generateHmac(encodeResult.unwrap());
+    public <T> Result<SignedData<T>, EncodeError> sign(T data, Encoder<T> encoder) {
+        Result<String, EncodeError> encodeResult = GsonIO.DEFAULT.encodeToString(encoder, data);
+
+        Result<byte[], EncodeError> hmacResult = this.generateHmac(encodeResult.unwrap().getBytes(StandardCharsets.UTF_8));
         if (hmacResult.isFailure()) {
             return hmacResult.asFailure();
         }
 
         return Result.success(new SignedData<>(data, encodeResult.unwrap(), hmacResult.unwrap()));
-    }
-
-    private <T> Result<byte[], EncodeError> encode(T data, Encoder<T> encoder) {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            Result<Void, EncodeError> encodeResult = GsonIO.DEFAULT.encodeTo(out, encoder, data);
-            if (encodeResult.isFailure()) {
-                return encodeResult.asFailure();
-            }
-            return Result.success(out.toByteArray());
-        } catch (IOException e) {
-            return EncodeError.fatalError(e).asFailure();
-        }
     }
 
     private Result<byte[], EncodeError> generateHmac(byte[] data) {

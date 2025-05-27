@@ -1,6 +1,6 @@
 package net.okocraft.monitor.core.cloud.storage.local;
 
-import dev.siroshun.codec4j.api.codec.Codec;
+import dev.siroshun.codec4j.api.encoder.Encoder;
 import dev.siroshun.codec4j.io.gson.GsonIO;
 import dev.siroshun.jfun.result.Result;
 import net.okocraft.monitor.core.cloud.storage.CloudStorage;
@@ -37,7 +37,7 @@ public class LocalStorage implements CloudStorage {
     }
 
     @Override
-    public <T> Result<Void, UploadError> upload(UUID uuid, Codec<T> codec, T object) {
+    public <T> Result<Void, UploadError> upload(UUID uuid, Encoder<T> encoder, T object) {
         try (OutputStream out = Files.newOutputStream(this.directory.resolve(uuid + FILE_EXTENSION));
              BufferedOutputStream bufferedOut = new BufferedOutputStream(out, BUFFER_SIZE);
              GZIPOutputStream gzipOut = new GZIPOutputStream(bufferedOut) {
@@ -46,7 +46,7 @@ public class LocalStorage implements CloudStorage {
                  }
              }
         ) {
-            return GsonIO.DEFAULT.encodeTo(gzipOut, codec, object).mapError(UploadError.EncodeError::new);
+            return GsonIO.DEFAULT.encodeTo(gzipOut, encoder, object).mapError(UploadError.EncodeError::new);
         } catch (IOException e) {
             return Result.failure(new UploadError.UploadException(e));
         }

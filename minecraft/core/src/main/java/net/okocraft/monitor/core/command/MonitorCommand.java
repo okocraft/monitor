@@ -1,6 +1,9 @@
 package net.okocraft.monitor.core.command;
 
+import net.okocraft.monitor.core.cloud.sign.HmacSigner;
+import net.okocraft.monitor.core.cloud.storage.CloudStorage;
 import net.okocraft.monitor.core.command.subcommand.LookupCommand;
+import net.okocraft.monitor.core.command.subcommand.UploadCommand;
 import net.okocraft.monitor.core.command.subcommand.VersionCommand;
 import net.okocraft.monitor.core.storage.Storage;
 import org.jetbrains.annotations.NotNullByDefault;
@@ -17,11 +20,16 @@ public class MonitorCommand implements Command {
 
     private final SubCommandMap subCommandMap;
 
-    public MonitorCommand(String pluginVersion, Storage storage) {
-        this.subCommandMap = SubCommandMap.builder()
+    public MonitorCommand(String pluginVersion, Storage storage, CloudStorage cloudStorage, HmacSigner signer) {
+        SubCommandMap.Builder builder = SubCommandMap.builder()
                 .add("version", PERMISSION + ".version", (sender, ignored) -> VersionCommand.execute(sender, pluginVersion), "ver", "v")
-                .add("lookup", PERMISSION + ".lookup", new LookupCommand(storage.getPlayerLogStorage()))
-                .build();
+                .add("lookup", PERMISSION + ".lookup", new LookupCommand(storage.getPlayerLogStorage()));
+
+        if (signer.hasKey()) {
+            builder.add("upload", PERMISSION + ".upload", new UploadCommand(storage.getPlayerLogStorage(), cloudStorage, signer));
+        }
+
+        this.subCommandMap = builder.build();
     }
 
     @Override
