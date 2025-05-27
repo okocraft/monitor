@@ -36,7 +36,15 @@ tasks {
     }
     shadowJar {
         minimize {
-            exclude("net.okocraft.monitor.platform.velocity.MonitorVelocity",)
+            relocate("ca.spottedleaf.concurrentutil", "net.okocraft.monitor.lib.concurrentutil")
+            relocate("it.unimi.dsi.fastutil", "net.okocraft.monitor.lib.fastutil")
+            relocate("com.zaxxer.hikari", "net.okocraft.monitor.lib.hikari")
+            relocate("com.mysql", "net.okocraft.monitor.lib.mysql")
+            relocate("google.protobuf", "net.okocraft.monitor.lib.protobuf")
+            relocate("com.google.protobuf", "net.okocraft.monitor.lib.protobuf")
+            relocate("dev.siroshun.jfun", "net.okocraft.monitor.lib.jfun")
+            relocate("dev.siroshun.codec4j", "net.okocraft.monitor.lib.codec4j")
+            exclude("net.okocraft.monitor.platform.velocity.MonitorVelocity")
             exclude(dependency(libs.mysql.get()))
         }
     }
