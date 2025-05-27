@@ -2,6 +2,7 @@ package net.okocraft.monitor.core.storage;
 
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.operator.Operators;
+import net.okocraft.monitor.core.models.data.PlayerConnectLogData;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
@@ -12,6 +13,7 @@ import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class PlayerLogStorage {
 
@@ -26,6 +28,12 @@ public class PlayerLogStorage {
     public void saveConnectLogs(List<PlayerConnectLog> list) throws SQLException {
         try (Connection connection = this.database.getConnection()) {
             this.operators.logs().insertPlayerConnectLogs(connection, list);
+        }
+    }
+
+    public void lookupConnectLogData(PlayerConnectLogData.LookupParams params, Consumer<PlayerConnectLogData> consumer) throws SQLException {
+        try (Connection connection = this.database.getConnection()) {
+            this.operators.logs().selectPlayerConnectLogData(connection, params, consumer);
         }
     }
 

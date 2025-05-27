@@ -5,6 +5,7 @@ import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.okocraft.monitor.core.database.operator.LogsTableOperator;
+import net.okocraft.monitor.core.models.data.PlayerConnectLogData;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
 import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
@@ -17,8 +18,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class MySQLLogsTableOperator implements LogsTableOperator {
@@ -43,6 +46,34 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
                 statement.setTimestamp(parameterIndex++, MySQLDateTime.from(log.time()));
             }
             statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void selectPlayerConnectLogData(Connection connection, PlayerConnectLogData.LookupParams params, Consumer<PlayerConnectLogData> consumer) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("""
+            SELECT minecraft_servers.name, minecraft_players.uuid, minecraft_players.name, minecraft_player_connect_logs.action, minecraft_player_connect_logs.address, minecraft_player_connect_logs.reason, minecraft_player_connect_logs.created_at
+            FROM minecraft_player_connect_logs
+            INNER JOIN minecraft_servers ON minecraft_servers.id = minecraft_player_connect_logs.server_id
+            INNER JOIN minecraft_players ON minecraft_players.id = minecraft_player_connect_logs.player_id
+            WHERE ? <= minecraft_player_connect_logs.created_at
+                AND minecraft_player_connect_logs.created_at <= ?
+            """)) {
+            statement.setTimestamp(1, MySQLDateTime.from(params.start()));
+            statement.setTimestamp(2, MySQLDateTime.from(params.end()));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    consumer.accept(new PlayerConnectLogData(
+                        MySQLUUID.bytesToUUID(resultSet.getBytes("minecraft_players.uuid")),
+                        resultSet.getString("minecraft_players.name"),
+                        resultSet.getString("minecraft_servers.name"),
+                        PlayerConnectLog.Action.byId(resultSet.getInt("minecraft_player_connect_logs.action")),
+                        resultSet.getString("minecraft_player_connect_logs.address"),
+                        resultSet.getString("minecraft_player_connect_logs.reason"),
+                        resultSet.getTimestamp("minecraft_player_connect_logs.created_at").toLocalDateTime()
+                    ));
+                }
+            }
         }
     }
 
