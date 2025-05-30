@@ -1,0 +1,12 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "monitor-download-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-05-25",
+	"r2_buckets": [
+		{
+			"binding": "MONITOR_OBJECT_BUCKET",
+			"bucket_name": "monitor-object-bucket"
+		}
+	]
+}
