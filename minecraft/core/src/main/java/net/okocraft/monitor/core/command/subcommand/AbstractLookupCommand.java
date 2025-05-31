@@ -19,7 +19,7 @@ public abstract class AbstractLookupCommand {
 
     protected void lookupConnectLog(Consumer<PlayerConnectLogData> consumer) throws SQLException {
         this.storage.lookupConnectLogData(new PlayerConnectLogData.LookupParams(
-            LocalDateTime.now().minusDays(3),
+            LocalDateTime.now().minusDays(10),
             LocalDateTime.now()
         ), consumer);
     }

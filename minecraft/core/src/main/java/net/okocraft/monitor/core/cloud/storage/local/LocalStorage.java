@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
 import java.util.zip.Deflater;
 import java.util.zip.GZIPOutputStream;
 
@@ -37,8 +36,12 @@ public class LocalStorage implements CloudStorage {
     }
 
     @Override
-    public <T> Result<Void, UploadError> upload(UUID uuid, Encoder<T> encoder, T object) {
-        try (OutputStream out = Files.newOutputStream(this.directory.resolve(uuid + FILE_EXTENSION));
+    public void shutdown() {
+    }
+
+    @Override
+    public <T> Result<Void, UploadError> upload(String key, Encoder<T> encoder, T object) {
+        try (OutputStream out = Files.newOutputStream(this.directory.resolve(key + FILE_EXTENSION));
              BufferedOutputStream bufferedOut = new BufferedOutputStream(out, BUFFER_SIZE);
              GZIPOutputStream gzipOut = new GZIPOutputStream(bufferedOut) {
                  {

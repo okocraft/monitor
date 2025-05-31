@@ -44,6 +44,7 @@ tasks {
             relocate("com.google.protobuf", "net.okocraft.monitor.lib.protobuf")
             relocate("dev.siroshun.jfun", "net.okocraft.monitor.lib.jfun")
             relocate("dev.siroshun.codec4j", "net.okocraft.monitor.lib.codec4j")
+            relocate("io.minio", "net.okocraft.monitor.lib.minio")
             exclude("net.okocraft.monitor.platform.velocity.MonitorVelocity")
             exclude(dependency(libs.mysql.get()))
         }

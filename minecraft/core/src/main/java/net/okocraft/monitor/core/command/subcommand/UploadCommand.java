@@ -80,7 +80,7 @@ public class UploadCommand extends AbstractLookupCommand implements Command {
             throw new RuntimeException(e); // should not reach here.
         }
 
-        Result<Void, UploadError> uploadResult = this.cloudStorage.upload(id, new Encoder<>() {
+        Result<Void, UploadError> uploadResult = this.cloudStorage.upload("minecraft/logs/" + id, new Encoder<>() {
             @Override
             public @NotNull <O> Result<O, EncodeError> encode(@NotNull Out<O> out, @UnknownNullability List<PlayerConnectLogData> playerConnectLogData) {
                 Result<ElementAppender<O>, EncodeError> appender = out.createList();

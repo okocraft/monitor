@@ -19,6 +19,8 @@ dependencies {
     implementation(libs.codec4j.io.gson) {
         exclude("com.google.code.gson", "gson")
     }
+    implementation(libs.minio)
+
     compileOnly(libs.concurrent.util) {
         exclude("org.slf4j", "slf4j-api")
     }

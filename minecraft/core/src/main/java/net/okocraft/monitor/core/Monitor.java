@@ -2,7 +2,7 @@ package net.okocraft.monitor.core;
 
 import net.okocraft.monitor.core.cloud.sign.HmacSigner;
 import net.okocraft.monitor.core.cloud.storage.CloudStorage;
-import net.okocraft.monitor.core.cloud.storage.local.LocalStorage;
+import net.okocraft.monitor.core.cloud.storage.CloudStorageFactory;
 import net.okocraft.monitor.core.command.MonitorCommand;
 import net.okocraft.monitor.core.config.MonitorConfig;
 import net.okocraft.monitor.core.database.Database;
@@ -38,7 +38,7 @@ public final class Monitor {
         this.configHolder = configHolder;
         this.database = new MySQLDatabase(configHolder.get().database().mysql());
         this.signer = HmacSigner.create(configHolder.get().upload().sign().secretKey());
-        this.cloudStorage = new LocalStorage(dataDirectory.resolve("local"));
+        this.cloudStorage = CloudStorageFactory.create(dataDirectory, configHolder.get().upload().cloud());
     }
 
     public void start(PlatformAdapter adapter) {
@@ -120,6 +120,12 @@ public final class Monitor {
 
         if (this.loggingQueueHolder != null) {
             this.loggingQueueHolder.handleAll();
+        }
+
+        try {
+            this.cloudStorage.shutdown();
+        } catch (Exception e) {
+            MonitorLogger.logger().error("Failed to shutdown {} storage", this.cloudStorage.name(), e);
         }
 
         try {
