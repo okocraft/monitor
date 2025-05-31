@@ -8,5 +8,6 @@
 			"binding": "MONITOR_OBJECT_BUCKET",
 			"bucket_name": "monitor-object-bucket"
 		}
-	]
+	],
+	"preview_urls": false
 }
