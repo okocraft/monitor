@@ -18,13 +18,13 @@ public record UploadConfig(SignConfig sign, CloudConfig cloud) {
 
         public static final Decoder<CloudConfig> CODEC = ObjectDecoder.create(
             CloudConfig::new,
-            Codec.STRING.toOptionalFieldDecoder("type", ""),
+            Codec.STRING.toRequiredFieldDecoder("type"),
             ObjectDecoder.create(
                 R2Config::new,
-                Codec.STRING.toOptionalFieldDecoder("account-id", ""),
-                Codec.STRING.toOptionalFieldDecoder("access-key", ""),
-                Codec.STRING.toOptionalFieldDecoder("secret-key", ""),
-                Codec.STRING.toOptionalFieldDecoder("bucket-name", "")
+                Codec.STRING.toRequiredFieldDecoder("account-id"),
+                Codec.STRING.toRequiredFieldDecoder("access-key"),
+                Codec.STRING.toRequiredFieldDecoder("secret-key"),
+                Codec.STRING.toRequiredFieldDecoder("bucket-name")
             ).toSupplyingFieldDecoder("r2", () -> new R2Config("", "", "", ""))
         );
 
