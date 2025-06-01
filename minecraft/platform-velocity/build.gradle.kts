@@ -38,7 +38,7 @@ tasks {
         minimize {
             relocate("ca.spottedleaf.concurrentutil", "net.okocraft.monitor.lib.concurrentutil")
             relocate("com.fasterxml.jackson", "net.okocraft.monitor.lib.jackson")
-            relocate("com.google", "net.okocraft.monitor.lib.google")
+            relocate("com.google.protobuf", "net.okocraft.monitor.lib.google.protobuf")
             relocate("com.mysql", "net.okocraft.monitor.lib.mysql")
             relocate("com.zaxxer.hikari", "net.okocraft.monitor.lib.hikari")
             relocate("dev.siroshun.jfun", "net.okocraft.monitor.lib.jfun")
@@ -46,7 +46,7 @@ tasks {
             relocate("google.protobuf", "net.okocraft.monitor.lib.protobuf")
             relocate("it.unimi.dsi.fastutil", "net.okocraft.monitor.lib.fastutil")
             relocate("io.minio", "net.okocraft.monitor.lib.minio")
-            relocate("javax", "net.okocraft.monitor.lib.javax")
+            relocate("javax.annotations", "net.okocraft.monitor.lib.javax.annotations")
             relocate("kotlin", "net.okocraft.monitor.lib.kotlin")
             relocate("okhttp3", "net.okocraft.monitor.lib.okhttp3")
             relocate("okio", "net.okocraft.monitor.lib.okio")
