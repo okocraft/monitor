@@ -1,7 +1,8 @@
 package net.okocraft.monitor.core.config;
 
 import dev.siroshun.codec4j.api.codec.Codec;
-import dev.siroshun.codec4j.api.codec.object.ObjectCodec;
+import dev.siroshun.codec4j.api.decoder.Decoder;
+import dev.siroshun.codec4j.api.decoder.object.ObjectDecoder;
 import org.jetbrains.annotations.NotNullByDefault;
 
 import java.nio.file.Path;
@@ -9,9 +10,9 @@ import java.nio.file.Path;
 @NotNullByDefault
 public record ServerConfig(String name) {
 
-    public static final Codec<ServerConfig> CODEC = ObjectCodec.create(
+    public static final Decoder<ServerConfig> CODEC = ObjectDecoder.create(
         ServerConfig::new,
-        Codec.STRING.toFieldCodec("name").defaultValueSupplier(() -> "").required(ServerConfig::name)
+        Codec.STRING.toOptionalFieldDecoder("name", "")
     );
 
     public String getServerName() {

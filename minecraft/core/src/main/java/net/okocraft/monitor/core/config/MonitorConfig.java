@@ -1,7 +1,7 @@
 package net.okocraft.monitor.core.config;
 
-import dev.siroshun.codec4j.api.codec.Codec;
-import dev.siroshun.codec4j.api.codec.object.ObjectCodec;
+import dev.siroshun.codec4j.api.decoder.Decoder;
+import dev.siroshun.codec4j.api.decoder.object.ObjectDecoder;
 import dev.siroshun.codec4j.io.yaml.YamlIO;
 import org.jetbrains.annotations.NotNullByDefault;
 
@@ -11,12 +11,12 @@ import java.util.concurrent.atomic.AtomicReference;
 @NotNullByDefault
 public record MonitorConfig(DatabaseConfig database, ServerConfig server, UploadConfig upload, CommandConfig command) {
 
-    public static final Codec<MonitorConfig> CODEC = ObjectCodec.create(
+    public static final Decoder<MonitorConfig> CODEC = ObjectDecoder.create(
         MonitorConfig::new,
-        DatabaseConfig.CODEC.toFieldCodec("database").required(MonitorConfig::database),
-        ServerConfig.CODEC.toFieldCodec("server").required(MonitorConfig::server),
-        UploadConfig.CODEC.toFieldCodec("upload").defaultValue(UploadConfig.EMPTY).required(MonitorConfig::upload),
-        CommandConfig.CODEC.toFieldCodec("command").defaultValue(CommandConfig.EMPTY).required(MonitorConfig::command)
+        DatabaseConfig.CODEC.toRequiredFieldDecoder("database"),
+        ServerConfig.CODEC.toRequiredFieldDecoder("server"),
+        UploadConfig.CODEC.toOptionalFieldDecoder("upload", UploadConfig.EMPTY),
+        CommandConfig.CODEC.toOptionalFieldDecoder("command", CommandConfig.EMPTY)
     );
 
     public static Holder load(Path filepath) throws Exception {
