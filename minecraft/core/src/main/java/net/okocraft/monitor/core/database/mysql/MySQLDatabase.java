@@ -56,8 +56,10 @@ public class MySQLDatabase implements Database {
         config.setPoolName("MonitorMySQLPool");
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config.setConnectionTestQuery("SELECT 1");
-        config.setMaxLifetime(60000);
-        config.setMaximumPoolSize(50);
+        config.setMaxLifetime(TimeUnit.MINUTES.toMillis(30));
+        config.setMaximumPoolSize(20);
+        config.setMinimumIdle(3);
+        config.setIdleTimeout(TimeUnit.SECONDS.toMillis(60));
 
         this.configureDataSourceProperties(config.getDataSourceProperties());
 
