@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS minecraft_player_connect_logs
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
     player_id  INT          NOT NULL REFERENCES minecraft_players (id),
     server_id  INT          NOT NULL REFERENCES minecraft_servers (id),
-    action     SMALLINT     NOT NULL,
+    action     TINYINT      NOT NULL,
     address    VARCHAR(64)  NOT NULL,
     reason     VARCHAR(128) NOT NULL,
     created_at DATETIME     NOT NULL
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS minecraft_player_edit_sign_logs
     block_position_y INT      NOT NULL,
     block_position_z INT      NOT NULL,
     block_type       TEXT     NOT NULL,
-    side             SMALLINT NOT NULL,
+    side             TINYINT  NOT NULL,
     `lines`          TEXT     NOT NULL,
     lines_component  JSON     NOT NULL,
     created_at       DATETIME NOT NULL
