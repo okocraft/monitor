@@ -1,5 +1,6 @@
 package net.okocraft.monitor.core.database.operator;
 
+import net.okocraft.monitor.core.models.data.PlayerChatLogData;
 import net.okocraft.monitor.core.models.data.PlayerConnectLogData;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
@@ -20,6 +21,8 @@ public interface LogsTableOperator {
     void selectPlayerConnectLogData(Connection connection, PlayerConnectLogData.LookupParams params, Consumer<PlayerConnectLogData> consumer) throws SQLException;
 
     void insertPlayerChatLogs(Connection connection, List<PlayerChatLog> logs) throws SQLException;
+
+    void selectPlayerChatLogData(Connection connection, PlayerChatLogData.LookupParams params, Consumer<PlayerChatLogData> consumer) throws SQLException;
 
     void insertPlayerWorldCommandLogs(Connection connection, List<PlayerWorldCommandLog> logs) throws SQLException;
 

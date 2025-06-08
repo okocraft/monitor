@@ -5,6 +5,8 @@ import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.okocraft.monitor.core.database.operator.LogsTableOperator;
+import net.okocraft.monitor.core.models.BlockPosition;
+import net.okocraft.monitor.core.models.data.PlayerChatLogData;
 import net.okocraft.monitor.core.models.data.PlayerConnectLogData;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
 import net.okocraft.monitor.core.models.logs.PlayerConnectLog;
@@ -91,6 +93,43 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
                 statement.setTimestamp(parameterIndex++, MySQLDateTime.from(log.time()));
             }
             statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void selectPlayerChatLogData(Connection connection, PlayerChatLogData.LookupParams params, Consumer<PlayerChatLogData> consumer) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("""
+            SELECT minecraft_players.uuid, minecraft_players.name,
+                   minecraft_servers.name, minecraft_worlds.name,
+                   minecraft_player_chat_logs.position_x, minecraft_player_chat_logs.position_y, minecraft_player_chat_logs.position_z,
+                   minecraft_player_chat_logs.message,
+                   minecraft_player_chat_logs.created_at
+            FROM minecraft_player_chat_logs
+            INNER JOIN minecraft_players ON minecraft_players.id = minecraft_player_chat_logs.player_id
+            INNER JOIN minecraft_worlds ON minecraft_worlds.id = minecraft_player_chat_logs.world_id
+            INNER JOIN minecraft_servers ON minecraft_servers.id = minecraft_worlds.server_id
+            WHERE ? <= minecraft_player_chat_logs.created_at
+                AND minecraft_player_chat_logs.created_at <= ?
+            """)) {
+            statement.setTimestamp(1, MySQLDateTime.from(params.start()));
+            statement.setTimestamp(2, MySQLDateTime.from(params.end()));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    consumer.accept(new PlayerChatLogData(
+                        MySQLUUID.bytesToUUID(resultSet.getBytes("minecraft_players.uuid")),
+                        resultSet.getString("minecraft_players.name"),
+                        resultSet.getString("minecraft_servers.name"),
+                        resultSet.getString("minecraft_worlds.name"),
+                        new BlockPosition(
+                            resultSet.getInt("minecraft_player_chat_logs.position_x"),
+                            resultSet.getInt("minecraft_player_chat_logs.position_y"),
+                            resultSet.getInt("minecraft_player_chat_logs.position_z")
+                        ),
+                        resultSet.getString("minecraft_player_chat_logs.message"),
+                        resultSet.getTimestamp("minecraft_player_chat_logs.created_at").toLocalDateTime()
+                    ));
+                }
+            }
         }
     }
 
