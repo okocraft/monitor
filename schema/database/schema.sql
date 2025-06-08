@@ -195,3 +195,18 @@ CREATE TABLE IF NOT EXISTS minecraft_player_edit_sign_logs
     lines_component  JSON     NOT NULL,
     created_at       DATETIME NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS minecraft_uploaded_objects
+(
+    id                      INT PRIMARY KEY AUTO_INCREMENT,
+    object_id               BINARY(16)  NOT NULL UNIQUE,
+    type                    TINYINT     NOT NULL,
+    version                 TINYINT     NOT NULL,
+    created_by_uuid         BINARY(16)  NOT NULL,
+    created_by_name         VARCHAR(16) NOT NULL,
+    expires_at              DATETIME    NOT NULL,
+    deleted_from_storage_at DATETIME,
+    created_at              DATETIME    NOT NULL,
+
+    INDEX (expires_at)
+)

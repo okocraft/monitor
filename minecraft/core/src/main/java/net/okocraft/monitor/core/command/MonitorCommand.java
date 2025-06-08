@@ -26,7 +26,7 @@ public class MonitorCommand implements Command {
                 .add("lookup", PERMISSION + ".lookup", new LookupCommand(storage.getPlayerLogStorage()));
 
         if (signer.hasKey()) {
-            builder.add("upload", PERMISSION + ".upload", new UploadCommand(storage.getPlayerLogStorage(), cloudStorage, signer));
+            builder.add("upload", PERMISSION + ".upload", new UploadCommand(storage.getPlayerLogStorage(), storage.getUploadedObjectStorage(), cloudStorage, signer));
         }
 
         this.subCommandMap = builder.build();

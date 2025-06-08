@@ -1,5 +1,6 @@
 package net.okocraft.monitor.core.database.operator;
 
+import net.okocraft.monitor.core.database.mysql.operator.MySQLUploadedObjectTableOperator;
 import org.jetbrains.annotations.NotNullByDefault;
 
 @NotNullByDefault
@@ -8,6 +9,7 @@ public record Operators(
     PlayersTableOperator players,
     WorldsTableOperator worlds,
     PlayerNameHistoryTableOperator playerNameHistory,
-    LogsTableOperator logs
+    LogsTableOperator logs,
+    MySQLUploadedObjectTableOperator uploadedObjects
 ) {
 }

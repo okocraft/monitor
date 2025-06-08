@@ -12,12 +12,14 @@ public class Storage {
     private final PlayerStorage playerStorage;
     private final WorldStorage worldStorage;
     private final PlayerLogStorage playerLogStorage;
+    private final UploadedObjectStorage uploadedObjectStorage;
 
     public Storage(Path dataDirectory, Database database) {
         this.serverInfoStorage = new ServerInfoStorage(database);
         this.playerStorage = new PlayerStorage(database);
         this.worldStorage = new WorldStorage(database);
         this.playerLogStorage = new PlayerLogStorage(database);
+        this.uploadedObjectStorage = new UploadedObjectStorage(database);
     }
 
     public ServerInfoStorage getServerInfoStorage() {
@@ -34,5 +36,9 @@ public class Storage {
 
     public PlayerLogStorage getPlayerLogStorage() {
         return this.playerLogStorage;
+    }
+
+    public UploadedObjectStorage getUploadedObjectStorage() {
+        return this.uploadedObjectStorage;
     }
 }

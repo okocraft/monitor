@@ -7,6 +7,7 @@ import net.okocraft.monitor.core.database.mysql.operator.MySQLLogsTableOperator;
 import net.okocraft.monitor.core.database.mysql.operator.MySQLPlayerNameHistoryTableOperator;
 import net.okocraft.monitor.core.database.mysql.operator.MySQLPlayersTableOperator;
 import net.okocraft.monitor.core.database.mysql.operator.MySQLServersTableOperator;
+import net.okocraft.monitor.core.database.mysql.operator.MySQLUploadedObjectTableOperator;
 import net.okocraft.monitor.core.database.mysql.operator.MySQLWorldsTableOperator;
 import net.okocraft.monitor.core.database.operator.Operators;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +33,8 @@ public class MySQLDatabase implements Database {
             new MySQLPlayersTableOperator(),
             new MySQLWorldsTableOperator(),
             new MySQLPlayerNameHistoryTableOperator(),
-            new MySQLLogsTableOperator()
+            new MySQLLogsTableOperator(),
+            new MySQLUploadedObjectTableOperator()
         );
     }
 

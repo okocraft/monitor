@@ -15,7 +15,9 @@ import net.okocraft.monitor.core.command.Command;
 import net.okocraft.monitor.core.command.CommandSender;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.models.data.PlayerConnectLogData;
+import net.okocraft.monitor.core.models.data.UploadedObject;
 import net.okocraft.monitor.core.storage.PlayerLogStorage;
+import net.okocraft.monitor.core.storage.UploadedObjectStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -23,7 +25,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -32,11 +36,13 @@ import java.util.UUID;
 
 public class UploadCommand extends AbstractLookupCommand implements Command {
 
+    private final UploadedObjectStorage uploadedObjectStorage;
     private final CloudStorage cloudStorage;
     private final HmacSigner signer;
 
-    public UploadCommand(PlayerLogStorage storage, CloudStorage cloudStorage, HmacSigner signer) {
+    public UploadCommand(PlayerLogStorage storage, UploadedObjectStorage uploadedObjectStorage, CloudStorage cloudStorage, HmacSigner signer) {
         super(storage);
+        this.uploadedObjectStorage = uploadedObjectStorage;
         this.cloudStorage = cloudStorage;
         this.signer = signer;
     }
@@ -78,6 +84,16 @@ public class UploadCommand extends AbstractLookupCommand implements Command {
             metaData = out.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException(e); // should not reach here.
+        }
+
+        try {
+            this.uploadedObjectStorage.recordUploadedObject(new UploadedObject(
+                id, meta.type().ordinal(), meta.version(), sender.uuid(), sender.name(), LocalDateTime.now(), meta.expiresAt()
+            ));
+        } catch (SQLException e) {
+            sender.sendPlainMessage("Failed to record uploaded object: " + e.getMessage());
+            MonitorLogger.logger().error("Failed to record uploaded object", e);
+            return;
         }
 
         Result<Void, UploadError> uploadResult = this.cloudStorage.upload("minecraft/logs/" + id, new Encoder<>() {
