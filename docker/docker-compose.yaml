@@ -19,7 +19,7 @@ services:
       timeout: 5s
       retries: 3
   monitor_db_migration:
-    image: arigaio/atlas:0.34.0-community-alpine@sha256:175f7f35046a909a1b530465deb24bb6230bf1f6c6bda7abebc4b90b06465f7f
+    image: arigaio/atlas:0.35.0-community-alpine@sha256:515e8186909f4a6b0e5ec43586d7281dd74024c5d84d95ba65c2453b8b38d5d8
     command: >
       schema apply
       --auto-approve
