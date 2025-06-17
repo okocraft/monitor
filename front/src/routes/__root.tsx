@@ -1,4 +1,4 @@
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { ErrorOccurred } from "../pages/ErrorOccurred.tsx";
 import { NotFound } from "../pages/NotFound.tsx";

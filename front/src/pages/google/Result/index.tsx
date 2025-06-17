@@ -1,8 +1,8 @@
 import { useAuth } from "../../../hooks/useAuth.ts";
 import { getSearchParam } from "../../../utils/searchParams.ts";
 import { Failure } from "./Failure.tsx";
-import { RedirectingSuccess, Success } from "./Success.tsx";
 import type { PageType } from "./pageTypes.ts";
+import { RedirectingSuccess, Success } from "./Success.tsx";
 
 export const Component = ({ type }: { type?: PageType }) => {
     const auth = useAuth();

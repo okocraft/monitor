@@ -30,6 +30,7 @@ export const DropDownMenu = (props: Props) => {
             className={"group"}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            role="menu"
         >
             <div className="relative">
                 {props.display}

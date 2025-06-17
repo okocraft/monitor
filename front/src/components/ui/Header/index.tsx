@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import type { PagePermissions } from "../../../api/model";
 import { useAuth } from "../../../hooks/useAuth.ts";
 import { useHeaderLink } from "../../../hooks/useHeaderLink.ts";
-import { type HeaderLink, filterChildren } from "../../../types/header/link.ts";
+import { filterChildren, type HeaderLink } from "../../../types/header/link.ts";
 import type { Me } from "../../../types/me.ts";
 import { AccountName } from "./AccountName.tsx";
 import { DropDownMenuLink, SingleHeaderLink } from "./Link.tsx";

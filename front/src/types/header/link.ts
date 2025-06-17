@@ -1,5 +1,8 @@
-import type { ToPathOption } from "@tanstack/react-router";
-import type { AnyRouter, RegisteredRouter } from "@tanstack/react-router";
+import type {
+    AnyRouter,
+    RegisteredRouter,
+    ToPathOption,
+} from "@tanstack/react-router";
 import type { PagePermissions } from "../../api/model";
 import type { Me } from "../me.ts";
 

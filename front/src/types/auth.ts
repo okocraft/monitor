@@ -1,10 +1,10 @@
 import { jwtDecode } from "jwt-decode";
 import { useRef, useState } from "react";
 import { logout, refreshAccessToken } from "../api/auth/auth.ts";
-import { type Me, type MeState, createMeState } from "./me.ts";
+import { createMeState, type Me, type MeState } from "./me.ts";
 import {
-    type PagePermissionState,
     createPagePermissionState,
+    type PagePermissionState,
 } from "./pagePermission.ts";
 
 export interface AuthState {
@@ -175,7 +175,7 @@ export function checkNotExpired(token: string) {
     try {
         const decoded = jwtDecode(token);
         return !!decoded.exp && Date.now() < decoded.exp * 1000;
-    } catch (e) {
+    } catch (_) {
         return false;
     }
 }
