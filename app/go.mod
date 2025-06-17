@@ -6,7 +6,7 @@ toolchain go1.24.4
 
 require (
 	github.com/Siroshun09/go-tablelist-codegen v0.1.1
-	github.com/Siroshun09/logs v1.0.1
+	github.com/Siroshun09/logs v1.1.0
 	github.com/Siroshun09/serrors v1.2.0
 	github.com/Siroshun09/testrecords v1.0.0
 	github.com/getkin/kin-openapi v0.132.0
