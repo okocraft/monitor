@@ -16,6 +16,7 @@ import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
 import net.okocraft.monitor.platform.velocity.adapter.CommandSenderAdapter;
+import net.okocraft.monitor.platform.velocity.listener.CommandListener;
 import net.okocraft.monitor.platform.velocity.listener.PlayerListener;
 import org.slf4j.Logger;
 
@@ -73,7 +74,8 @@ public class MonitorVelocity implements PlatformAdapter {
     @Override
     public void registerEventListeners(Handlers handlers) {
         Stream.of(
-            new PlayerListener(this.server, handlers.player())
+            new CommandListener(handlers.player(), this.server.getCommandManager()),
+            new PlayerListener(handlers.player())
         ).forEach(listener -> this.server.getEventManager().register(this, listener));
     }
 
