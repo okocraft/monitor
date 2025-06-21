@@ -13,12 +13,14 @@ dependencies {
         exclude("org.slf4j", "slf4j-api")
     }
     implementation(libs.codec4j.api)
+    implementation(libs.codec4j.io.base64)
     implementation(libs.codec4j.io.yaml) {
         exclude("org.yaml", "snakeyaml")
     }
     implementation(libs.codec4j.io.gson) {
         exclude("com.google.code.gson", "gson")
     }
+    implementation(libs.codec4j.io.gzip)
     implementation(libs.minio) {
         exclude("com.google.guava", "guava")
         exclude("org.jetbrains", "annotations")

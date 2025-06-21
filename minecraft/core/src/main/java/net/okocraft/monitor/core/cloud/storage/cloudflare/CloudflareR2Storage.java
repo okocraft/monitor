@@ -1,26 +1,23 @@
 package net.okocraft.monitor.core.cloud.storage.cloudflare;
 
 import dev.siroshun.codec4j.api.encoder.Encoder;
+import dev.siroshun.codec4j.api.error.EncodeError;
 import dev.siroshun.codec4j.io.gson.GsonIO;
+import dev.siroshun.codec4j.io.gzip.GzipIO;
 import dev.siroshun.jfun.result.Result;
 import io.minio.MinioClient;
 import io.minio.UploadObjectArgs;
 import net.okocraft.monitor.core.cloud.storage.CloudStorage;
 import net.okocraft.monitor.core.cloud.storage.UploadError;
+import net.okocraft.monitor.core.logger.MonitorLogger;
 import org.jetbrains.annotations.NotNullByDefault;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.zip.Deflater;
-import java.util.zip.GZIPOutputStream;
 
 @NotNullByDefault
 public class CloudflareR2Storage implements CloudStorage {
-
-    private static final int BUFFER_SIZE = 1 << 18;
 
     public static CloudflareR2Storage create(String accountId, String accessKeyId, String secretAccessKey, String bucketName, Path tmpDirectory) {
         String endpoint = String.format("https://%s.r2.cloudflarestorage.com", accountId);
@@ -65,29 +62,14 @@ public class CloudflareR2Storage implements CloudStorage {
             return Result.failure(new UploadError.UploadException(e));
         }
 
-        try (OutputStream out = Files.newOutputStream(tmpFile);
-             BufferedOutputStream bufferedOut = new BufferedOutputStream(out, BUFFER_SIZE);
-             GZIPOutputStream gzipOut = new GZIPOutputStream(bufferedOut) {
-                 {
-                     this.def.setLevel(Deflater.BEST_COMPRESSION);
-                 }
-             }
-        ) {
-            Result<Void, UploadError.EncodeError> result = GsonIO.DEFAULT.encodeTo(gzipOut, encoder, object).mapError(UploadError.EncodeError::new);
-            if (result.isFailure()) {
-                try {
-                    Files.deleteIfExists(tmpFile);
-                } catch (IOException ignored) {
-                }
-                return Result.failure(result.unwrapError());
-            }
-        } catch (IOException e) {
+        Result<Void, EncodeError> result = GzipIO.bestCompression(GsonIO.DEFAULT).encodeTo(tmpFile, encoder, object);
+        if (result.isFailure()) {
             try {
                 Files.deleteIfExists(tmpFile);
-            } catch (IOException e1) {
-                e.addSuppressed(e1);
+            } catch (IOException e) {
+                MonitorLogger.logger().error("Failed to delete temporary file: {}", tmpFile, e);
             }
-            return Result.failure(new UploadError.UploadException(e));
+            return result.mapError(UploadError.EncodeError::new);
         }
 
         try {
@@ -101,12 +83,12 @@ public class CloudflareR2Storage implements CloudStorage {
             );
         } catch (Exception e) {
             return Result.failure(new UploadError.UploadException(e));
-        }
-
-        try {
-            Files.deleteIfExists(tmpFile);
-        } catch (IOException e) {
-            return Result.failure(new UploadError.UploadException(e));
+        } finally {
+            try {
+                Files.deleteIfExists(tmpFile);
+            } catch (IOException e) {
+                MonitorLogger.logger().error("Failed to delete temporary file: {}", tmpFile, e);
+            }
         }
 
         return Result.success();

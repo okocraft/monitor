@@ -4,6 +4,7 @@ import dev.siroshun.codec4j.api.encoder.Encoder;
 import dev.siroshun.codec4j.api.error.EncodeError;
 import dev.siroshun.codec4j.api.io.ElementAppender;
 import dev.siroshun.codec4j.api.io.Out;
+import dev.siroshun.codec4j.io.base64.Base64IO;
 import dev.siroshun.codec4j.io.gson.GsonIO;
 import dev.siroshun.jfun.result.Result;
 import net.okocraft.monitor.core.cloud.data.ObjectMeta;
@@ -21,8 +22,6 @@ import net.okocraft.monitor.core.storage.UploadedObjectStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnknownNullability;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
@@ -30,7 +29,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,18 +70,15 @@ public class UploadCommand extends AbstractLookupCommand implements Command {
             return;
         }
 
-        SignedData<ObjectMeta> singedMeta = singedMetaResult.unwrap();
-        byte[] metaData;
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            Result<Void, EncodeError> result = GsonIO.DEFAULT.encodeTo(out, SignedData.ENCODER_WITHOUT_META, singedMeta);
-            if (result.isFailure()) {
-                sender.sendPlainMessage("Failed to encode meta.");
-                MonitorLogger.logger().error("Failed to encode meta: {}", result.unwrapError());
-                return;
-            }
-            metaData = out.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e); // should not reach here.
+        Result<String, EncodeError> metaQueryResult =
+            Base64IO.createUrlBase64(GsonIO.DEFAULT)
+                .encodeToBytes(SignedData.ENCODER_WITHOUT_META, singedMetaResult.unwrap())
+                .map(data -> new String(data, StandardCharsets.UTF_8))
+                .map(data -> URLEncoder.encode(data, StandardCharsets.UTF_8));
+        if (metaQueryResult.isFailure()) {
+            sender.sendPlainMessage("Failed to create meta query.");
+            MonitorLogger.logger().error("Failed to create meta query: {}", metaQueryResult.unwrapError());
+            return;
         }
 
         try {
@@ -119,9 +114,7 @@ public class UploadCommand extends AbstractLookupCommand implements Command {
             return;
         }
 
-        String metaQuery = Base64.getUrlEncoder().encodeToString(metaData);
-
         sender.sendPlainMessage("Upload finished (" + logs.size() + " logs)");
-        sender.sendPlainMessage("Viewer url: https://example.com/logs/view/" + id + "?meta=" + URLEncoder.encode(metaQuery, StandardCharsets.UTF_8));
+        sender.sendPlainMessage("Viewer url: https://example.com/logs/view/" + id + "?meta=" + metaQueryResult.unwrap());
     }
 }
