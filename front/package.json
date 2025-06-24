@@ -34,7 +34,7 @@
         "globals": "16.2.0",
         "orval": "7.10.0",
         "typescript": "5.8.3",
-        "vite": "6.3.5"
+        "vite": "7.0.0"
     },
     "pnpm": {
         "onlyBuiltDependencies": [
