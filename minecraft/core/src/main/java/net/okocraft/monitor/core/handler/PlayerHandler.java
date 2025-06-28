@@ -69,7 +69,7 @@ public class PlayerHandler {
     }
 
     public void onLeave(UUID uuid, PlayerConnectLog.Action action, @Nullable SocketAddress address, Component reason) {
-        MonitorPlayer player = this.playerManager.getPlayerByUUID(uuid);
+        MonitorPlayer player = this.playerManager.removePlayer(uuid);
         if (player == null) {
             return;
         }

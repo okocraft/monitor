@@ -21,7 +21,7 @@ public class PlayerManager {
         this.playerMap.putIfAbsent(player.uuid(), player);
     }
 
-    public void removePlayer(UUID uuid) {
-        this.playerMap.remove(uuid);
+    public @Nullable MonitorPlayer removePlayer(UUID uuid) {
+        return this.playerMap.remove(uuid);
     }
 }
