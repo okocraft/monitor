@@ -1,0 +1,18 @@
+name: Minecraft Plugin CI
+on:
+  push:
+    paths: [ 'minecraft/**' ]
+  pull_request:
+    paths: [ 'minecraft/**' ]
+permissions:
+  checks: write
+
+jobs:
+  build:
+    uses: okocraft/workflows/.github/workflows/gradle.yml@v1
+    with:
+      java-version: '21'
+      package-name: Monitor-Build-${{ github.run_number }}
+      artifact-directory: "./minecraft/build/libs"
+      upload-test-results: true
+      working-dir: ./minecraft
