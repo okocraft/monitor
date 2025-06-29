@@ -7,7 +7,6 @@ import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.okocraft.monitor.core.Monitor;
 import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
 import net.okocraft.monitor.core.command.Command;
-import net.okocraft.monitor.core.command.MonitorCommand;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.platform.CancellableTask;
