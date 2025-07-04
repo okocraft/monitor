@@ -10,7 +10,7 @@ mysql = "9.3.0"
 slf4j = "2.0.17"
 
 # for testing
-junit = "5.13.2"
+junit = "5.13.3"
 
 # gradle plugins
 run-task = "2.3.1"
