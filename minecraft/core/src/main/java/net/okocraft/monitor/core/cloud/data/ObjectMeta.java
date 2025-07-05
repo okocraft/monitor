@@ -22,5 +22,6 @@ public record ObjectMeta(UUID id, ObjectType type, int version, Instant expiresA
 
     public enum ObjectType {
         PLAYER_CONNECT_LOG,
+        PLAYER_CHAT_LOG
     }
 }

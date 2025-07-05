@@ -26,6 +26,4 @@ public record PlayerChatLogData(UUID uuid, String name,
         Codec.STRING.comap(DateTimeFormatter.ISO_LOCAL_DATE_TIME::format).toFieldEncoder("time", PlayerChatLogData::time)
     );
 
-    public record LookupParams(LocalDateTime start, LocalDateTime end) {
-    }
 }

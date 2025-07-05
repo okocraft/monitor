@@ -2,6 +2,7 @@ package net.okocraft.monitor.core.storage;
 
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.operator.Operators;
+import net.okocraft.monitor.core.models.lookup.PlayerChatLogLookupParams;
 import net.okocraft.monitor.core.models.data.PlayerChatLogData;
 import net.okocraft.monitor.core.models.data.PlayerConnectLogData;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
@@ -10,6 +11,7 @@ import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
 import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
+import net.okocraft.monitor.core.models.lookup.PlayerConnectLogLookupParams;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -32,7 +34,13 @@ public class PlayerLogStorage {
         }
     }
 
-    public void lookupConnectLogData(PlayerConnectLogData.LookupParams params, Consumer<PlayerConnectLogData> consumer) throws SQLException {
+    public long countConnectLogs(PlayerConnectLogLookupParams params) throws SQLException {
+        try (Connection connection = this.database.getConnection()) {
+            return this.operators.logs().countPlayerConnectLogs(connection, params);
+        }
+    }
+
+    public void lookupConnectLogData(PlayerConnectLogLookupParams params, Consumer<PlayerConnectLogData> consumer) throws SQLException {
         try (Connection connection = this.database.getConnection()) {
             this.operators.logs().selectPlayerConnectLogData(connection, params, consumer);
         }
@@ -44,7 +52,13 @@ public class PlayerLogStorage {
         }
     }
 
-    public void lookupChatLogData(PlayerChatLogData.LookupParams params, Consumer<PlayerChatLogData> consumer) throws SQLException {
+    public long countChatLogs(PlayerChatLogLookupParams params) throws SQLException {
+        try (Connection connection = this.database.getConnection()) {
+            return this.operators.logs().countPlayerChatLogs(connection, params);
+        }
+    }
+
+    public void lookupChatLogData(PlayerChatLogLookupParams params, Consumer<PlayerChatLogData> consumer) throws SQLException {
         try (Connection connection = this.database.getConnection()) {
             this.operators.logs().selectPlayerChatLogData(connection, params, consumer);
         }

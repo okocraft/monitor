@@ -14,6 +14,8 @@ import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
 import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
+import net.okocraft.monitor.core.models.lookup.PlayerChatLogLookupParams;
+import net.okocraft.monitor.core.models.lookup.PlayerConnectLogLookupParams;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -52,7 +54,29 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
     }
 
     @Override
-    public void selectPlayerConnectLogData(Connection connection, PlayerConnectLogData.LookupParams params, Consumer<PlayerConnectLogData> consumer) throws SQLException {
+    public long countPlayerConnectLogs(Connection connection, PlayerConnectLogLookupParams params) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("""
+            SELECT COUNT(*)
+            FROM minecraft_player_connect_logs
+            INNER JOIN minecraft_servers ON minecraft_servers.id = minecraft_player_connect_logs.server_id
+            INNER JOIN minecraft_players ON minecraft_players.id = minecraft_player_connect_logs.player_id
+            WHERE ? <= minecraft_player_connect_logs.created_at
+                AND minecraft_player_connect_logs.created_at <= ?;
+            """)) {
+            statement.setTimestamp(1, MySQLDateTime.from(params.start()));
+            statement.setTimestamp(2, MySQLDateTime.from(params.end()));
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getLong(1);
+                }
+                return 0;
+            }
+        }
+    }
+
+    @Override
+    public void selectPlayerConnectLogData(Connection connection, PlayerConnectLogLookupParams params, Consumer<PlayerConnectLogData> consumer) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("""
             SELECT minecraft_servers.name, minecraft_players.uuid, minecraft_players.name, minecraft_player_connect_logs.action, minecraft_player_connect_logs.address, minecraft_player_connect_logs.reason, minecraft_player_connect_logs.created_at
             FROM minecraft_player_connect_logs
@@ -60,9 +84,15 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
             INNER JOIN minecraft_players ON minecraft_players.id = minecraft_player_connect_logs.player_id
             WHERE ? <= minecraft_player_connect_logs.created_at
                 AND minecraft_player_connect_logs.created_at <= ?
+            ORDER BY minecraft_player_connect_logs.created_at DESC
+            LIMIT ?
+            OFFSET ?
             """)) {
             statement.setTimestamp(1, MySQLDateTime.from(params.start()));
             statement.setTimestamp(2, MySQLDateTime.from(params.end()));
+            statement.setLong(3, params.limit());
+            statement.setLong(4, params.offset());
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     consumer.accept(new PlayerConnectLogData(
@@ -97,7 +127,27 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
     }
 
     @Override
-    public void selectPlayerChatLogData(Connection connection, PlayerChatLogData.LookupParams params, Consumer<PlayerChatLogData> consumer) throws SQLException {
+    public long countPlayerChatLogs(Connection connection, PlayerChatLogLookupParams params) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("""
+            SELECT COUNT(*)
+            FROM minecraft_player_chat_logs
+            WHERE ? <= minecraft_player_chat_logs.created_at
+                AND minecraft_player_chat_logs.created_at <= ?
+            """)) {
+            statement.setTimestamp(1, MySQLDateTime.from(params.start()));
+            statement.setTimestamp(2, MySQLDateTime.from(params.end()));
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getLong(1);
+                }
+                return 0;
+            }
+        }
+    }
+
+    @Override
+    public void selectPlayerChatLogData(Connection connection, PlayerChatLogLookupParams params, Consumer<PlayerChatLogData> consumer) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("""
             SELECT minecraft_players.uuid, minecraft_players.name,
                    minecraft_servers.name, minecraft_worlds.name,
@@ -110,9 +160,14 @@ public class MySQLLogsTableOperator implements LogsTableOperator {
             INNER JOIN minecraft_servers ON minecraft_servers.id = minecraft_worlds.server_id
             WHERE ? <= minecraft_player_chat_logs.created_at
                 AND minecraft_player_chat_logs.created_at <= ?
+            ORDER BY minecraft_player_chat_logs.created_at DESC
+            LIMIT ?
+            OFFSET ?
             """)) {
             statement.setTimestamp(1, MySQLDateTime.from(params.start()));
             statement.setTimestamp(2, MySQLDateTime.from(params.end()));
+            statement.setLong(3, params.limit());
+            statement.setLong(4, params.offset());
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     consumer.accept(new PlayerChatLogData(

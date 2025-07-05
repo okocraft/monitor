@@ -25,7 +25,4 @@ public record PlayerConnectLogData(UUID uuid, String name, String serverName, Pl
         Codec.STRING.comap(DateTimeFormatter.ISO_LOCAL_DATE_TIME::format).toFieldEncoder("time", PlayerConnectLogData::time)
     );
 
-    public record LookupParams(LocalDateTime start, LocalDateTime end) {
-    }
-
 }
