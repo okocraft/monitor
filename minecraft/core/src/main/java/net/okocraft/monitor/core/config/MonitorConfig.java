@@ -9,14 +9,15 @@ import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicReference;
 
 @NotNullByDefault
-public record MonitorConfig(DatabaseConfig database, ServerConfig server, UploadConfig upload, CommandConfig command) {
+public record MonitorConfig(DatabaseConfig database, ServerConfig server, UploadConfig upload, CommandConfig command, DiscordWebhookConfig discordWebhook) {
 
     public static final Decoder<MonitorConfig> CODEC = ObjectDecoder.create(
         MonitorConfig::new,
         DatabaseConfig.CODEC.toRequiredFieldDecoder("database"),
         ServerConfig.CODEC.toRequiredFieldDecoder("server"),
         UploadConfig.CODEC.toOptionalFieldDecoder("upload", UploadConfig.EMPTY),
-        CommandConfig.CODEC.toOptionalFieldDecoder("command", CommandConfig.EMPTY)
+        CommandConfig.CODEC.toOptionalFieldDecoder("command", CommandConfig.EMPTY),
+        DiscordWebhookConfig.DECODER.toOptionalFieldDecoder("discord-webhook", DiscordWebhookConfig.EMPTY)
     );
 
     public static Holder load(Path filepath) throws Exception {

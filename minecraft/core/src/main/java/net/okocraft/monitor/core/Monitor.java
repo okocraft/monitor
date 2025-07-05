@@ -5,6 +5,7 @@ import net.okocraft.monitor.core.cloud.storage.CloudStorage;
 import net.okocraft.monitor.core.cloud.storage.CloudStorageFactory;
 import net.okocraft.monitor.core.command.MonitorCommand;
 import net.okocraft.monitor.core.config.MonitorConfig;
+import net.okocraft.monitor.core.config.notification.ServerStatusNotification;
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.mysql.MySQLDatabase;
 import net.okocraft.monitor.core.handler.Handlers;
@@ -15,6 +16,7 @@ import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
 import net.okocraft.monitor.core.queue.LoggingQueueHolder;
 import net.okocraft.monitor.core.storage.Storage;
+import net.okocraft.monitor.core.webhook.discord.DiscordWebhookFactory;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,6 +33,7 @@ public final class Monitor {
     private final CloudStorage cloudStorage;
 
     private @Nullable CancellableTask saveLogTask;
+    private @Nullable CancellableTask serverStatusCheckTask;
     private @Nullable LoggingQueueHolder loggingQueueHolder;
 
     public Monitor(Path dataDirectory, MonitorConfig.Holder configHolder) {
@@ -80,6 +83,8 @@ public final class Monitor {
 
         MonitorLogger.logger().info("{}'s server id: {}", serverName, serverId);
 
+        DiscordWebhookFactory discordWebhookFactory = new DiscordWebhookFactory(this.configHolder.get().discordWebhook().url());
+
         PlayerManager playerManager = new PlayerManager();
         WorldManager worldManager = new WorldManager();
         this.loggingQueueHolder = new LoggingQueueHolder();
@@ -100,6 +105,12 @@ public final class Monitor {
             }
         }
 
+        ServerStatusNotification serverStatusNotification = this.configHolder.get().discordWebhook().notifications().serverStatus();
+        if (!serverStatusNotification.enabledServerNames().isEmpty()) {
+            MonitorLogger.logger().info("Starting server status check task...");
+            this.serverStatusCheckTask = adapter.startServerStatusChecker(serverStatusNotification, discordWebhookFactory.create(serverStatusNotification.threadId()));
+        }
+
         MonitorLogger.logger().info("Scheduling logging task...");
         this.loggingQueueHolder.restrictQueueCreation();
         this.saveLogTask = adapter.scheduleTask(this.loggingQueueHolder::handleLimited, 10, 5, TimeUnit.SECONDS);
@@ -116,6 +127,13 @@ public final class Monitor {
         MonitorLogger.logger().info("Cancelling logging task...");
         if (this.saveLogTask != null) {
             this.saveLogTask.cancel();
+            this.saveLogTask = null;
+        }
+
+        if (this.serverStatusCheckTask != null) {
+            MonitorLogger.logger().info("Cancelling server status check task...");
+            this.serverStatusCheckTask.cancel();
+            this.serverStatusCheckTask = null;
         }
 
         if (this.loggingQueueHolder != null) {

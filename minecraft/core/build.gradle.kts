@@ -25,6 +25,9 @@ dependencies {
         exclude("com.google.guava", "guava")
         exclude("org.jetbrains", "annotations")
     }
+    implementation(libs.discord.webhooks) {
+        exclude("org.slf4j", "slf4j-api")
+    }
 
     compileOnly(libs.concurrent.util) {
         exclude("org.slf4j", "slf4j-api")

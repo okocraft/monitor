@@ -7,15 +7,18 @@ import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.okocraft.monitor.core.Monitor;
 import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
 import net.okocraft.monitor.core.command.Command;
+import net.okocraft.monitor.core.config.notification.ServerStatusNotification;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
+import net.okocraft.monitor.core.webhook.discord.DiscordWebhook;
 import net.okocraft.monitor.platform.paper.adapter.CommandSenderAdapter;
 import net.okocraft.monitor.platform.paper.listener.PlayerListener;
 import net.okocraft.monitor.platform.paper.listener.WorldListener;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
 
@@ -89,6 +92,13 @@ public class MonitorPaperPlugin extends JavaPlugin implements PlatformAdapter {
                 }
             });
         }));
+    }
+
+    @Override
+    public CancellableTask startServerStatusChecker(@NotNull ServerStatusNotification notification, @Nullable DiscordWebhook webhook) {
+        // Not supported
+        return () -> {
+        };
     }
 
     @Override

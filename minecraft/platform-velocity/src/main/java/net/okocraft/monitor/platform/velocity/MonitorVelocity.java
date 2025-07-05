@@ -11,13 +11,18 @@ import com.velocitypowered.api.scheduler.ScheduledTask;
 import net.okocraft.monitor.core.Monitor;
 import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
 import net.okocraft.monitor.core.command.Command;
+import net.okocraft.monitor.core.config.notification.ServerStatusNotification;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
 import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
+import net.okocraft.monitor.core.webhook.discord.DiscordWebhook;
 import net.okocraft.monitor.platform.velocity.adapter.CommandSenderAdapter;
 import net.okocraft.monitor.platform.velocity.listener.CommandListener;
 import net.okocraft.monitor.platform.velocity.listener.PlayerListener;
+import net.okocraft.monitor.platform.velocity.serverstatus.ServerStatusChecker;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -100,6 +105,17 @@ public class MonitorVelocity implements PlatformAdapter {
                 }
             }
         );
+    }
+
+    @Override
+    public CancellableTask startServerStatusChecker(@NotNull ServerStatusNotification notification, @Nullable DiscordWebhook webhook) {
+        if (webhook == null) {
+            return () -> {
+            };
+        }
+
+        ServerStatusChecker checker = new ServerStatusChecker(this.server, notification, webhook);
+        return this.scheduleTask(checker, 90, 90, TimeUnit.SECONDS);
     }
 
     @Override
