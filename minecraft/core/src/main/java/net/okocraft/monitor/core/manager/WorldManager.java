@@ -13,7 +13,7 @@ public class WorldManager {
 
     private final Map<UUID, MonitorWorld> worldMap = new ConcurrentHashMap<>();
 
-    public @Nullable MonitorWorld getWorldByUUID(UUID uuid)  {
+    public @Nullable MonitorWorld getWorldByUUID(UUID uuid) {
         return this.worldMap.get(uuid);
     }
 

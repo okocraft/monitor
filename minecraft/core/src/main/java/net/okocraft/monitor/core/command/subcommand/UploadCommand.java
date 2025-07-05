@@ -79,7 +79,7 @@ public class UploadCommand extends AbstractLookupCommand {
         }
 
         if (logs.isEmpty()) {
-            sender.sendPlainMessage("No " + lookup.type()  + " log found.");
+            sender.sendPlainMessage("No " + lookup.type() + " log found.");
             return;
         }
 

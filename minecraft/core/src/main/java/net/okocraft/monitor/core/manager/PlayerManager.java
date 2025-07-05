@@ -13,7 +13,7 @@ public class PlayerManager {
 
     private final Map<UUID, MonitorPlayer> playerMap = new ConcurrentHashMap<>();
 
-    public @Nullable MonitorPlayer getPlayerByUUID(UUID uuid)  {
+    public @Nullable MonitorPlayer getPlayerByUUID(UUID uuid) {
         return this.playerMap.get(uuid);
     }
 

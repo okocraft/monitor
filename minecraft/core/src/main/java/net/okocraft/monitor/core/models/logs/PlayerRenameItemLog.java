@@ -6,5 +6,6 @@ import net.okocraft.monitor.core.models.BlockPosition;
 
 import java.time.LocalDateTime;
 
-public record PlayerRenameItemLog(int playerId, int worldId, BlockPosition position, Key itemType, Component itemName, int amount, LocalDateTime time) {
+public record PlayerRenameItemLog(int playerId, int worldId, BlockPosition position, Key itemType, Component itemName,
+                                  int amount, LocalDateTime time) {
 }

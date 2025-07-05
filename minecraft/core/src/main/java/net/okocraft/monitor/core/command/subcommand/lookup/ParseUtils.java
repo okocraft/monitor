@@ -77,7 +77,7 @@ final class ParseUtils {
 
         return Result.success(duration);
     }
-    
+
     private ParseUtils() {
         throw new UnsupportedOperationException();
     }

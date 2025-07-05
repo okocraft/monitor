@@ -9,10 +9,10 @@ import java.util.UUID;
 final class MySQLUUID {
 
     static byte[] uuidToBytes(UUID uuid) {
-            ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-            bb.putLong(uuid.getMostSignificantBits());
-            bb.putLong(uuid.getLeastSignificantBits());
-            return bb.array();
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+        return bb.array();
     }
 
     static UUID bytesToUUID(byte[] bytes) {

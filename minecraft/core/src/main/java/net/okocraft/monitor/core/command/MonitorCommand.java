@@ -22,8 +22,8 @@ public class MonitorCommand implements Command {
 
     public MonitorCommand(String pluginVersion, Storage storage, CloudStorage cloudStorage, HmacSigner signer) {
         SubCommandMap.Builder builder = SubCommandMap.builder()
-                .add("version", PERMISSION + ".version", (sender, ignored) -> VersionCommand.execute(sender, pluginVersion), "ver", "v")
-                .add("lookup", PERMISSION + ".lookup", new LookupCommand(storage.getPlayerLogStorage()));
+            .add("version", PERMISSION + ".version", (sender, ignored) -> VersionCommand.execute(sender, pluginVersion), "ver", "v")
+            .add("lookup", PERMISSION + ".lookup", new LookupCommand(storage.getPlayerLogStorage()));
 
         if (signer.hasKey()) {
             builder.add("upload", PERMISSION + ".upload", new UploadCommand(storage.getPlayerLogStorage(), storage.getUploadedObjectStorage(), cloudStorage, signer));

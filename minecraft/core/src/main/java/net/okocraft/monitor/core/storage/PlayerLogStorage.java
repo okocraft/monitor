@@ -2,7 +2,6 @@ package net.okocraft.monitor.core.storage;
 
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.operator.Operators;
-import net.okocraft.monitor.core.models.lookup.PlayerChatLogLookupParams;
 import net.okocraft.monitor.core.models.data.PlayerChatLogData;
 import net.okocraft.monitor.core.models.data.PlayerConnectLogData;
 import net.okocraft.monitor.core.models.logs.PlayerChatLog;
@@ -11,6 +10,7 @@ import net.okocraft.monitor.core.models.logs.PlayerEditSignLog;
 import net.okocraft.monitor.core.models.logs.PlayerProxyCommandLog;
 import net.okocraft.monitor.core.models.logs.PlayerRenameItemLog;
 import net.okocraft.monitor.core.models.logs.PlayerWorldCommandLog;
+import net.okocraft.monitor.core.models.lookup.PlayerChatLogLookupParams;
 import net.okocraft.monitor.core.models.lookup.PlayerConnectLogLookupParams;
 
 import java.sql.Connection;

@@ -42,7 +42,7 @@ public final class CommandSenderAdapter {
             this.source.sendMessage(message);
         }
     }
-    
+
     private CommandSenderAdapter() {
         throw new UnsupportedOperationException();
     }

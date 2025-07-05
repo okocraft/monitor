@@ -5,7 +5,9 @@ import net.okocraft.monitor.core.models.lookup.CommonLookupParams;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
-public record LogLookup<P extends CommonLookupParams, T>(String type, ParamParser<P> parser, CountByParam<P> countByParam, LookupByParam<P, T> lookupByParam) {
+public record LogLookup<P extends CommonLookupParams, T>(String type, ParamParser<P> parser,
+                                                         CountByParam<P> countByParam,
+                                                         LookupByParam<P, T> lookupByParam) {
 
     public interface CountByParam<P extends CommonLookupParams> {
         long count(P params) throws SQLException;

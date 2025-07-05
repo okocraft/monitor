@@ -32,7 +32,7 @@ public class MySQLServersTableOperator implements ServersTableOperator {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO minecraft_servers (name, created_at, updated_at) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, serverName);
             Timestamp now = MySQLDateTime.now();
-            statement.setTimestamp(2,now);
+            statement.setTimestamp(2, now);
             statement.setTimestamp(3, now);
             statement.executeUpdate();
             try (ResultSet resultSet = statement.getGeneratedKeys()) {

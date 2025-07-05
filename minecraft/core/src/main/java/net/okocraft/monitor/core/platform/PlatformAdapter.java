@@ -1,7 +1,6 @@
 package net.okocraft.monitor.core.platform;
 
 import net.okocraft.monitor.core.command.Command;
-import net.okocraft.monitor.core.command.MonitorCommand;
 import net.okocraft.monitor.core.handler.Handlers;
 import org.jetbrains.annotations.NotNullByDefault;
 
