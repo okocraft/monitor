@@ -8,6 +8,8 @@ jcommon {
     commonDependencies {
         implementation(projects.monitorCore)
         compileOnly(libs.platform.paper)
+
+        testImplementation(libs.platform.paper)
     }
 }
 
