@@ -5,6 +5,7 @@ import net.okocraft.monitor.core.cloud.storage.CloudStorage;
 import net.okocraft.monitor.core.cloud.storage.CloudStorageFactory;
 import net.okocraft.monitor.core.command.MonitorCommand;
 import net.okocraft.monitor.core.config.MonitorConfig;
+import net.okocraft.monitor.core.config.notification.OreNotification;
 import net.okocraft.monitor.core.config.notification.ServerStatusNotification;
 import net.okocraft.monitor.core.database.Database;
 import net.okocraft.monitor.core.database.mysql.MySQLDatabase;
@@ -110,6 +111,9 @@ public final class Monitor {
             MonitorLogger.logger().info("Starting server status check task...");
             this.serverStatusCheckTask = adapter.startServerStatusChecker(serverStatusNotification, discordWebhookFactory.create(serverStatusNotification.threadId()));
         }
+
+        OreNotification oreNotification = this.configHolder.get().discordWebhook().notifications().ore();
+        adapter.registerVeinFindListener(oreNotification, discordWebhookFactory.create(oreNotification.threadId()));
 
         MonitorLogger.logger().info("Scheduling logging task...");
         this.loggingQueueHolder.restrictQueueCreation();

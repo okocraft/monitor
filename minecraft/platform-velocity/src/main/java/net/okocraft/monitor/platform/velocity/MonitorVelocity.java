@@ -11,6 +11,7 @@ import com.velocitypowered.api.scheduler.ScheduledTask;
 import net.okocraft.monitor.core.Monitor;
 import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
 import net.okocraft.monitor.core.command.Command;
+import net.okocraft.monitor.core.config.notification.OreNotification;
 import net.okocraft.monitor.core.config.notification.ServerStatusNotification;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
@@ -82,6 +83,11 @@ public class MonitorVelocity implements PlatformAdapter {
             new CommandListener(handlers.player(), this.server.getCommandManager()),
             new PlayerListener(handlers.player())
         ).forEach(listener -> this.server.getEventManager().register(this, listener));
+    }
+
+    @Override
+    public void registerVeinFindListener(OreNotification setting, @Nullable DiscordWebhook webhook) {
+        // Not supported
     }
 
     @Override

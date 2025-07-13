@@ -7,6 +7,7 @@ import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.okocraft.monitor.core.Monitor;
 import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
 import net.okocraft.monitor.core.command.Command;
+import net.okocraft.monitor.core.config.notification.OreNotification;
 import net.okocraft.monitor.core.config.notification.ServerStatusNotification;
 import net.okocraft.monitor.core.handler.Handlers;
 import net.okocraft.monitor.core.logger.MonitorLogger;
@@ -14,6 +15,7 @@ import net.okocraft.monitor.core.platform.CancellableTask;
 import net.okocraft.monitor.core.platform.PlatformAdapter;
 import net.okocraft.monitor.core.webhook.discord.DiscordWebhook;
 import net.okocraft.monitor.platform.paper.adapter.CommandSenderAdapter;
+import net.okocraft.monitor.platform.paper.listener.OreBlockListener;
 import net.okocraft.monitor.platform.paper.listener.PlayerListener;
 import net.okocraft.monitor.platform.paper.listener.WorldListener;
 import org.bukkit.event.HandlerList;
@@ -70,6 +72,15 @@ public class MonitorPaperPlugin extends JavaPlugin implements PlatformAdapter {
             new PlayerListener(handlers.player()),
             new WorldListener(handlers.world())
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
+    }
+
+    @Override
+    public void registerVeinFindListener(OreNotification setting, @Nullable DiscordWebhook webhook) {
+        if (setting.enabledOres().isEmpty() || setting.format().isEmpty() || webhook == null) {
+            return;
+        }
+        MonitorLogger.logger().info("Registering ore block listener...");
+        this.getServer().getPluginManager().registerEvents(new OreBlockListener(webhook, setting), this);
     }
 
     @Override

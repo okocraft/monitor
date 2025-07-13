@@ -16,7 +16,7 @@ public record ServerStatusNotification(
     Setting firstPingFailure
 ) {
 
-    public static final Decoder<ServerStatusNotification> CODEC = ObjectDecoder.create(
+    public static final Decoder<ServerStatusNotification> DECODER = ObjectDecoder.create(
         ServerStatusNotification::new,
         Codec.STRING.toSetDecoder().toRequiredFieldDecoder("enabled-server-names"),
         Codec.LONG.toOptionalFieldDecoder("thread-id", 0L),
@@ -25,6 +25,16 @@ public record ServerStatusNotification(
         Setting.CODEC.toRequiredFieldDecoder("server-stopped"),
         Setting.CODEC.toRequiredFieldDecoder("server-not-started"),
         Setting.CODEC.toRequiredFieldDecoder("first-ping-failure")
+    );
+
+    public static final ServerStatusNotification EMPTY =             new ServerStatusNotification(
+        Set.of(),
+        0L,
+        new ServerStatusNotification.Setting(false, ""),
+        new ServerStatusNotification.Setting(false, ""),
+        new ServerStatusNotification.Setting(false, ""),
+        new ServerStatusNotification.Setting(false, ""),
+        new ServerStatusNotification.Setting(false, "")
     );
 
     public record Setting(boolean enabled, String message) {
