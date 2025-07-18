@@ -12,14 +12,14 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@cloudflare/vitest-pool-workers':
-        specifier: 0.8.54
-        version: 0.8.54(@vitest/runner@3.0.9)(@vitest/snapshot@3.0.9)(vitest@3.0.9)
+        specifier: 0.8.55
+        version: 0.8.55(@vitest/runner@3.0.9)(@vitest/snapshot@3.0.9)(vitest@3.0.9)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
       wrangler:
-        specifier: 4.24.4
-        version: 4.24.4
+        specifier: 4.25.0
+        version: 4.25.0
 
 packages:
 
@@ -89,8 +89,8 @@ packages:
       workerd:
         optional: true
 
-  '@cloudflare/vitest-pool-workers@0.8.54':
-    resolution: {integrity: sha512-0U80W23xN1UA3YUF6VCiUHt3DOfQW2LvIcsUlDQpZdS9JZsbmFiKd2t+MFbC1apCPZhEbJERUt63Cls7AFb0Pg==}
+  '@cloudflare/vitest-pool-workers@0.8.55':
+    resolution: {integrity: sha512-3+Saavbg5bauMGmmuSWNID/DXkcag3cyZqP0/vCm7YL1lerygSECFsWlayKok1IA9R+PHnu5U9IbKeOvwB51FA==}
     peerDependencies:
       '@vitest/runner': 2.0.x - 3.2.x
       '@vitest/snapshot': 2.0.x - 3.2.x
@@ -1036,8 +1036,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@4.24.4:
-    resolution: {integrity: sha512-qjDdZWt/aiK19YrQbjFjJoa9+y+arsXcUpRomwMdmbccZw/w5QgDsEeXMxoPSisUDQlW9ZX5A68ZPWY1/im54w==}
+  wrangler@4.25.0:
+    resolution: {integrity: sha512-SepXQbzWkdp0O7qAx3i0go+fw5I0VkDqLV2G3ewbffO5k8kpvuCkhalS23KO+7+o8+Oa3vfC7x+16IL3rj2n4w==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -1117,7 +1117,7 @@ snapshots:
     optionalDependencies:
       workerd: 1.20250712.0
 
-  '@cloudflare/vitest-pool-workers@0.8.54(@vitest/runner@3.0.9)(@vitest/snapshot@3.0.9)(vitest@3.0.9)':
+  '@cloudflare/vitest-pool-workers@0.8.55(@vitest/runner@3.0.9)(@vitest/snapshot@3.0.9)(vitest@3.0.9)':
     dependencies:
       '@vitest/runner': 3.0.9
       '@vitest/snapshot': 3.0.9
@@ -1127,7 +1127,7 @@ snapshots:
       miniflare: 4.20250712.0
       semver: 7.7.2
       vitest: 3.0.9
-      wrangler: 4.24.4
+      wrangler: 4.25.0
       zod: 3.25.30
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
@@ -1882,7 +1882,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20250712.0
       '@cloudflare/workerd-windows-64': 1.20250712.0
 
-  wrangler@4.24.4:
+  wrangler@4.25.0:
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
       '@cloudflare/unenv-preset': 2.3.3(unenv@2.0.0-rc.17)(workerd@1.20250712.0)
