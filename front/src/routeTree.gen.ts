@@ -8,146 +8,62 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as MypageIndexRouteImport } from './routes/mypage/index'
+import { Route as ExampleIndexRouteImport } from './routes/example/index'
+import { Route as SettingsUsersIndexRouteImport } from './routes/settings/users/index'
+import { Route as SettingsRolesIndexRouteImport } from './routes/settings/roles/index'
+import { Route as GoogleResultIndexRouteImport } from './routes/google/result/index'
+import { Route as GoogleLoginIndexRouteImport } from './routes/google/login/index'
+import { Route as GoogleLinkIndexRouteImport } from './routes/google/link/index'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as SettingsIndexImport } from './routes/settings/index'
-import { Route as MypageIndexImport } from './routes/mypage/index'
-import { Route as ExampleIndexImport } from './routes/example/index'
-import { Route as SettingsUsersIndexImport } from './routes/settings/users/index'
-import { Route as SettingsRolesIndexImport } from './routes/settings/roles/index'
-import { Route as GoogleResultIndexImport } from './routes/google/result/index'
-import { Route as GoogleLoginIndexImport } from './routes/google/login/index'
-import { Route as GoogleLinkIndexImport } from './routes/google/link/index'
-
-// Create/Update Routes
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const SettingsIndexRoute = SettingsIndexImport.update({
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const MypageIndexRoute = MypageIndexImport.update({
+const MypageIndexRoute = MypageIndexRouteImport.update({
   id: '/mypage/',
   path: '/mypage/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ExampleIndexRoute = ExampleIndexImport.update({
+const ExampleIndexRoute = ExampleIndexRouteImport.update({
   id: '/example/',
   path: '/example/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const SettingsUsersIndexRoute = SettingsUsersIndexImport.update({
+const SettingsUsersIndexRoute = SettingsUsersIndexRouteImport.update({
   id: '/settings/users/',
   path: '/settings/users/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const SettingsRolesIndexRoute = SettingsRolesIndexImport.update({
+const SettingsRolesIndexRoute = SettingsRolesIndexRouteImport.update({
   id: '/settings/roles/',
   path: '/settings/roles/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const GoogleResultIndexRoute = GoogleResultIndexImport.update({
+const GoogleResultIndexRoute = GoogleResultIndexRouteImport.update({
   id: '/google/result/',
   path: '/google/result/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const GoogleLoginIndexRoute = GoogleLoginIndexImport.update({
+const GoogleLoginIndexRoute = GoogleLoginIndexRouteImport.update({
   id: '/google/login/',
   path: '/google/login/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const GoogleLinkIndexRoute = GoogleLinkIndexImport.update({
+const GoogleLinkIndexRoute = GoogleLinkIndexRouteImport.update({
   id: '/google/link/',
   path: '/google/link/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/example/': {
-      id: '/example/'
-      path: '/example'
-      fullPath: '/example'
-      preLoaderRoute: typeof ExampleIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/mypage/': {
-      id: '/mypage/'
-      path: '/mypage'
-      fullPath: '/mypage'
-      preLoaderRoute: typeof MypageIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/settings/': {
-      id: '/settings/'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/google/link/': {
-      id: '/google/link/'
-      path: '/google/link'
-      fullPath: '/google/link'
-      preLoaderRoute: typeof GoogleLinkIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/google/login/': {
-      id: '/google/login/'
-      path: '/google/login'
-      fullPath: '/google/login'
-      preLoaderRoute: typeof GoogleLoginIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/google/result/': {
-      id: '/google/result/'
-      path: '/google/result'
-      fullPath: '/google/result'
-      preLoaderRoute: typeof GoogleResultIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/settings/roles/': {
-      id: '/settings/roles/'
-      path: '/settings/roles'
-      fullPath: '/settings/roles'
-      preLoaderRoute: typeof SettingsRolesIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/settings/users/': {
-      id: '/settings/users/'
-      path: '/settings/users'
-      fullPath: '/settings/users'
-      preLoaderRoute: typeof SettingsUsersIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -160,7 +76,6 @@ export interface FileRoutesByFullPath {
   '/settings/roles': typeof SettingsRolesIndexRoute
   '/settings/users': typeof SettingsUsersIndexRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/example': typeof ExampleIndexRoute
@@ -172,9 +87,8 @@ export interface FileRoutesByTo {
   '/settings/roles': typeof SettingsRolesIndexRoute
   '/settings/users': typeof SettingsUsersIndexRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/example/': typeof ExampleIndexRoute
   '/mypage/': typeof MypageIndexRoute
@@ -185,7 +99,6 @@ export interface FileRoutesById {
   '/settings/roles/': typeof SettingsRolesIndexRoute
   '/settings/users/': typeof SettingsUsersIndexRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -222,7 +135,6 @@ export interface FileRouteTypes {
     | '/settings/users/'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
@@ -233,6 +145,74 @@ export interface RootRouteChildren {
   GoogleResultIndexRoute: typeof GoogleResultIndexRoute
   SettingsRolesIndexRoute: typeof SettingsRolesIndexRoute
   SettingsUsersIndexRoute: typeof SettingsUsersIndexRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mypage/': {
+      id: '/mypage/'
+      path: '/mypage'
+      fullPath: '/mypage'
+      preLoaderRoute: typeof MypageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/example/': {
+      id: '/example/'
+      path: '/example'
+      fullPath: '/example'
+      preLoaderRoute: typeof ExampleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/users/': {
+      id: '/settings/users/'
+      path: '/settings/users'
+      fullPath: '/settings/users'
+      preLoaderRoute: typeof SettingsUsersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/roles/': {
+      id: '/settings/roles/'
+      path: '/settings/roles'
+      fullPath: '/settings/roles'
+      preLoaderRoute: typeof SettingsRolesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/google/result/': {
+      id: '/google/result/'
+      path: '/google/result'
+      fullPath: '/google/result'
+      preLoaderRoute: typeof GoogleResultIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/google/login/': {
+      id: '/google/login/'
+      path: '/google/login'
+      fullPath: '/google/login'
+      preLoaderRoute: typeof GoogleLoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/google/link/': {
+      id: '/google/link/'
+      path: '/google/link'
+      fullPath: '/google/link'
+      preLoaderRoute: typeof GoogleLinkIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -246,55 +226,6 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRolesIndexRoute: SettingsRolesIndexRoute,
   SettingsUsersIndexRoute: SettingsUsersIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/example/",
-        "/mypage/",
-        "/settings/",
-        "/google/link/",
-        "/google/login/",
-        "/google/result/",
-        "/settings/roles/",
-        "/settings/users/"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/example/": {
-      "filePath": "example/index.tsx"
-    },
-    "/mypage/": {
-      "filePath": "mypage/index.tsx"
-    },
-    "/settings/": {
-      "filePath": "settings/index.tsx"
-    },
-    "/google/link/": {
-      "filePath": "google/link/index.tsx"
-    },
-    "/google/login/": {
-      "filePath": "google/login/index.tsx"
-    },
-    "/google/result/": {
-      "filePath": "google/result/index.tsx"
-    },
-    "/settings/roles/": {
-      "filePath": "settings/roles/index.tsx"
-    },
-    "/settings/users/": {
-      "filePath": "settings/users/index.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */
