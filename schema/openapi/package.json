@@ -8,7 +8,7 @@
     "gen:schema": "tsp compile .",
     "gen:copy": "node -e \"require('fs').copyFileSync('./tsp-output/@typespec/openapi3/openapi.yaml', 'monitor-api.yml')\"",
     "gen:app": "cd ../../app/tools/oapi-codegen && go generate ./tools.go",
-    "gen:front": "cd ../../front && pnpm gen-api && pnpm biome format --write ./src/api"
+    "gen:front": "cd ../../front && pnpm gen-api && pnpm biome check --write ./src/api"
 },
   "peerDependencies": {
     "@typespec/compiler": "1.2.1",
