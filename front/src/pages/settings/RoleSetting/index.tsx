@@ -43,65 +43,63 @@ const RoleTable = ({ roles }: { roles: Role[] }) => {
         getCoreRowModel: getCoreRowModel(),
     });
     return (
-        <>
-            <table className="table-fixed">
-                <thead>
-                    {table.getHeaderGroups().map((headerGroup) => {
-                        return (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map(
-                                    (
-                                        header, // map over the headerGroup headers array
-                                    ) => (
-                                        <th
-                                            key={header.id}
-                                            colSpan={header.colSpan}
-                                        >
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext(),
-                                                  )}
-                                        </th>
-                                    ),
+        <table className="table-fixed">
+            <thead>
+                {table.getHeaderGroups().map((headerGroup) => {
+                    return (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map(
+                                (
+                                    header, // map over the headerGroup headers array
+                                ) => (
+                                    <th
+                                        key={header.id}
+                                        colSpan={header.colSpan}
+                                    >
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                  header.column.columnDef
+                                                      .header,
+                                                  header.getContext(),
+                                              )}
+                                    </th>
+                                ),
+                            )}
+                        </tr>
+                    );
+                })}
+            </thead>
+            <tbody>
+                {table.getRowModel().rows.map((row) => (
+                    <tr key={row.id}>
+                        {row.getVisibleCells().map((cell) => (
+                            <td key={cell.id}>
+                                {flexRender(
+                                    cell.column.columnDef.cell,
+                                    cell.getContext(),
                                 )}
-                            </tr>
-                        );
-                    })}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext(),
-                                    )}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-                <tfoot>
-                    {table.getFooterGroups().map((footerGroup) => (
-                        <tr key={footerGroup.id}>
-                            {footerGroup.headers.map((header) => (
-                                <th key={header.id} colSpan={header.colSpan}>
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                              header.column.columnDef.footer,
-                                              header.getContext(),
-                                          )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </tfoot>
-            </table>
-        </>
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+            <tfoot>
+                {table.getFooterGroups().map((footerGroup) => (
+                    <tr key={footerGroup.id}>
+                        {footerGroup.headers.map((header) => (
+                            <th key={header.id} colSpan={header.colSpan}>
+                                {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                          header.column.columnDef.footer,
+                                          header.getContext(),
+                                      )}
+                            </th>
+                        ))}
+                    </tr>
+                ))}
+            </tfoot>
+        </table>
     );
 };
