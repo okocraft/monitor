@@ -1,6 +1,6 @@
 import type { Meta } from "./meta";
 import { errorResponse, renderGZip } from "./response";
-import { type SignedJsonData, createCryptoKey, verifyMeta } from "./sign";
+import { createCryptoKey, type SignedJsonData, verifyMeta } from "./sign";
 
 export default {
 	async fetch(request, env): Promise<Response> {
@@ -39,7 +39,7 @@ export default {
 				return errorResponse(400, "Invalid meta signature", debug);
 			}
 			meta = JSON.parse(metaObj.data) as Meta;
-		} catch (e) {
+		} catch (_e) {
 			return errorResponse(400, "Invalid meta JSON", debug);
 		}
 
