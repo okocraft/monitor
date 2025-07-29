@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "../components/ui/Header";
 import { TopPage } from "../pages/TopPage.tsx";
 
 export const Route = createFileRoute("/")({
@@ -6,5 +7,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Component() {
-    return <TopPage />;
+    return (
+        <>
+            <Header />
+            <TopPage />
+        </>
+    );
 }
