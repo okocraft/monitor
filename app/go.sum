@@ -10,8 +10,12 @@ github.com/Siroshun09/go-tablelist-codegen v0.1.1 h1:JQ2yEIpcYm8YQKpAybLemREtxSW
 github.com/Siroshun09/go-tablelist-codegen v0.1.1/go.mod h1:8/8hL3a8oza06EjJzVIXqtdmOjrBQLhGcq0J9w0A1yo=
 github.com/Siroshun09/logs v1.1.0 h1:aOmpNTZkFrTjK5Fg56npWe5P6fUHvXjt3/5DgNlqAzo=
 github.com/Siroshun09/logs v1.1.0/go.mod h1:NUQOeA7v12g52i0iVWwVLSXhJh8ysf6yB18sdlxVh3Y=
+github.com/Siroshun09/logs v1.1.1 h1:G1V2ZFGIbssLxjL+3H1syICT2mqDs2UGZMQYgjcW2hU=
+github.com/Siroshun09/logs v1.1.1/go.mod h1:2mxzbq6msFav/c6WakiCTY+bGIwMMXKb5eyMxc9fQYg=
 github.com/Siroshun09/serrors v1.2.0 h1:h6jSFX6g050cWhYmMH81kmHakEBeS9JRus0mYV+HAEc=
 github.com/Siroshun09/serrors v1.2.0/go.mod h1:qbxeS+MAp6jC7p8LHZ9zKeNYovNJ9VPsf9vlsp0uzdY=
+github.com/Siroshun09/serrors v1.2.1 h1:04eKsvTbRLB8utJXYul6cM/tWnuGihFOwyVMSRvmJ68=
+github.com/Siroshun09/serrors v1.2.1/go.mod h1:+7CbxH0gjS9Ly2eqOir9lLe1a0SU0u85MPNC5r0WVho=
 github.com/Siroshun09/testrecords v1.0.0 h1:rpj7hf7D7T5p3Ku4T2p6gVKclV18XTHmYx6K0Iw1ZLI=
 github.com/Siroshun09/testrecords v1.0.0/go.mod h1:F/6eoHR5TK3COKir+QRfzgCFXD3GhiekOrM1ke4jUyI=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=
@@ -42,8 +46,12 @@ github.com/fsnotify/fsnotify v1.6.0 h1:n+5WquG0fcWoWp6xPWfHdbskMCQaFnG6PfBrh1Ky4
 github.com/fsnotify/fsnotify v1.6.0/go.mod h1:sl3t1tCWJFWoRz9R8WJCbQihKKwmorjAbSClcnxKAGw=
 github.com/getkin/kin-openapi v0.132.0 h1:3ISeLMsQzcb5v26yeJrBcdTCEQTag36ZjaGk7MIRUwk=
 github.com/getkin/kin-openapi v0.132.0/go.mod h1:3OlG51PCYNsPByuiMB0t4fjnNlIDnaEDsjiKUV8nL58=
+github.com/getkin/kin-openapi v0.133.0 h1:pJdmNohVIJ97r4AUFtEXRXwESr8b0bD721u/Tz6k8PQ=
+github.com/getkin/kin-openapi v0.133.0/go.mod h1:boAciF6cXk5FhPqe/NQeBTeenbjqU4LhWBf09ILVvWE=
 github.com/go-chi/chi/v5 v5.2.2 h1:CMwsvRVTbXVytCk1Wd72Zy1LAsAh9GxMmSNWLHCG618=
 github.com/go-chi/chi/v5 v5.2.2/go.mod h1:L2yAIGWB3H+phAw1NxKwWM+7eUH/lU8pOMm5hHcoops=
+github.com/go-chi/chi/v5 v5.2.3 h1:WQIt9uxdsAbgIYgid+BpYc+liqQZGMHRaUwp0JUcvdE=
+github.com/go-chi/chi/v5 v5.2.3/go.mod h1:L2yAIGWB3H+phAw1NxKwWM+7eUH/lU8pOMm5hHcoops=
 github.com/go-chi/cors v1.2.2 h1:Jmey33TE+b+rB7fT8MUy1u0I4L+NARQlK6LhzKPSyQE=
 github.com/go-chi/cors v1.2.2/go.mod h1:sSbTewc+6wYHBBCW7ytsFSn836hqM7JxpglAy2Vzc58=
 github.com/go-logr/logr v1.4.2 h1:6pFjapn8bFcIbiKo3XT4j/BhANplGihG6tvd+8rYgrY=
@@ -104,6 +112,8 @@ github.com/huandu/go-sqlbuilder v1.35.1 h1:znTuAksxq3T1rYfr3nsD4P0brWDY8qNzdZnI6
 github.com/huandu/go-sqlbuilder v1.35.1/go.mod h1:mS0GAtrtW+XL6nM2/gXHRJax2RwSW1TraavWDFAc1JA=
 github.com/huandu/go-sqlbuilder v1.36.0 h1:Bn64Exk1izEBbQ8uDC0YHoFxebMyVRBHw3Rwt25g9EE=
 github.com/huandu/go-sqlbuilder v1.36.0/go.mod h1:59Zjq93ndlKI6O5kHmkXQpDgriBAPMKuhByEOy6xYK8=
+github.com/huandu/go-sqlbuilder v1.36.1 h1:4S17aR2BPW8L2PeotAD4iVhSMjwzk6CO8ABmp3tMEhY=
+github.com/huandu/go-sqlbuilder v1.36.1/go.mod h1:59Zjq93ndlKI6O5kHmkXQpDgriBAPMKuhByEOy6xYK8=
 github.com/huandu/xstrings v1.4.0/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
 github.com/huandu/xstrings v1.5.0/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
@@ -209,6 +219,8 @@ github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=
 github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
+github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
+github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 github.com/tetratelabs/wazero v1.9.0 h1:IcZ56OuxrtaEz8UYNRHBrUa9bYeX9oVY93KspZZBf/I=
 github.com/tetratelabs/wazero v1.9.0/go.mod h1:TSbcXCfFP0L2FGkRPxHphadXPjo1T6W+CseNNY7EkjM=
 github.com/ugorji/go/codec v1.2.11 h1:BMaWp1Bb6fHwEtbplGBGJ498wD+LKlNSl25MjdZY4dU=
@@ -219,6 +231,8 @@ github.com/wasilibs/go-pgquery v0.0.0-20250409022910-10ac41983c07 h1:mJdDDPblDfP
 github.com/wasilibs/go-pgquery v0.0.0-20250409022910-10ac41983c07/go.mod h1:Ak17IJ037caFp4jpCw/iQQ7/W74Sqpb1YuKJU6HTKfM=
 github.com/wasilibs/wazero-helpers v0.0.0-20240620070341-3dff1577cd52 h1:OvLBa8SqJnZ6P+mjlzc2K7PM22rRUPE1x32G9DTPrC4=
 github.com/wasilibs/wazero-helpers v0.0.0-20240620070341-3dff1577cd52/go.mod h1:jMeV4Vpbi8osrE/pKUxRZkVaA0EX7NZN0A9/oRzgpgY=
+github.com/woodsbury/decimal128 v1.3.0 h1:8pffMNWIlC0O5vbyHWFZAt5yWvWcrHA+3ovIIjVWss0=
+github.com/woodsbury/decimal128 v1.3.0/go.mod h1:C5UTmyTjW3JftjUFzOVhC20BEQa2a4ZKOB5I6Zjb+ds=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 go.opentelemetry.io/auto/sdk v1.1.0 h1:cH53jehLUN6UFLY71z+NDOiNJqDdPRaXzTel0sJySYA=
