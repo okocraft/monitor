@@ -1,6 +1,6 @@
 module github.com/okocraft/monitor/tools/oapi-codegen
 
-go 1.24.5
+go 1.25
 
 tool github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen
 

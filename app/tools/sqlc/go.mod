@@ -1,6 +1,6 @@
 module github.com/okocraft/monitor/tools/sqlc
 
-go 1.24.5
+go 1.25
 
 tool github.com/sqlc-dev/sqlc/cmd/sqlc
 
