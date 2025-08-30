@@ -46,7 +46,7 @@ jobs:
       - name: "Build"
         run: go build cmd/http/main.go
       - name: "Run test"
-        run: go run gotest.tools/gotestsum@v1.12.0 --junitfile ~/test-results.xml
+        run: go run gotest.tools/gotestsum@v1.12.3 --junitfile ~/test-results.xml
       - name: "Upload Results"
         uses: mikepenz/action-junit-report@3585e9575db828022551b4231f165eb59a0e74e3 # v5.6.2
         if: ${{ success() || failure() }}
