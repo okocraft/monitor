@@ -8,10 +8,10 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/RaveNoX/go-jsoncommentstrip v1.0.0/go.mod h1:78ihd09MekBnJnxpICcwzCMzGrKSKYe4AqU6PDYYpjk=
 github.com/Siroshun09/go-tablelist-codegen v0.1.1 h1:JQ2yEIpcYm8YQKpAybLemREtxSWBW9eXfDyaWDsyeiY=
 github.com/Siroshun09/go-tablelist-codegen v0.1.1/go.mod h1:8/8hL3a8oza06EjJzVIXqtdmOjrBQLhGcq0J9w0A1yo=
-github.com/Siroshun09/logs v1.1.1 h1:G1V2ZFGIbssLxjL+3H1syICT2mqDs2UGZMQYgjcW2hU=
-github.com/Siroshun09/logs v1.1.1/go.mod h1:2mxzbq6msFav/c6WakiCTY+bGIwMMXKb5eyMxc9fQYg=
-github.com/Siroshun09/serrors v1.2.1 h1:04eKsvTbRLB8utJXYul6cM/tWnuGihFOwyVMSRvmJ68=
-github.com/Siroshun09/serrors v1.2.1/go.mod h1:+7CbxH0gjS9Ly2eqOir9lLe1a0SU0u85MPNC5r0WVho=
+github.com/Siroshun09/logs v1.3.0 h1:71FMo2Ii0PdW+iRx3GQRm4NbAdCEtLMbfgwFrItCk+c=
+github.com/Siroshun09/logs v1.3.0/go.mod h1:2mxzbq6msFav/c6WakiCTY+bGIwMMXKb5eyMxc9fQYg=
+github.com/Siroshun09/serrors v1.3.0 h1:vsSKEzAlG07dXui5+wfPTCQoIU2GEOiS75RQxTL69EQ=
+github.com/Siroshun09/serrors v1.3.0/go.mod h1:+7CbxH0gjS9Ly2eqOir9lLe1a0SU0u85MPNC5r0WVho=
 github.com/Siroshun09/testrecords v1.0.0 h1:rpj7hf7D7T5p3Ku4T2p6gVKclV18XTHmYx6K0Iw1ZLI=
 github.com/Siroshun09/testrecords v1.0.0/go.mod h1:F/6eoHR5TK3COKir+QRfzgCFXD3GhiekOrM1ke4jUyI=
 github.com/antlr4-go/antlr/v4 v4.13.1 h1:SqQKkuVZ+zWkMMNkjy5FZe5mr5WURWnlpmOuzYWrPrQ=

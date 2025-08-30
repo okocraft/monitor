@@ -4,8 +4,8 @@ go 1.25
 
 require (
 	github.com/Siroshun09/go-tablelist-codegen v0.1.1
-	github.com/Siroshun09/logs v1.1.1
-	github.com/Siroshun09/serrors v1.2.1
+	github.com/Siroshun09/logs v1.3.0
+	github.com/Siroshun09/serrors v1.3.0
 	github.com/Siroshun09/testrecords v1.0.0
 	github.com/getkin/kin-openapi v0.133.0
 	github.com/go-chi/chi/v5 v5.2.3

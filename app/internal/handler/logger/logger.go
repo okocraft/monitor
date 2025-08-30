@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -72,9 +73,23 @@ func (l logger) Warn(ctx context.Context, err error) {
 	l.delegate.WarnContext(ctx, err.Error(), l.createContextAttr(ctx, nil)...)
 }
 
+func (l logger) Warnf(ctx context.Context, format string, args ...any) {
+	if l.includeStackTraceOnWarn {
+		stacktrace := slog.String("stacktrace", serrors.GetStackTrace(serrors.Errorf(format, args...)).String())
+		l.delegate.WarnContext(ctx, fmt.Sprintf(format, args...), l.createContextAttr(ctx, &stacktrace)...)
+		return
+	}
+	l.delegate.WarnContext(ctx, fmt.Sprintf(format, args...), l.createContextAttr(ctx, nil)...)
+}
+
 func (l logger) Error(ctx context.Context, err error) {
 	stacktrace := slog.String("stacktrace", serrors.GetStackTrace(err).String())
 	l.delegate.ErrorContext(ctx, err.Error(), l.createContextAttr(ctx, &stacktrace)...)
+}
+
+func (l logger) Errorf(ctx context.Context, format string, args ...any) {
+	stacktrace := slog.String("stacktrace", serrors.GetStackTrace(serrors.Errorf(format, args...)).String())
+	l.delegate.ErrorContext(ctx, fmt.Sprintf(format, args...), l.createContextAttr(ctx, &stacktrace)...)
 }
 
 func (l logger) createContextAttr(ctx context.Context, stackTraceAttr *slog.Attr) []any {
