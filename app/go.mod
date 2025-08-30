@@ -1,8 +1,6 @@
 module github.com/okocraft/monitor
 
-go 1.24
-
-toolchain go1.25.0
+go 1.25
 
 require (
 	github.com/Siroshun09/go-tablelist-codegen v0.1.1
