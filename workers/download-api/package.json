@@ -11,9 +11,9 @@
 		"fix": "biome check --write ./"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.2",
-		"@cloudflare/vitest-pool-workers": "0.8.68",
+		"@biomejs/biome": "2.2.3",
+		"@cloudflare/vitest-pool-workers": "0.8.70",
 		"typescript": "5.9.2",
-		"wrangler": "4.33.1"
+		"wrangler": "4.34.0"
 	}
 }
