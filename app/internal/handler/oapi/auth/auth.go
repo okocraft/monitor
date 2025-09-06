@@ -7,9 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Siroshun09/logs"
 	"github.com/Siroshun09/serrors"
-	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"github.com/okocraft/monitor/internal/domain/user"
@@ -33,22 +31,6 @@ func NewAuthHandler(authUsecase auth2.AuthUsecase, userUsecase user2.UserUsecase
 		userUsecase:       userUsecase,
 		permissionUsecase: permissionUseCase,
 	}
-}
-
-func (h AuthHandler) SetAuthMethodIntoContext(ctx context.Context, input *openapi3filter.AuthenticationInput) error {
-	var method auth.Method
-	switch input.SecuritySchemeName {
-	case "SkipAuth":
-		method = auth.MethodSkip
-	case "AccessTokenAuth":
-		method = auth.MethodAccessToken
-	default:
-		logs.Warn(ctx, serrors.New("unknown auth method: "+input.SecuritySchemeName))
-	}
-
-	ctxlib.GetHTTPAccessLog(ctx).AuthMethod = method
-
-	return nil
 }
 
 func (h AuthHandler) NewAuthMiddleware(next http.Handler) http.Handler {

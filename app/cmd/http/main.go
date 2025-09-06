@@ -11,10 +11,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Siroshun09/serrors"
-	"github.com/getkin/kin-openapi/openapi3filter"
 	"github.com/go-chi/cors"
-	nethttpmiddleware "github.com/oapi-codegen/nethttp-middleware"
 	"github.com/okocraft/monitor/internal/handler"
 	"github.com/okocraft/monitor/internal/repositories/database"
 
@@ -106,18 +103,6 @@ func createHTTPServer(loggerFactory logger.Factory, httpHandler handler.HTTPHand
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
 		AllowCredentials: true,
 		MaxAge:           300,
-	}))
-
-	swagger, err := oapi.GetSwagger()
-	if err != nil {
-		return http.Server{}, serrors.WithStackTrace(err)
-	}
-
-	swagger.Servers = nil
-	r.Use(nethttpmiddleware.OapiRequestValidatorWithOptions(swagger, &nethttpmiddleware.Options{
-		Options: openapi3filter.Options{
-			AuthenticationFunc: httpHandler.AuthHandler.SetAuthMethodIntoContext,
-		},
 	}))
 
 	r.Use(
