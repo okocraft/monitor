@@ -16,3 +16,6 @@
 !src/**/build/
 !gradle-wrapper.jar
 !gradle-wrapper.properties
+
+### Mac ###
+.DS_Store
