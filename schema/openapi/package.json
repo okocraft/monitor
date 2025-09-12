@@ -2,6 +2,7 @@
   "name": "monitor-api",
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "pnpm@10.15.1",
   "scripts": {
     "gen": "npm run gen:format && npm run gen:schema && npm run gen:copy && npm run gen:app && npm run gen:front",
     "gen:format": "tsp format \"**/*.tsp\"",
@@ -9,18 +10,13 @@
     "gen:copy": "node -e \"require('fs').copyFileSync('./tsp-output/@typespec/openapi3/openapi.yaml', 'monitor-api.yml')\"",
     "gen:app": "cd ../../app/tools/oapi-codegen && go generate ./tools.go",
     "gen:front": "cd ../../front && pnpm gen-api && pnpm biome check --write ./src/api"
-},
-  "peerDependencies": {
-    "@typespec/compiler": "1.5.0",
-    "@typespec/http": "1.5.0",
-    "@typespec/rest": "0.75.0",
-    "@typespec/openapi3": "1.5.0"
   },
   "devDependencies": {
     "@typespec/compiler": "1.5.0",
     "@typespec/http": "1.5.0",
-    "@typespec/rest": "0.75.0",
-    "@typespec/openapi3": "1.5.0"
+    "@typespec/openapi": "1.5.0",
+    "@typespec/openapi3": "1.5.0",
+    "@typespec/rest": "0.75.0"
   },
   "private": true
 }
