@@ -3,7 +3,7 @@
 adventure = "4.24.0"
 annotations = "26.0.2-1"
 codec4j = "0.2.0-beta.4"
-concurrent-util = "0.0.3"
+concurrent-util = "0.0.5"
 discord-webhooks = "0.8.4"
 hikaricp = "7.0.2"
 minio = "8.5.17"
