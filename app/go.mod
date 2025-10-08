@@ -16,7 +16,7 @@ require (
 	github.com/huandu/go-sqlbuilder v1.37.0
 	github.com/oapi-codegen/runtime v1.1.2
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/oauth2 v0.31.0
+	golang.org/x/oauth2 v0.32.0
 )
 
 require (
