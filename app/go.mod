@@ -13,7 +13,7 @@ require (
 	github.com/gofrs/uuid/v5 v5.3.2
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/google/wire v0.7.0
-	github.com/huandu/go-sqlbuilder v1.37.0
+	github.com/huandu/go-sqlbuilder v1.38.0
 	github.com/oapi-codegen/runtime v1.1.2
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/oauth2 v0.32.0
