@@ -14,7 +14,7 @@ slf4j = "2.0.17"
 junit = "6.0.0"
 
 # gradle plugins
-run-task = "3.0.1"
+run-task = "3.0.2"
 gradle-plugins = "1.6.0"
 
 # platform api
