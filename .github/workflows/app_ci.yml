@@ -13,7 +13,7 @@ jobs:
         working-directory: ./app
     services:
       mariadb:
-        image: mariadb:12.0.2@sha256:607835cd628b78e2876f6a586d0ec37b296c47683b31ef750002d3d17d3d8f7a
+        image: mariadb:12.1.2@sha256:e1bcd6f85781f4a875abefb11c4166c1d79e4237c23de597bf0df81fec225b40
         ports:
           - "3306:3306"
         env:
@@ -37,7 +37,7 @@ jobs:
             app
             schema/database
       - name: "Set up Go"
-        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
         with:
           go-version-file: app/go.mod
           cache: true
@@ -48,7 +48,7 @@ jobs:
       - name: "Run test"
         run: go run gotest.tools/gotestsum@v1.12.3 --junitfile ~/test-results.xml
       - name: "Upload Results"
-        uses: mikepenz/action-junit-report@5b7ee5a21e8674b695313d769f3cbdfd5d4d53a4 # v6.0.0
+        uses: mikepenz/action-junit-report@e08919a3b1fb83a78393dfb775a9c37f17d8eea6 # v6.0.1
         if: ${{ success() || failure() }}
         continue-on-error: true
         with:
