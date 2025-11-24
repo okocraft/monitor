@@ -3,11 +3,11 @@
 adventure = "4.25.0"
 annotations = "26.0.2-1"
 codec4j = "0.2.0-beta.4"
-concurrent-util = "0.0.5"
+concurrent-util = "0.0.7"
 discord-webhooks = "0.8.4"
 hikaricp = "7.0.2"
 minio = "8.6.0"
-mysql = "9.4.0"
+mysql = "9.5.0"
 slf4j = "2.0.17"
 
 # for testing
