@@ -31,7 +31,7 @@ jobs:
       MONITOR_DB_NAME: monitor_db
     steps:
       - name: Checkout base schema.sql
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         id: base
         with:
           ref: ${{ inputs.base_commit_hash }}
@@ -39,7 +39,7 @@ jobs:
           sparse-checkout: |
             schema/database
       - name: Checkout latest schema.sql
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         id: latest
         with:
           path: ./latest
