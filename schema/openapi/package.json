@@ -2,7 +2,7 @@
   "name": "monitor-api",
   "version": "0.1.0",
   "type": "module",
-  "packageManager": "pnpm@10.23.0",
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
     "gen": "npm run gen:format && npm run gen:schema && npm run gen:copy && npm run gen:app && npm run gen:front",
     "gen:format": "tsp format \"**/*.tsp\"",
