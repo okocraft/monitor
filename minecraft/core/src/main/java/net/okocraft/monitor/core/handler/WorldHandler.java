@@ -28,7 +28,7 @@ public class WorldHandler {
             MonitorWorld world = this.worldStorage.initializeWorld(this.serverId, uid, name);
             this.worldManager.putWorld(world);
         } catch (Exception e) {
-            MonitorLogger.logger().error("Failed to initialize world", e);
+            MonitorLogger.logger().error("Failed to initialize world: {}", name, e);
         }
     }
 }
