@@ -23,6 +23,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PlayerListener implements Listener {
@@ -122,13 +124,21 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if (sign.getSide(event.getSide()).lines().equals(event.lines())) {
+        List<Component> lines = event.lines();
+
+        if (sign.getSide(event.getSide()).lines().equals(lines)) {
             return;
+        }
+
+        // each line element can be null
+        List<Component> nonNullLines = new ArrayList<>(lines.size());
+        for (Component line : lines) {
+            nonNullLines.add(Objects.requireNonNullElse(line, Component.empty()));
         }
 
         this.handler.onEditSign(
             event.getPlayer().getUniqueId(), block.getWorld().getUID(), PositionAdapter.fromLocation(block.getLocation()),
-            block.getType().key(), side, event.lines()
+            block.getType().key(), side, nonNullLines
         );
     }
 }
