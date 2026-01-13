@@ -1,6 +1,7 @@
 package net.okocraft.monitor.core.config;
 
 import dev.siroshun.codec4j.api.decoder.Decoder;
+import dev.siroshun.codec4j.api.decoder.object.FieldDecoder;
 import dev.siroshun.codec4j.api.decoder.object.ObjectDecoder;
 import dev.siroshun.codec4j.io.yaml.YamlIO;
 import org.jetbrains.annotations.NotNullByDefault;
@@ -13,11 +14,11 @@ public record MonitorConfig(DatabaseConfig database, ServerConfig server, Upload
 
     public static final Decoder<MonitorConfig> CODEC = ObjectDecoder.create(
         MonitorConfig::new,
-        DatabaseConfig.CODEC.toRequiredFieldDecoder("database"),
-        ServerConfig.CODEC.toRequiredFieldDecoder("server"),
-        UploadConfig.CODEC.toOptionalFieldDecoder("upload", UploadConfig.EMPTY),
-        CommandConfig.CODEC.toOptionalFieldDecoder("command", CommandConfig.EMPTY),
-        DiscordWebhookConfig.DECODER.toOptionalFieldDecoder("discord-webhook", DiscordWebhookConfig.EMPTY)
+        FieldDecoder.required("database", DatabaseConfig.CODEC),
+        FieldDecoder.required("server", ServerConfig.CODEC),
+        FieldDecoder.optional("upload", UploadConfig.CODEC, UploadConfig.EMPTY),
+        FieldDecoder.optional("command", CommandConfig.CODEC, CommandConfig.EMPTY),
+        FieldDecoder.optional("discord-webhook", DiscordWebhookConfig.DECODER, DiscordWebhookConfig.EMPTY)
     );
 
     public static Holder load(Path filepath) throws Exception {

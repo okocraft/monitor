@@ -1,6 +1,7 @@
 package net.okocraft.monitor.core.command.subcommand;
 
 import dev.siroshun.codec4j.api.encoder.Encoder;
+import dev.siroshun.codec4j.api.encoder.collection.ListEncoder;
 import dev.siroshun.codec4j.api.error.EncodeError;
 import dev.siroshun.codec4j.io.base64.Base64IO;
 import dev.siroshun.codec4j.io.gson.GsonIO;
@@ -54,9 +55,9 @@ public class UploadCommand extends AbstractLookupCommand {
 
         switch (args[1].toLowerCase()) {
             case "connect" ->
-                this.lookupAndUpload(sender, args, this.connectLogLookup, ObjectMeta.ObjectType.PLAYER_CONNECT_LOG, PlayerConnectLogData.ENCODER.toCollectionEncoder());
+                this.lookupAndUpload(sender, args, this.connectLogLookup, ObjectMeta.ObjectType.PLAYER_CONNECT_LOG, ListEncoder.create(PlayerConnectLogData.ENCODER));
             case "chat" ->
-                this.lookupAndUpload(sender, args, this.chatLogLookup, ObjectMeta.ObjectType.PLAYER_CHAT_LOG, PlayerChatLogData.ENCODER.toCollectionEncoder());
+                this.lookupAndUpload(sender, args, this.chatLogLookup, ObjectMeta.ObjectType.PLAYER_CHAT_LOG, ListEncoder.create(PlayerChatLogData.ENCODER));
             default -> sender.sendPlainMessage("Unknown type: " + args[1]);
         }
     }
