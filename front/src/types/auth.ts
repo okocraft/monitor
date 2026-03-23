@@ -1,10 +1,10 @@
 import { jwtDecode } from "jwt-decode";
 import { useRef, useState } from "react";
 import { logout, refreshAccessToken } from "../api/auth/auth.ts";
-import { createMeState, type Me, type MeState } from "./me.ts";
+import { type Me, type MeState, useMeState } from "./me.ts";
 import {
-    createPagePermissionState,
     type PagePermissionState,
+    usePagePermissionState,
 } from "./pagePermission.ts";
 
 export interface AuthState {
@@ -63,13 +63,13 @@ export const UnauthorizedState = {
     } as PagePermissionState,
 } as AuthState;
 
-export function createAuthState() {
+export function useAuthState() {
     const [accessToken, setAccessToken] = useState<string>("");
     const accessTokenRef = useRef(accessToken);
     const refreshed = useRef(false);
     const [isAuthSkipped, setSkipAuth] = useState(false);
-    const meState = createMeState();
-    const pagePermissionState = createPagePermissionState();
+    const meState = useMeState();
+    const pagePermissionState = usePagePermissionState();
 
     const updateAccessToken = (accessToken: string) => {
         setAccessToken(accessToken);

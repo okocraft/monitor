@@ -6,7 +6,7 @@ export interface PagePermissionState {
     setPagePermissions: (pagePermissions?: PagePermissions) => void;
 }
 
-export function createPagePermissionState() {
+export function usePagePermissionState() {
     const [pagePermissions, setPagePermissions] = useState<
         PagePermissions | undefined
     >();
