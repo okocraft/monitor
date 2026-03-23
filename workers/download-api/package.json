@@ -12,7 +12,6 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.7",
-		"@cloudflare/vitest-pool-workers": "0.13.1",
 		"typescript": "5.9.3",
 		"wrangler": "4.74.0"
 	}
