@@ -1,15 +1,15 @@
 import { useAuth } from "../../../hooks/useAuth.ts";
-import { getSearchParam } from "../../../utils/searchParams.ts";
+import { useSearchParam } from "../../../utils/searchParams.ts";
 import { Failure } from "./Failure.tsx";
 import type { PageType } from "./pageTypes.ts";
 import { RedirectingSuccess, Success } from "./Success.tsx";
 
 export const Component = ({ type }: { type?: PageType }) => {
     const auth = useAuth();
+    const redirectTo = useSearchParam("redirectTo");
     switch (type) {
         case "success": {
             const nickname = auth.me.current?.nickname ?? "unknown";
-            const redirectTo = getSearchParam("redirectTo");
             return redirectTo ? (
                 <RedirectingSuccess nickname={nickname} url={redirectTo} />
             ) : (

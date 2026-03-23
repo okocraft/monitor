@@ -15,7 +15,7 @@ export interface MeState {
     refresh: () => Promise<Me>;
 }
 
-export function createMeState() {
+export function useMeState() {
     const [me, setMe] = useState<Me | undefined>();
 
     const refreshMe = async () => {
