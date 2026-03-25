@@ -12,7 +12,7 @@ export type Props = {
 
 export const DropDownMenu = (props: Props) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    let hoverTimeout: number;
+    let hoverTimeout: ReturnType<typeof setTimeout>;
 
     const handleMouseEnter = () => {
         clearTimeout(hoverTimeout);
