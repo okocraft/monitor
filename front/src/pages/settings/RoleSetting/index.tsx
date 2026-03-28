@@ -9,14 +9,10 @@ import { useGetRoles } from "../../../api/role/role.ts";
 import { Loading } from "../../../components/ui/Loading";
 
 export const Component = () => {
-    const { data, isLoading, error } = useGetRoles();
+    const { data, isLoading } = useGetRoles();
 
     if (isLoading) {
         return <Loading />;
-    }
-
-    if (error) {
-        throw new Error(error.message);
     }
 
     const roles = data?.data ?? [];

@@ -82,7 +82,7 @@ export function useAuthState() {
 
         try {
             const { data, status } = await refreshAccessToken({
-                withCredentials: true,
+                credentials: "include",
             });
             if (status === 200) {
                 updateAccessToken(data.access_token);
@@ -140,7 +140,7 @@ export function useAuthState() {
             pagePermissionState.setPagePermissions(undefined);
 
             const { status } = await logout({
-                withCredentials: true,
+                credentials: "include",
             });
             if (status === 204) {
                 return true;
