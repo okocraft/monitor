@@ -6,7 +6,7 @@ export const Component = () => {
     const auth = useAuth();
     const me = auth.me.current;
 
-    if (!me || !me.nickname) {
+    if (!me?.nickname) {
         throw new Error("unauthorized");
     }
 

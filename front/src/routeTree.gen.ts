@@ -67,14 +67,14 @@ const GoogleLinkIndexRoute = GoogleLinkIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/example': typeof ExampleIndexRoute
-  '/mypage': typeof MypageIndexRoute
-  '/settings': typeof SettingsIndexRoute
-  '/google/link': typeof GoogleLinkIndexRoute
-  '/google/login': typeof GoogleLoginIndexRoute
-  '/google/result': typeof GoogleResultIndexRoute
-  '/settings/roles': typeof SettingsRolesIndexRoute
-  '/settings/users': typeof SettingsUsersIndexRoute
+  '/example/': typeof ExampleIndexRoute
+  '/mypage/': typeof MypageIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/google/link/': typeof GoogleLinkIndexRoute
+  '/google/login/': typeof GoogleLoginIndexRoute
+  '/google/result/': typeof GoogleResultIndexRoute
+  '/settings/roles/': typeof SettingsRolesIndexRoute
+  '/settings/users/': typeof SettingsUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -103,14 +103,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/example'
-    | '/mypage'
-    | '/settings'
-    | '/google/link'
-    | '/google/login'
-    | '/google/result'
-    | '/settings/roles'
-    | '/settings/users'
+    | '/example/'
+    | '/mypage/'
+    | '/settings/'
+    | '/google/link/'
+    | '/google/login/'
+    | '/google/result/'
+    | '/settings/roles/'
+    | '/settings/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -159,56 +159,56 @@ declare module '@tanstack/react-router' {
     '/settings/': {
       id: '/settings/'
       path: '/settings'
-      fullPath: '/settings'
+      fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mypage/': {
       id: '/mypage/'
       path: '/mypage'
-      fullPath: '/mypage'
+      fullPath: '/mypage/'
       preLoaderRoute: typeof MypageIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/example/': {
       id: '/example/'
       path: '/example'
-      fullPath: '/example'
+      fullPath: '/example/'
       preLoaderRoute: typeof ExampleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings/users/': {
       id: '/settings/users/'
       path: '/settings/users'
-      fullPath: '/settings/users'
+      fullPath: '/settings/users/'
       preLoaderRoute: typeof SettingsUsersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings/roles/': {
       id: '/settings/roles/'
       path: '/settings/roles'
-      fullPath: '/settings/roles'
+      fullPath: '/settings/roles/'
       preLoaderRoute: typeof SettingsRolesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/google/result/': {
       id: '/google/result/'
       path: '/google/result'
-      fullPath: '/google/result'
+      fullPath: '/google/result/'
       preLoaderRoute: typeof GoogleResultIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/google/login/': {
       id: '/google/login/'
       path: '/google/login'
-      fullPath: '/google/login'
+      fullPath: '/google/login/'
       preLoaderRoute: typeof GoogleLoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/google/link/': {
       id: '/google/link/'
       path: '/google/link'
-      fullPath: '/google/link'
+      fullPath: '/google/link/'
       preLoaderRoute: typeof GoogleLinkIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
