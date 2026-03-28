@@ -16,7 +16,11 @@ export const Component = ({ initialLoginKey }: { initialLoginKey: string }) => {
     const { mutate } = useLinkWithGoogle({
         mutation: {
             onSuccess: (res) => {
-                window.location.href = res.data.redirect_url;
+                if (res.status === 200) {
+                    window.location.href = res.data.redirect_url;
+                } else {
+                    console.error("Failed to get redirect URL:", res.status);
+                }
                 setIsNavigating(false);
             },
             onError: (error) => {

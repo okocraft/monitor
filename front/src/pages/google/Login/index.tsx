@@ -8,7 +8,11 @@ export const Component = ({ redirectTo }: { redirectTo?: string }) => {
     const { mutate, isPending } = useLoginWithGoogle({
         mutation: {
             onSuccess: (res) => {
-                window.location.href = res.data.redirect_url;
+                if (res.status === 200) {
+                    window.location.href = res.data.redirect_url;
+                } else {
+                    console.error("Failed to get redirect URL:", res.status);
+                }
             },
             onError: (error) => {
                 console.error("Failed to get redirect URL:", error);

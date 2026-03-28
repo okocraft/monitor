@@ -23,7 +23,7 @@
     },
     "linter": {
         "enabled": true,
-        "includes": ["**", "!src/api"]
+        "includes": ["**", "!src/api/**"]
     },
     "javascript": {
         "formatter": {
