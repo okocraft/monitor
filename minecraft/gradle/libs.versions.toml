@@ -15,7 +15,7 @@ junit = "6.0.3"
 
 # gradle plugins
 run-task = "3.0.2"
-gradle-plugins = "1.8.1"
+gradle-plugins = "1.8.3"
 
 # platform api
 paper = "1.21.7-R0.1-SNAPSHOT"
