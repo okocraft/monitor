@@ -9,8 +9,8 @@ github.com/Siroshun09/logs v1.3.0 h1:71FMo2Ii0PdW+iRx3GQRm4NbAdCEtLMbfgwFrItCk+c
 github.com/Siroshun09/logs v1.3.0/go.mod h1:2mxzbq6msFav/c6WakiCTY+bGIwMMXKb5eyMxc9fQYg=
 github.com/Siroshun09/serrors v1.4.1 h1:2ZYHtE6eXGdz4/CfPX/iCVxCXDxGt0T417ba60pFBGE=
 github.com/Siroshun09/serrors v1.4.1/go.mod h1:+7CbxH0gjS9Ly2eqOir9lLe1a0SU0u85MPNC5r0WVho=
-github.com/Siroshun09/testrecords v1.0.0 h1:rpj7hf7D7T5p3Ku4T2p6gVKclV18XTHmYx6K0Iw1ZLI=
-github.com/Siroshun09/testrecords v1.0.0/go.mod h1:F/6eoHR5TK3COKir+QRfzgCFXD3GhiekOrM1ke4jUyI=
+github.com/Siroshun09/testrecords v1.0.1 h1:Dbo+mp/QFY5/xD+5xr4Lz/vws9ztYpm1fAi45o2aZjc=
+github.com/Siroshun09/testrecords v1.0.1/go.mod h1:60ida16MM+FpW3a+FdlA3n2hTnyo0AyJVpCQcibUJGc=
 github.com/apapsch/go-jsonmerge/v2 v2.0.0 h1:axGnT1gRIfimI7gJifB699GoE/oq+F2MU7Dml6nw9rQ=
 github.com/apapsch/go-jsonmerge/v2 v2.0.0/go.mod h1:lvDnEdqiQrp0O42VQGgmlKpxL1AP2+08jFMw88y4klk=
 github.com/bmatcuk/doublestar v1.1.1/go.mod h1:UD6OnuiIn0yFxxA2le/rnRU1G4RaI4UvFv1sNto9p6w=
