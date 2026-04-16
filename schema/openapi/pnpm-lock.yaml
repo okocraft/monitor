@@ -9,20 +9,20 @@ importers:
   .:
     devDependencies:
       '@typespec/compiler':
-        specifier: 1.10.0
-        version: 1.10.0
+        specifier: 1.11.0
+        version: 1.11.0
       '@typespec/http':
-        specifier: 1.10.0
-        version: 1.10.0(@typespec/compiler@1.10.0)
+        specifier: 1.11.0
+        version: 1.11.0(@typespec/compiler@1.11.0)
       '@typespec/openapi':
-        specifier: 1.10.0
-        version: 1.10.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0))
+        specifier: 1.11.0
+        version: 1.11.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0))
       '@typespec/openapi3':
-        specifier: 1.10.0
-        version: 1.10.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0))(@typespec/openapi@1.10.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0)))
+        specifier: 1.11.0
+        version: 1.11.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0))(@typespec/openapi@1.11.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0)))
       '@typespec/rest':
-        specifier: 0.80.0
-        version: 0.80.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0))
+        specifier: 0.81.0
+        version: 0.81.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0))
 
 packages:
 
@@ -214,34 +214,34 @@ packages:
     peerDependencies:
       '@typespec/compiler': ^1.10.0
 
-  '@typespec/compiler@1.10.0':
-    resolution: {integrity: sha512-R6BATDkughntPpaxeESJF+wxma5PEjgmnnKvH0/ByqUH8VyhIckQWE9kkP0Uc/EJ0o0VYhe8qCwWQvV70k5lTw==}
+  '@typespec/compiler@1.11.0':
+    resolution: {integrity: sha512-4vuWtoepc4rYJ81K+P7xn2ByXIRhBM40rfzAGnpagNuGSVHuKEC6lqJqs3ePvhCpnxiYAC8XWpaOi+BEDzyhnQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
-  '@typespec/http@1.10.0':
-    resolution: {integrity: sha512-/fj55fmUj4m/FmNdfH0V52menVrmS2r5Xj9d1H+pnjQbxvvaxS906RSRcoF8kbg3PvlibP/Py5u82TAk53AyqA==}
+  '@typespec/http@1.11.0':
+    resolution: {integrity: sha512-/DOkN2+MUZyLdmqYmSMZDjxikJTOuNxikTeOwG2fVOibnu8e6S1jzPAuN/mn6YyQBKeBCItMPmUOXIj61Wy8Bg==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@typespec/compiler': ^1.10.0
-      '@typespec/streams': ^0.80.0
+      '@typespec/compiler': ^1.11.0
+      '@typespec/streams': ^0.81.0
     peerDependenciesMeta:
       '@typespec/streams':
         optional: true
 
-  '@typespec/openapi3@1.10.0':
-    resolution: {integrity: sha512-G2UTfsDuUprvhFIymHiLKly6FoA9UkRmTImqgmROP4JkKCdY/Mo6Xo03sufY8urywVjIWE3dryXpy5DjpOt9Eg==}
+  '@typespec/openapi3@1.11.0':
+    resolution: {integrity: sha512-AjMpTkIUy8+YlRaqUyQ1NZxbmVbWyT4fPpztVzclyX+TXyvxo9gqLEdqoMfvQ9KUjcU0nsOjfPdaYb5rj25oIA==}
     engines: {node: '>=20.0.0'}
     hasBin: true
     peerDependencies:
-      '@typespec/compiler': ^1.10.0
-      '@typespec/events': ^0.80.0
-      '@typespec/http': ^1.10.0
-      '@typespec/json-schema': ^1.10.0
-      '@typespec/openapi': ^1.10.0
-      '@typespec/sse': ^0.80.0
-      '@typespec/streams': ^0.80.0
-      '@typespec/versioning': ^0.80.0
+      '@typespec/compiler': ^1.11.0
+      '@typespec/events': ^0.81.0
+      '@typespec/http': ^1.11.0
+      '@typespec/json-schema': ^1.11.0
+      '@typespec/openapi': ^1.11.0
+      '@typespec/sse': ^0.81.0
+      '@typespec/streams': ^0.81.0
+      '@typespec/versioning': ^0.81.0
       '@typespec/xml': '*'
     peerDependenciesMeta:
       '@typespec/events':
@@ -257,19 +257,19 @@ packages:
       '@typespec/xml':
         optional: true
 
-  '@typespec/openapi@1.10.0':
-    resolution: {integrity: sha512-tukmyp+c9CFlA2FdF61XfT9eTe5WXWz6J8pOrJ9+IYg0BcBwhJkvDj6BYpDD6SjxbRr1wO5ZL2Whe6MequsyVw==}
+  '@typespec/openapi@1.11.0':
+    resolution: {integrity: sha512-xUQrHExKBh0XSP4cn+HcondDXjHJM5HCq2Xfy9tB1QflsFh5uP1JJt1+67g73VmHlhZVSUDcoFrnU95pfjyubg==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@typespec/compiler': ^1.10.0
-      '@typespec/http': ^1.10.0
+      '@typespec/compiler': ^1.11.0
+      '@typespec/http': ^1.11.0
 
-  '@typespec/rest@0.80.0':
-    resolution: {integrity: sha512-xczXLoB2akSIDner41gQYTS9CG6TdCN0QHYvXBT6ZrYEnBh+pMvdymW//5CSOTamZLOGo9AOJVJaFfwbFA4vQQ==}
+  '@typespec/rest@0.81.0':
+    resolution: {integrity: sha512-qQXZRKEvq5aNlDFEUqBiiXXPIFyr/+PWgBY0kIrnhyZzMjfUqPInkB12QgXpVp2O2Wm3jmETJD45SaLHTCYBbg==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@typespec/compiler': ^1.10.0
-      '@typespec/http': ^1.10.0
+      '@typespec/compiler': ^1.11.0
+      '@typespec/http': ^1.11.0
 
   ajv-draft-04@1.0.0:
     resolution: {integrity: sha512-mv00Te6nmYbRp5DCwclxtt7yV/joXJPGS7nM+97GdxvuttCOfgI3K4U25zboyeX0O+myI8ERluxQe5wljMmVIw==}
@@ -475,8 +475,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  semver@7.7.3:
-    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
+  semver@7.7.4:
+    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -500,11 +500,11 @@ packages:
     resolution: {integrity: sha512-tOG/7GyXpFevhXVh8jOPJrmtRpOTsYqUIkVdVooZYJS/z8WhfQUX8RJILmeuJNinGAMSu1veBr4asSHFt5/hng==}
     engines: {node: '>=18'}
 
-  temporal-polyfill@0.3.0:
-    resolution: {integrity: sha512-qNsTkX9K8hi+FHDfHmf22e/OGuXmfBm9RqNismxBrnSmZVJKegQ+HYYXT+R7Ha8F/YSm2Y34vmzD4cxMu2u95g==}
+  temporal-polyfill@0.3.2:
+    resolution: {integrity: sha512-TzHthD/heRK947GNiSu3Y5gSPpeUDH34+LESnfsq8bqpFhsB79HFBX8+Z834IVX68P3EUyRPZK5bL/1fh437Eg==}
 
-  temporal-spec@0.3.0:
-    resolution: {integrity: sha512-n+noVpIqz4hYgFSMOSiINNOUOMFtV5cZQNCmmszA6GiVFVRt3G7AqVyhXjhCSmowvQn+NsGn+jMDMKJYHd3bSQ==}
+  temporal-spec@0.3.1:
+    resolution: {integrity: sha512-B4TUhezh9knfSIMwt7RVggApDRJZo73uZdj8AacL2mZ8RP5KtLianh2MXxL06GN9ESYiIsiuoLQhgVfwe55Yhw==}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -707,11 +707,11 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@typespec/asset-emitter@0.79.1(@typespec/compiler@1.10.0)':
+  '@typespec/asset-emitter@0.79.1(@typespec/compiler@1.11.0)':
     dependencies:
-      '@typespec/compiler': 1.10.0
+      '@typespec/compiler': 1.11.0
 
-  '@typespec/compiler@1.10.0':
+  '@typespec/compiler@1.11.0':
     dependencies:
       '@babel/code-frame': 7.29.0
       '@inquirer/prompts': 8.3.2
@@ -723,9 +723,9 @@ snapshots:
       mustache: 4.2.0
       picocolors: 1.1.1
       prettier: 3.8.1
-      semver: 7.7.3
+      semver: 7.7.4
       tar: 7.5.13
-      temporal-polyfill: 0.3.0
+      temporal-polyfill: 0.3.2
       vscode-languageserver: 9.0.1
       vscode-languageserver-textdocument: 1.0.12
       yaml: 2.8.3
@@ -733,30 +733,30 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@typespec/http@1.10.0(@typespec/compiler@1.10.0)':
+  '@typespec/http@1.11.0(@typespec/compiler@1.11.0)':
     dependencies:
-      '@typespec/compiler': 1.10.0
+      '@typespec/compiler': 1.11.0
 
-  '@typespec/openapi3@1.10.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0))(@typespec/openapi@1.10.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0)))':
+  '@typespec/openapi3@1.11.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0))(@typespec/openapi@1.11.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0)))':
     dependencies:
       '@scalar/json-magic': 0.11.7
       '@scalar/openapi-parser': 0.24.17
       '@scalar/openapi-types': 0.5.4
-      '@typespec/asset-emitter': 0.79.1(@typespec/compiler@1.10.0)
-      '@typespec/compiler': 1.10.0
-      '@typespec/http': 1.10.0(@typespec/compiler@1.10.0)
-      '@typespec/openapi': 1.10.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0))
+      '@typespec/asset-emitter': 0.79.1(@typespec/compiler@1.11.0)
+      '@typespec/compiler': 1.11.0
+      '@typespec/http': 1.11.0(@typespec/compiler@1.11.0)
+      '@typespec/openapi': 1.11.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0))
       yaml: 2.8.3
 
-  '@typespec/openapi@1.10.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0))':
+  '@typespec/openapi@1.11.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0))':
     dependencies:
-      '@typespec/compiler': 1.10.0
-      '@typespec/http': 1.10.0(@typespec/compiler@1.10.0)
+      '@typespec/compiler': 1.11.0
+      '@typespec/http': 1.11.0(@typespec/compiler@1.11.0)
 
-  '@typespec/rest@0.80.0(@typespec/compiler@1.10.0)(@typespec/http@1.10.0(@typespec/compiler@1.10.0))':
+  '@typespec/rest@0.81.0(@typespec/compiler@1.11.0)(@typespec/http@1.11.0(@typespec/compiler@1.11.0))':
     dependencies:
-      '@typespec/compiler': 1.10.0
-      '@typespec/http': 1.10.0(@typespec/compiler@1.10.0)
+      '@typespec/compiler': 1.11.0
+      '@typespec/http': 1.11.0(@typespec/compiler@1.11.0)
 
   ajv-draft-04@1.0.0(ajv@8.18.0):
     optionalDependencies:
@@ -915,7 +915,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  semver@7.7.3: {}
+  semver@7.7.4: {}
 
   signal-exit@4.1.0: {}
 
@@ -939,11 +939,11 @@ snapshots:
       minizlib: 3.1.0
       yallist: 5.0.0
 
-  temporal-polyfill@0.3.0:
+  temporal-polyfill@0.3.2:
     dependencies:
-      temporal-spec: 0.3.0
+      temporal-spec: 0.3.1
 
-  temporal-spec@0.3.0: {}
+  temporal-spec@0.3.1: {}
 
   to-regex-range@5.0.1:
     dependencies:
