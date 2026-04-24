@@ -12,9 +12,9 @@
 	},
 	"packageManager": "pnpm@10.33.0",
 	"devDependencies": {
-		"@biomejs/biome": "2.4.11",
-		"typescript": "6.0.2",
-		"wrangler": "4.81.1"
+		"@biomejs/biome": "2.4.12",
+		"typescript": "6.0.3",
+		"wrangler": "4.83.0"
 	},
 	"pnpm": {
 		"overrides": {
