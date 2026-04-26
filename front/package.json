@@ -15,8 +15,8 @@
     "dependencies": {
         "@heroicons/react": "2.2.0",
         "@tailwindcss/vite": "4.2.2",
-        "@tanstack/react-query": "5.99.0",
-        "@tanstack/react-router": "1.168.22",
+        "@tanstack/react-query": "5.99.2",
+        "@tanstack/react-router": "1.168.23",
         "@tanstack/react-table": "8.21.3",
         "axios": "1.15.0",
         "jwt-decode": "4.0.0",
