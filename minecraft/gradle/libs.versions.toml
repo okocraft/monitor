@@ -8,7 +8,7 @@ discord-webhooks = "0.8.4"
 hikaricp = "7.0.2"
 minio = "9.0.0"
 mysql = "9.7.0"
-slf4j = "2.0.17"
+slf4j = "2.0.18"
 
 # for testing
 junit = "6.0.3"
