@@ -18,7 +18,7 @@ run-task = "3.0.2"
 gradle-plugins = "1.8.3"
 
 # platform api
-paper = "1.21.7-R0.1-SNAPSHOT"
+paper = "26.1.2.build.63-stable"
 velocity = "3.4.0-SNAPSHOT"
 
 [libraries]
