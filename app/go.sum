@@ -9,8 +9,6 @@ github.com/Siroshun09/logs v1.3.0 h1:71FMo2Ii0PdW+iRx3GQRm4NbAdCEtLMbfgwFrItCk+c
 github.com/Siroshun09/logs v1.3.0/go.mod h1:2mxzbq6msFav/c6WakiCTY+bGIwMMXKb5eyMxc9fQYg=
 github.com/Siroshun09/serrors v1.4.1 h1:2ZYHtE6eXGdz4/CfPX/iCVxCXDxGt0T417ba60pFBGE=
 github.com/Siroshun09/serrors v1.4.1/go.mod h1:+7CbxH0gjS9Ly2eqOir9lLe1a0SU0u85MPNC5r0WVho=
-github.com/Siroshun09/serrors/v2 v2.0.0-rc.2 h1:vGL04rpLcv89aA+3TdoZhybV51Y6lj4VSYZ6DJPIAFA=
-github.com/Siroshun09/serrors/v2 v2.0.0-rc.2/go.mod h1:/8Qoqw56Z38BqM2fsAa1muyTNg6uatq3NnN4aACLCxw=
 github.com/Siroshun09/serrors/v2 v2.0.0 h1:F1iCOFcf0yk/GaIYX8XOd/TyluTtIDkv69cb+JVeJOo=
 github.com/Siroshun09/serrors/v2 v2.0.0/go.mod h1:/8Qoqw56Z38BqM2fsAa1muyTNg6uatq3NnN4aACLCxw=
 github.com/Siroshun09/testrecords v1.0.1 h1:Dbo+mp/QFY5/xD+5xr4Lz/vws9ztYpm1fAi45o2aZjc=
@@ -22,8 +20,8 @@ github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ3
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/go-chi/chi/v5 v5.2.5 h1:Eg4myHZBjyvJmAFjFvWgrqDTXFyOzjj7YIm3L3mu6Ug=
-github.com/go-chi/chi/v5 v5.2.5/go.mod h1:X7Gx4mteadT3eDOMTsXzmI4/rwUpOwBHLpAfupzFJP0=
+github.com/go-chi/chi/v5 v5.3.0 h1:halUjDxhshgXHMrao5bB8eNBXo/rnzwr8m5m36glehM=
+github.com/go-chi/chi/v5 v5.3.0/go.mod h1:R+tYY2hNuVUUjxoPtqUdgBqevM9s9njzkTLutVsOCto=
 github.com/go-chi/cors v1.2.2 h1:Jmey33TE+b+rB7fT8MUy1u0I4L+NARQlK6LhzKPSyQE=
 github.com/go-chi/cors v1.2.2/go.mod h1:sSbTewc+6wYHBBCW7ytsFSn836hqM7JxpglAy2Vzc58=
 github.com/go-sql-driver/mysql v1.10.0 h1:Q+1LV8DkHJvSYAdR83XzuhDaTykuDx0l6fkXxoWCWfw=
