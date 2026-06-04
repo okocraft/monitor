@@ -10,10 +10,10 @@
 		"check": "biome check ./",
 		"fix": "biome check --write ./"
 	},
-	"packageManager": "pnpm@11.3.0",
+	"packageManager": "pnpm@11.4.0",
 	"devDependencies": {
-		"@biomejs/biome": "2.4.15",
+		"@biomejs/biome": "2.4.16",
 		"typescript": "6.0.3",
-		"wrangler": "4.94.0"
+		"wrangler": "4.95.0"
 	}
 }
