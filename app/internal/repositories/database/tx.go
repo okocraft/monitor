@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 )
 
 var (
@@ -38,7 +38,7 @@ func (t transaction) WithTx(ctx context.Context, fn func(ctx context.Context) er
 
 	tx, beginErr := t.db.BeginTx(ctx, t.opts)
 	if beginErr != nil {
-		return serrors.WithStackTrace(errors.Join(ErrFailedToBegin, beginErr))
+		return serrors.Wrap(errors.Join(ErrFailedToBegin, beginErr))
 	}
 
 	var fnErr error
@@ -46,7 +46,7 @@ func (t transaction) WithTx(ctx context.Context, fn func(ctx context.Context) er
 		if fnErr != nil {
 			rbErr := tx.Rollback()
 			if rbErr != nil {
-				returnErr = serrors.WithStackTrace(errors.Join(ErrFailedToRollback, fnErr, rbErr))
+				returnErr = serrors.Wrap(errors.Join(ErrFailedToRollback, fnErr, rbErr))
 				return
 			}
 		}
@@ -54,11 +54,11 @@ func (t transaction) WithTx(ctx context.Context, fn func(ctx context.Context) er
 
 	ctx = SetTx(ctx, tx)
 	if fnErr = fn(ctx); fnErr != nil {
-		return serrors.WithStackTrace(errors.Join(ErrFunctionError, fnErr))
+		return serrors.Wrap(errors.Join(ErrFunctionError, fnErr))
 	}
 
 	if err := tx.Commit(); err != nil {
-		return serrors.WithStackTrace(errors.Join(ErrFailedToCommit, err))
+		return serrors.Wrap(errors.Join(ErrFailedToCommit, err))
 	}
 
 	return nil

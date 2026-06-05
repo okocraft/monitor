@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/Siroshun09/logs"
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 )
 
 func NewFactory(debug bool) Factory {
@@ -75,7 +75,7 @@ func (l logger) Warn(ctx context.Context, err error) {
 
 func (l logger) Warnf(ctx context.Context, format string, args ...any) {
 	if l.includeStackTraceOnWarn {
-		stacktrace := slog.String("stacktrace", serrors.GetStackTrace(serrors.Errorf(format, args...)).String())
+		stacktrace := slog.String("stacktrace", serrors.GetStackTrace(serrors.Wrap(fmt.Errorf(format, args...))).String())
 		l.delegate.WarnContext(ctx, fmt.Sprintf(format, args...), l.createContextAttr(ctx, &stacktrace)...)
 		return
 	}
@@ -88,7 +88,7 @@ func (l logger) Error(ctx context.Context, err error) {
 }
 
 func (l logger) Errorf(ctx context.Context, format string, args ...any) {
-	stacktrace := slog.String("stacktrace", serrors.GetStackTrace(serrors.Errorf(format, args...)).String())
+	stacktrace := slog.String("stacktrace", serrors.GetStackTrace(serrors.Wrap(fmt.Errorf(format, args...))).String())
 	l.delegate.ErrorContext(ctx, fmt.Sprintf(format, args...), l.createContextAttr(ctx, &stacktrace)...)
 }
 

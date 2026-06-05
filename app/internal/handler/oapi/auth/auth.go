@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/domain/auth"
 	"github.com/okocraft/monitor/internal/domain/user"

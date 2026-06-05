@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/Siroshun09/logs"
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/internal/domain/role"
 
 	"github.com/gofrs/uuid/v5"
@@ -46,7 +46,7 @@ func (r userRepository) GetUserByID(ctx context.Context, id user.ID) (user.User,
 	q := r.db.Queries(ctx)
 	row, err := q.GetUserByID(ctx, int32(id))
 	if errors.Is(err, sql.ErrNoRows) {
-		return user.User{}, serrors.WithStackTrace(user.NotFoundByIDError{ID: id})
+		return user.User{}, serrors.Wrap(user.NotFoundByIDError{ID: id})
 	} else if err != nil {
 		return user.User{}, database.NewDBErrorWithStackTrace(err)
 	}
@@ -58,7 +58,7 @@ func (r userRepository) GetUserNicknameByID(ctx context.Context, id user.ID) (st
 	q := r.db.Queries(ctx)
 	row, err := q.GetUserNicknameByID(ctx, int32(id))
 	if errors.Is(err, sql.ErrNoRows) {
-		return "", serrors.WithStackTrace(user.NotFoundByIDError{ID: id})
+		return "", serrors.Wrap(user.NotFoundByIDError{ID: id})
 	} else if err != nil {
 		return "", database.NewDBErrorWithStackTrace(err)
 	}
@@ -69,7 +69,7 @@ func (r userRepository) GetUserIDBySub(ctx context.Context, sub string) (user.ID
 	q := r.db.Queries(ctx)
 	userID, err := q.GetUserIDBySub(ctx, sub)
 	if errors.Is(err, sql.ErrNoRows) {
-		return 0, serrors.WithStackTrace(user.NotFoundBySubError{Sub: sub})
+		return 0, serrors.Wrap(user.NotFoundBySubError{Sub: sub})
 	} else if err != nil {
 		return 0, database.NewDBErrorWithStackTrace(err)
 	}
@@ -82,7 +82,7 @@ func (r userRepository) GetUserIDByLoginKey(ctx context.Context, loginKey int64)
 	userID, err := q.GetUserIDByLoginKey(ctx, loginKey)
 
 	if errors.Is(err, sql.ErrNoRows) {
-		return 0, serrors.WithStackTrace(user.NotFoundByLoginKeyError{LoginKey: loginKey})
+		return 0, serrors.Wrap(user.NotFoundByLoginKeyError{LoginKey: loginKey})
 	} else if err != nil {
 		return 0, database.NewDBErrorWithStackTrace(err)
 	}
@@ -158,7 +158,7 @@ func (r userRepository) GetUserWithRoleByID(ctx context.Context, id user.ID) (us
 	q := r.db.Queries(ctx)
 	row, err := q.GetUserWithRoleByID(ctx, int32(id))
 	if errors.Is(err, sql.ErrNoRows) {
-		return user.UserWithRole{}, serrors.WithStackTrace(user.NotFoundByIDError{ID: id})
+		return user.UserWithRole{}, serrors.Wrap(user.NotFoundByIDError{ID: id})
 	} else if err != nil {
 		return user.UserWithRole{}, database.NewDBErrorWithStackTrace(err)
 	}

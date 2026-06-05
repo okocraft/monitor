@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/Siroshun09/logs"
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/lib/ctxlib"
 )
 
@@ -94,14 +94,14 @@ func write(w http.ResponseWriter, statusCode int, res any) error {
 		if ok {
 			w.Header().Set("Content-Type", "text/plain")
 			if _, err := w.Write([]byte(str)); err != nil {
-				return serrors.WithStackTrace(err)
+				return serrors.Wrap(err)
 			}
 			return nil
 		}
 
 		w.Header().Set("Content-Type", "application/json")
 		if err := json.NewEncoder(w).Encode(res); err != nil {
-			return serrors.WithStackTrace(err)
+			return serrors.Wrap(err)
 		}
 	}
 

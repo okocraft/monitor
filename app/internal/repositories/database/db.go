@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/go-sql-driver/mysql"
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/repositories/queries"
@@ -33,11 +33,11 @@ func GenerateConfig(c config.DBConfig) *mysql.Config {
 func New(c config.DBConfig, maxLifeTime time.Duration) (DB, error) {
 	conn, err := sql.Open("mysql", GenerateConfig(c).FormatDSN())
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 	conn.SetConnMaxLifetime(maxLifeTime)
 	if err := conn.Ping(); err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 	return db{conn: conn}, nil
 }
@@ -70,7 +70,7 @@ func (db db) Base() *sql.DB {
 func (db db) Close() error {
 	err := db.conn.Close()
 	if err != nil {
-		return serrors.WithStackTrace(err)
+		return serrors.Wrap(err)
 	}
 	return nil
 }

@@ -3,7 +3,7 @@ package queries
 import (
 	"database/sql"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/gofrs/uuid/v5"
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/okocraft/monitor/internal/domain/role"
@@ -54,7 +54,7 @@ func ScanRoleRow(rows *sql.Rows) (Role, error) {
 	record := Role{}
 	err := rows.Scan(roleStruct.Addr(&record)...)
 	if err != nil {
-		return Role{}, serrors.WithStackTrace(err)
+		return Role{}, serrors.Wrap(err)
 	}
 	return record, nil
 }

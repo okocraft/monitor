@@ -12,7 +12,7 @@ import (
 	userRepo "github.com/okocraft/monitor/internal/repositories/user"
 	"github.com/okocraft/monitor/lib/ctxlib"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/gofrs/uuid/v5"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/okocraft/monitor/internal/config"
@@ -49,14 +49,14 @@ type authUsecase struct {
 func (u authUsecase) CreateStateJWT(_ context.Context, currentPageURL string) (uuid.UUID, string, error) {
 	id, err := uuid.NewV7()
 	if err != nil {
-		return uuid.Nil, "", serrors.WithStackTrace(err)
+		return uuid.Nil, "", serrors.Wrap(err)
 	}
 
 	stateJWT := auth.NewStateJWT(id, time.Now().Add(u.conf.LoginExpireDuration), currentPageURL)
 
 	tokenString, err := jwt.NewWithClaims(jwt.SigningMethodHS512, stateJWT).SignedString(u.conf.HMACSecret)
 	if err != nil {
-		return uuid.Nil, "", serrors.WithStackTrace(err)
+		return uuid.Nil, "", serrors.Wrap(err)
 	}
 
 	return id, tokenString, nil
@@ -65,14 +65,14 @@ func (u authUsecase) CreateStateJWT(_ context.Context, currentPageURL string) (u
 func (u authUsecase) CreateStateJWTWithLoginKey(_ context.Context, loginKey string) (uuid.UUID, string, error) {
 	id, err := uuid.NewV7()
 	if err != nil {
-		return uuid.Nil, "", serrors.WithStackTrace(err)
+		return uuid.Nil, "", serrors.Wrap(err)
 	}
 
 	stateJWT := auth.NewStateJWTWithLoginKey(id, loginKey, time.Now().Add(u.conf.LoginExpireDuration))
 
 	tokenString, err := jwt.NewWithClaims(jwt.SigningMethodHS512, stateJWT).SignedString(u.conf.HMACSecret)
 	if err != nil {
-		return uuid.Nil, "", serrors.WithStackTrace(err)
+		return uuid.Nil, "", serrors.Wrap(err)
 	}
 
 	return id, tokenString, nil
@@ -111,7 +111,7 @@ func (u authUsecase) CreateRefreshTokens(ctx context.Context, userID user.ID) (s
 func (u authUsecase) createRefreshToken(ctx context.Context, userID user.ID, createdAt time.Time, expiresAt time.Time) (string, error) {
 	jti, err := uuid.NewV4()
 	if err != nil {
-		return "", serrors.WithStackTrace(err)
+		return "", serrors.Wrap(err)
 	}
 
 	accessLog := ctxlib.GetHTTPAccessLog(ctx)
@@ -129,7 +129,7 @@ func (u authUsecase) createRefreshToken(ctx context.Context, userID user.ID, cre
 	claims := auth.NewJWT(jti, expiresAt)
 	tokenString, err := jwt.NewWithClaims(jwt.SigningMethodHS512, claims).SignedString(u.conf.HMACSecret)
 	if err != nil {
-		return "", serrors.WithStackTrace(err)
+		return "", serrors.Wrap(err)
 	}
 
 	return tokenString, nil
@@ -138,7 +138,7 @@ func (u authUsecase) createRefreshToken(ctx context.Context, userID user.ID, cre
 func (u authUsecase) createAccessToken(ctx context.Context, userID user.ID, refreshTokenID int64, createdAt time.Time, expiresAt time.Time) (string, error) {
 	jti, err := uuid.NewV4()
 	if err != nil {
-		return "", serrors.WithStackTrace(err)
+		return "", serrors.Wrap(err)
 	}
 
 	err = u.repo.SaveAccessToken(ctx, userID, refreshTokenID, jti, createdAt)
@@ -149,7 +149,7 @@ func (u authUsecase) createAccessToken(ctx context.Context, userID user.ID, refr
 	claims := auth.NewJWT(jti, expiresAt)
 	tokenString, err := jwt.NewWithClaims(jwt.SigningMethodHS512, claims).SignedString(u.conf.HMACSecret)
 	if err != nil {
-		return "", serrors.WithStackTrace(err)
+		return "", serrors.Wrap(err)
 	}
 
 	return tokenString, nil
@@ -208,7 +208,7 @@ func (u authUsecase) verifyJWT(tokenString string) (jwt.MapClaims, error) {
 	})
 
 	if err != nil {
-		return nil, auth.NewUnauthorizedError(serrors.WithStackTrace(err))
+		return nil, auth.NewUnauthorizedError(serrors.Wrap(err))
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
@@ -257,7 +257,7 @@ func (u authUsecase) VerifyAccessToken(ctx context.Context, tokenString string) 
 func (u authUsecase) CreateLoginKey(ctx context.Context, userID user.ID) (string, error) {
 	key, err := rand.Int(rand.Reader, big.NewInt(math.MaxInt64))
 	if err != nil {
-		return "", serrors.WithStackTrace(err)
+		return "", serrors.Wrap(err)
 	}
 
 	err = u.userRepo.SaveLoginKeyForUserID(ctx, userID, key.Int64(), time.Now())

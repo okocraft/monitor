@@ -1,9 +1,10 @@
 package user
 
 import (
+	"fmt"
 	"time"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/sort"
 	"github.com/okocraft/monitor/internal/handler/oapi"
@@ -48,7 +49,7 @@ func NewSearchParamsFromRequest(param oapi.SearchUsersParams) (SearchParams, err
 		case oapi.SortableUserDataTypeRolePriority:
 			sortedBy = null.FromValue(SortableDataTypeRolePriority)
 		default:
-			return SearchParams{}, serrors.Errorf("invalid sortable user data type: %s", *param.SortedBy)
+			return SearchParams{}, serrors.Wrap(fmt.Errorf("invalid sortable user data type: %s", *param.SortedBy))
 		}
 	} else {
 		sortedBy = null.Empty[SortableDataType]()

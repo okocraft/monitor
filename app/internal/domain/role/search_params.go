@@ -1,7 +1,7 @@
 package role
 
 import (
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/internal/handler/oapi"
 )
 

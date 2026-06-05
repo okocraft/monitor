@@ -3,7 +3,7 @@ package user
 import (
 	"net/http"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/internal/domain/permission"
 	"github.com/okocraft/monitor/internal/domain/user"
 	"github.com/okocraft/monitor/internal/handler/oapi"

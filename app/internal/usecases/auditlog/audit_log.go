@@ -2,8 +2,9 @@ package auditlog
 
 import (
 	"context"
+	"fmt"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
 	auditlog2 "github.com/okocraft/monitor/internal/repositories/auditlog"
 	"github.com/okocraft/monitor/lib/errlib"
@@ -37,7 +38,7 @@ func (u auditLogUsecase) Record(ctx context.Context, operator auditlog.Operator,
 		case auditlog.AuditLogTypeUser:
 			err = u.auditLogRepo.RecordUserAuditLog(ctx, operatorID, auditlog.ToTypedIter[auditlog.UserLogRecord](rs))
 		default:
-			return serrors.Errorf("unknown audit log type: %d", logType)
+			return serrors.Wrap(fmt.Errorf("unknown audit log type: %d", logType))
 		}
 		if err != nil {
 			return errlib.AsIs(err)

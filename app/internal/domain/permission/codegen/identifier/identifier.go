@@ -3,7 +3,7 @@ package identifier
 import (
 	"encoding/json"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 )
 
 type PermissionIdentifier interface {
@@ -27,7 +27,7 @@ func DecodeFromJson(data []byte) (PermissionIdentifier, error) {
 	}
 
 	if err := json.Unmarshal(data, file); err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 	return file, nil
 }
@@ -35,7 +35,7 @@ func DecodeFromJson(data []byte) (PermissionIdentifier, error) {
 func (i *jsonFile) EncodeToJson() ([]byte, error) {
 	data, err := json.MarshalIndent(*i, "", "  ")
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 	return data, nil
 }

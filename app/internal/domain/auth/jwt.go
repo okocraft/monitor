@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/gofrs/uuid/v5"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -82,7 +82,7 @@ func ReadJTIFromJWT(claims jwt.MapClaims) (uuid.UUID, error) {
 
 	jti, err := uuid.FromString(strID)
 	if err != nil {
-		return uuid.Nil, NewUnauthorizedError(serrors.WithStackTrace(err))
+		return uuid.Nil, NewUnauthorizedError(serrors.Wrap(err))
 	}
 
 	return jti, nil
@@ -91,7 +91,7 @@ func ReadJTIFromJWT(claims jwt.MapClaims) (uuid.UUID, error) {
 func ReadExpiresAtFromJWT(claims jwt.MapClaims) (time.Time, error) {
 	expiresAt, err := claims.GetExpirationTime()
 	if err != nil {
-		return time.Time{}, NewUnauthorizedError(serrors.WithStackTrace(err))
+		return time.Time{}, NewUnauthorizedError(serrors.Wrap(err))
 	}
 
 	return expiresAt.Time, nil

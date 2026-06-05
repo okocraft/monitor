@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/repositories/database"
@@ -27,7 +27,7 @@ type TestDB interface {
 func NewTestDB(useTx bool) (TestDB, error) {
 	id, err := uuid.NewV7()
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 
 	dbConfig, err := config.NewDBConfigFromEnv()
@@ -43,24 +43,24 @@ func NewTestDB(useTx bool) (TestDB, error) {
 	cfg := database.GenerateConfig(dbConfig)
 	conn, err := sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 
 	dbConfig.DBName = "testdb_" + strings.ReplaceAll(id.String(), "-", "")
 	createDB := "CREATE " + "DATABASE " + dbConfig.DBName // Prevent detection that this is SQL statement because this would be recognized as an error
 	_, err = conn.Exec(createDB)
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 
 	_, err = conn.Exec("USE " + dbConfig.DBName)
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 
 	err = createTables(conn)
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 
 	return &testDB{
@@ -72,17 +72,17 @@ func NewTestDB(useTx bool) (TestDB, error) {
 func createTables(db *sql.DB) error {
 	rootDir, err := testutils.GetProjectRoot()
 	if err != nil {
-		return serrors.WithStackTrace(err)
+		return serrors.Wrap(err)
 	}
 
 	schema, err := os.ReadFile(filepath.Join(rootDir, "../schema/database/schema.sql"))
 	if err != nil {
-		return serrors.WithStackTrace(err)
+		return serrors.Wrap(err)
 	}
 
 	_, err = db.Exec(string(schema))
 	if err != nil {
-		return serrors.WithStackTrace(err)
+		return serrors.Wrap(err)
 	}
 
 	return nil
@@ -121,7 +121,7 @@ func (db *testDB) Run(t *testing.T, f func(ctx context.Context, db database.DB))
 func (db *testDB) Conn() (database.DB, error) {
 	d, err := database.New(db.cfg, 15*time.Minute)
 	if err != nil {
-		return nil, serrors.WithStackTrace(err)
+		return nil, serrors.Wrap(err)
 	}
 	return d, nil
 }
@@ -131,7 +131,7 @@ func (db *testDB) Cleanup() (err error) {
 	cfg.DBName = ""
 	conn, err := sql.Open("mysql", database.GenerateConfig(cfg).FormatDSN())
 	if err != nil {
-		return serrors.WithStackTrace(err)
+		return serrors.Wrap(err)
 	}
 
 	defer func(conn *sql.DB) {
@@ -143,7 +143,7 @@ func (db *testDB) Cleanup() (err error) {
 
 	_, err = conn.Exec("DROP " + "DATABASE " + db.cfg.DBName)
 	if err != nil {
-		return serrors.WithStackTrace(err)
+		return serrors.Wrap(err)
 	}
 
 	return nil

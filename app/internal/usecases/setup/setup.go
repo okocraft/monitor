@@ -7,7 +7,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/gofrs/uuid/v5"
 	"github.com/okocraft/monitor/internal/domain/permission"
 	"github.com/okocraft/monitor/internal/domain/role"
@@ -83,7 +83,7 @@ func (u setupUsecase) CreateInitialAdminRole(ctx context.Context) (role.Role, er
 func (u setupUsecase) CreateInitialAdminUser(ctx context.Context, adminRoleID role.ID) (user.User, error) {
 	id, err := uuid.NewV4()
 	if err != nil {
-		return user.User{}, serrors.WithStackTrace(err)
+		return user.User{}, serrors.Wrap(err)
 	}
 	now := time.Now()
 	usr := user.User{
@@ -111,7 +111,7 @@ func (u setupUsecase) CreateInitialAdminUser(ctx context.Context, adminRoleID ro
 func (u setupUsecase) CreateLoginKeyForAdminUser(ctx context.Context, userID user.ID) (string, error) {
 	key, err := rand.Int(rand.Reader, big.NewInt(math.MaxInt64))
 	if err != nil {
-		return "", serrors.WithStackTrace(err)
+		return "", serrors.Wrap(err)
 	}
 
 	err = u.userRepo.SaveLoginKeyForUserID(ctx, userID, key.Int64(), time.Now())

@@ -6,7 +6,7 @@ import (
 
 	"github.com/Siroshun09/go-tablelist-codegen/database"
 	"github.com/Siroshun09/go-tablelist-codegen/generator"
-	"github.com/Siroshun09/serrors"
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/lib/testutils"
 	"github.com/okocraft/monitor/lib/testutils/testdb"
 )

@@ -1,7 +1,9 @@
 package sort
 
 import (
-	"github.com/Siroshun09/serrors"
+	"fmt"
+
+	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/internal/handler/oapi"
 )
 
@@ -19,6 +21,6 @@ func FromRequest(sortType oapi.SortType) (Type, error) {
 	case oapi.SortTypeDESC:
 		return DESC, nil
 	default:
-		return 0, serrors.Errorf("invalid sort type: %v", sortType)
+		return 0, serrors.Wrap(fmt.Errorf("invalid sort type: %v", sortType))
 	}
 }
