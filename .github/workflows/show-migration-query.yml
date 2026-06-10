@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mariadb:
-        image: mariadb:12.2.2@sha256:6a4c4bbf0447c2247801309513fcc0dd17c3f35390368139ce419387fdd1144d
+        image: mariadb:12.3.2@sha256:b1c7bf836e64ed9406a8984af29509f40089d55cea14b32f12c4726a1f17104b
         ports:
           - "3306:3306"
         env:
@@ -31,7 +31,7 @@ jobs:
       MONITOR_DB_NAME: monitor_db
     steps:
       - name: Checkout base schema.sql
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         id: base
         with:
           ref: ${{ inputs.base_commit_hash }}
@@ -39,7 +39,7 @@ jobs:
           sparse-checkout: |
             schema/database
       - name: Checkout latest schema.sql
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         id: latest
         with:
           path: ./latest
