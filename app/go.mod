@@ -5,7 +5,6 @@ go 1.25.0
 require (
 	github.com/Siroshun09/go-tablelist-codegen v0.2.0
 	github.com/Siroshun09/logs v1.3.0
-	github.com/Siroshun09/logs/v2 v2.0.0
 	github.com/Siroshun09/serrors/v2 v2.0.0
 	github.com/Siroshun09/testrecords v1.0.1
 	github.com/go-chi/chi/v5 v5.3.0
@@ -14,8 +13,8 @@ require (
 	github.com/gofrs/uuid/v5 v5.4.0
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/wire v0.7.0
-	github.com/huandu/go-sqlbuilder v1.41.0
-	github.com/oapi-codegen/runtime v1.4.1
+	github.com/huandu/go-sqlbuilder v1.42.1
+	github.com/oapi-codegen/runtime v1.4.2
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/oauth2 v0.36.0
 )
