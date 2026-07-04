@@ -3,8 +3,10 @@ module github.com/okocraft/monitor
 go 1.25.0
 
 require (
+	github.com/Siroshun09/go-httplib v0.6.0
 	github.com/Siroshun09/go-tablelist-codegen v0.2.0
-	github.com/Siroshun09/logs v1.3.0
+	github.com/Siroshun09/logs/errorlogs/v2 v2.0.0
+	github.com/Siroshun09/logs/v2 v2.0.0
 	github.com/Siroshun09/serrors/v2 v2.0.0
 	github.com/Siroshun09/testrecords v1.0.1
 	github.com/go-chi/chi/v5 v5.3.0

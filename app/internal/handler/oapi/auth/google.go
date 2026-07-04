@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Siroshun09/logs"
+	"github.com/Siroshun09/logs/v2"
 	"github.com/okocraft/monitor/internal/config"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/domain/auth"

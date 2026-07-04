@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Siroshun09/logs"
+	"github.com/Siroshun09/logs/v2"
 	"github.com/okocraft/monitor/internal/domain/auditlog"
 	"github.com/okocraft/monitor/internal/domain/user"
 	auditlog2 "github.com/okocraft/monitor/internal/usecases/auditlog"

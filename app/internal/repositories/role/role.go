@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/Siroshun09/logs"
+	"github.com/Siroshun09/logs/v2"
 	"github.com/okocraft/monitor/internal/domain/role"
 	"github.com/okocraft/monitor/internal/domain/sort"
 	"github.com/okocraft/monitor/internal/domain/user"

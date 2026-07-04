@@ -2,25 +2,22 @@ package main
 
 import (
 	"context"
+	"log/slog"
 	"os"
 	"time"
 
-	"github.com/Siroshun09/logs"
+	"github.com/Siroshun09/logs/v2"
 	"github.com/okocraft/monitor/internal/config"
-	"github.com/okocraft/monitor/internal/handler/logger"
 	"github.com/okocraft/monitor/internal/registry"
 	"github.com/okocraft/monitor/internal/repositories/database"
 	"github.com/okocraft/monitor/lib/errlib"
 )
 
 func main() {
+	logger := logs.NewLoggerWithSlog(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
+
 	ctx := context.Background()
-
-	debug := os.Getenv("DEBUG") == "true"
-
-	loggerFactory := logger.NewFactory(debug)
-	defaultLogger := loggerFactory.NewDefaultLogger()
-	ctx = logs.WithContext(ctx, defaultLogger)
+	ctx = logs.WithContext(ctx, logger)
 
 	cfg, err := config.NewSetupConfigFromEnv()
 	if err != nil {

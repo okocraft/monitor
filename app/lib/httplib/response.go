@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/Siroshun09/logs"
+	"github.com/Siroshun09/logs/v2"
 	"github.com/Siroshun09/serrors/v2"
 	"github.com/okocraft/monitor/lib/ctxlib"
 )
