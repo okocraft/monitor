@@ -7,6 +7,7 @@ github.com/Siroshun09/go-tablelist-codegen v0.2.0 h1:ixCr+mrSGwppaen/k1qVShKfABp
 github.com/Siroshun09/go-tablelist-codegen v0.2.0/go.mod h1:/NFKEJUYLXc4El79HGT97/6Q3J9XO4CJSXyzmCoYnPs=
 github.com/Siroshun09/logs v1.3.0 h1:71FMo2Ii0PdW+iRx3GQRm4NbAdCEtLMbfgwFrItCk+c=
 github.com/Siroshun09/logs v1.3.0/go.mod h1:2mxzbq6msFav/c6WakiCTY+bGIwMMXKb5eyMxc9fQYg=
+github.com/Siroshun09/logs/v2 v2.0.0/go.mod h1:h7e6KzxJ9+FJRe3vVkavd9+yCyJ5iRaqBc+6wYYAVWM=
 github.com/Siroshun09/serrors/v2 v2.0.0 h1:F1iCOFcf0yk/GaIYX8XOd/TyluTtIDkv69cb+JVeJOo=
 github.com/Siroshun09/serrors/v2 v2.0.0/go.mod h1:/8Qoqw56Z38BqM2fsAa1muyTNg6uatq3NnN4aACLCxw=
 github.com/Siroshun09/testrecords v1.0.1 h1:Dbo+mp/QFY5/xD+5xr4Lz/vws9ztYpm1fAi45o2aZjc=
