@@ -16,7 +16,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/wire v0.7.0
 	github.com/huandu/go-sqlbuilder v1.42.1
-	github.com/oapi-codegen/runtime v1.4.2
+	github.com/oapi-codegen/runtime v1.5.0
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/oauth2 v0.36.0
 )
