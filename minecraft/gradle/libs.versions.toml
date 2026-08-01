@@ -7,7 +7,7 @@ concurrent-util = "0.0.10"
 discord-webhooks = "0.8.4"
 hikaricp = "7.1.0"
 minio = "9.0.3"
-mysql = "9.7.0"
+mysql = "26.7.0"
 slf4j = "2.0.18"
 
 # for testing
