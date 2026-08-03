@@ -61,8 +61,8 @@ importers:
         specifier: 4.3.2
         version: 4.3.2(vite@8.1.5(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.8.3))
       globals:
-        specifier: 17.7.0
-        version: 17.7.0
+        specifier: 17.8.0
+        version: 17.8.0
       orval:
         specifier: 8.23.0
         version: 8.23.0(prettier@3.8.1)(typescript@7.0.2)
@@ -1257,8 +1257,8 @@ packages:
   get-tsconfig@4.14.0:
     resolution: {integrity: sha512-yTb+8DXzDREzgvYmh6s9vHsSVCHeC0G3PI5bEXNBHtmshPnO+S5O7qgLEOn0I5QvMy6kpZN8K1NKGyilLb93wA==}
 
-  globals@17.7.0:
-    resolution: {integrity: sha512-Czmyns5dUsq4seFBR/Kdydhmo8y9kC79hiSkPn0YcGtNnYWnrgt0vjrSjx9tspoDGWm2CMarffRuLjM4xUz8xg==}
+  globals@17.8.0:
+    resolution: {integrity: sha512-Zz/LMDZScFmkakeL2cTHzf+PbWKdpU3uclqkZT7TjDG58j5WPt0PpA+n9uPI24fZtlw07q0OtEi84K+umsRzqQ==}
     engines: {node: '>=18'}
 
   goober@2.1.18:
@@ -1319,8 +1319,8 @@ packages:
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
-  js-yaml@5.2.2:
-    resolution: {integrity: sha512-dayzUzKkJ1MkuUtZglSebU43utNXH0OWQByK9rKOOuYIO8M5TV1y+n8ALMdG0rdzBnfNkOmZEqrURepb0ejqBw==}
+  js-yaml@4.3.0:
+    resolution: {integrity: sha512-1td788aAnnZ5qs7V2QIRl1owjtYpbKt749Y3xauqQgwIIGF/xXWz1wMTEBx5O3LK3lXLVuqXPdPxj2BoFHaW9Q==}
     hasBin: true
 
   jsesc@3.1.0:
@@ -2815,7 +2815,7 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  globals@17.7.0: {}
+  globals@17.8.0: {}
 
   goober@2.1.18(csstype@3.2.3):
     dependencies:
@@ -2858,7 +2858,7 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-yaml@5.2.2:
+  js-yaml@4.3.0:
     dependencies:
       argparse: 2.0.1
 
@@ -3006,7 +3006,7 @@ snapshots:
       fs-extra: 11.3.4
       get-tsconfig: 4.14.0
       jiti: 2.7.0
-      js-yaml: 5.2.2
+      js-yaml: 4.3.0
       remeda: 2.33.6
       string-argv: 0.3.2
       typedoc: 0.28.19(typescript@7.0.2)
