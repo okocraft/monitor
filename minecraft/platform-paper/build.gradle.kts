@@ -23,8 +23,6 @@ tasks {
         minecraftVersion(libs.versions.paper.get().removeSuffix("-R0.1-SNAPSHOT"))
     }
     shadowJar {
-        minimize {
-            exclude("net.okocraft.monitor.platform.paper.MonitorPaper")
-        }
+        minimize()
     }
 }
