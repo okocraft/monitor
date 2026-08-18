@@ -1,8 +1,8 @@
 import {
     createColumnHelper,
     flexRender,
-    getCoreRowModel,
-    useReactTable,
+    tableFeatures,
+    useTable,
 } from "@tanstack/react-table";
 import type { Role } from "../../../api/model";
 import { useGetRoles } from "../../../api/role/role.ts";
@@ -20,8 +20,10 @@ export const Component = () => {
     return <RoleTable roles={roles} />;
 };
 
-const columnHelper = createColumnHelper<Role>();
-const columns = [
+const features = tableFeatures({});
+
+const columnHelper = createColumnHelper<typeof features, Role>();
+const columns = columnHelper.columns([
     columnHelper.accessor("name", {
         header: () => "Name",
         cell: (info) => info.getValue(),
@@ -30,13 +32,13 @@ const columns = [
         header: "Created at",
         cell: (info) => info.getValue(),
     }),
-];
+]);
 
 const RoleTable = ({ roles }: { roles: Role[] }) => {
-    const table = useReactTable({
+    const table = useTable({
+        features: features,
         data: roles,
         columns: columns,
-        getCoreRowModel: getCoreRowModel(),
     });
     return (
         <table className="table-fixed">
@@ -69,7 +71,7 @@ const RoleTable = ({ roles }: { roles: Role[] }) => {
             <tbody>
                 {table.getRowModel().rows.map((row) => (
                     <tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => (
+                        {row.getAllCells().map((cell) => (
                             <td key={cell.id}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
