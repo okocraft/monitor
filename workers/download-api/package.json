@@ -6,12 +6,14 @@
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"cf-typegen": "wrangler types",
+		"cf-typegen": "wrangler types --include-runtime=false",
+		"typecheck": "tsc --noEmit",
 		"check": "biome check ./",
 		"fix": "biome check --write ./"
 	},
 	"packageManager": "pnpm@11.21.0",
 	"devDependencies": {
+		"@cloudflare/workers-types": "5.20260811.1",
 		"@biomejs/biome": "2.5.7",
 		"typescript": "7.0.2",
 		"wrangler": "4.120.1"
