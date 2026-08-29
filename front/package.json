@@ -25,15 +25,15 @@
         "tailwindcss": "4.3.3"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.9",
+        "@biomejs/biome": "2.5.10",
         "@tanstack/react-router-devtools": "1.167.1",
         "@tanstack/router-plugin": "1.168.34",
         "@types/react": "19.2.18",
         "@types/react-dom": "19.2.4",
         "@vitejs/plugin-react-swc": "4.3.3",
         "globals": "17.11.0",
-        "orval": "8.24.0",
+        "orval": "8.25.0",
         "typescript": "7.0.2",
-        "vite": "8.2.1"
+        "vite": "8.2.2"
     }
 }
