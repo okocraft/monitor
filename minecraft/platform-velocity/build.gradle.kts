@@ -18,7 +18,7 @@ jcommon {
     commonDependencies {
         implementation(projects.monitorCore)
         implementation(libs.mysql) // Velocity does not bundle MySQL driver
-        implementation(libs.concurrent.util) {
+        implementation(libs.leafpile) {
             exclude("org.slf4j", "slf4j-api")
         }
         compileOnly(libs.platform.velocity)
@@ -38,7 +38,7 @@ tasks {
         minimize {
             exclude(dependency(libs.mysql.get()))
         }
-        relocate("ca.spottedleaf.concurrentutil", "net.okocraft.monitor.lib.concurrentutil")
+        relocate("ca.spottedleaf", "net.okocraft.monitor.lib.spottedleaf")
         relocate("com.fasterxml.jackson", "net.okocraft.monitor.lib.jackson")
         relocate("com.google.protobuf", "net.okocraft.monitor.lib.google.protobuf")
         relocate("com.mysql", "net.okocraft.monitor.lib.mysql")

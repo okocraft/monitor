@@ -29,7 +29,7 @@ dependencies {
         exclude("org.slf4j", "slf4j-api")
     }
 
-    compileOnly(libs.concurrent.util) {
+    compileOnly(libs.leafpile) {
         exclude("org.slf4j", "slf4j-api")
     }
 }
