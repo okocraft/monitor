@@ -18,8 +18,8 @@ run-task = "3.1.0"
 gradle-plugins = "1.8.6"
 
 # platform api
-paper = "26.2.build.115-stable"
-velocity = "4.0.0"
+paper = "26.2.build.117-stable"
+velocity = "4.1.0"
 
 [libraries]
 
