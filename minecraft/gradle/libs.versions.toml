@@ -19,7 +19,7 @@ gradle-plugins = "1.8.6"
 
 # platform api
 paper = "26.2.build.119-stable"
-velocity = "4.1.0"
+velocity = "4.1.1"
 
 [libraries]
 
