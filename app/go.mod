@@ -1,6 +1,6 @@
 module github.com/okocraft/monitor
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/Siroshun09/go-httplib v0.6.0
@@ -18,7 +18,7 @@ require (
 	github.com/huandu/go-sqlbuilder v1.43.0
 	github.com/oapi-codegen/runtime v1.7.0
 	github.com/stretchr/testify v1.12.1
-	golang.org/x/oauth2 v0.36.0
+	golang.org/x/oauth2 v0.37.0
 )
 
 require (
