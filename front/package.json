@@ -3,7 +3,7 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
-    "packageManager": "pnpm@12.2.1",
+    "packageManager": "pnpm@12.3.4",
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
@@ -25,14 +25,14 @@
         "tailwindcss": "4.3.3"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.11",
+        "@biomejs/biome": "2.5.12",
         "@tanstack/react-router-devtools": "1.167.1",
         "@tanstack/router-plugin": "1.168.35",
         "@types/react": "19.2.18",
-        "@types/react-dom": "19.2.5",
+        "@types/react-dom": "19.2.7",
         "@vitejs/plugin-react-swc": "4.3.3",
         "globals": "17.12.0",
-        "orval": "8.27.0",
+        "orval": "8.28.1",
         "typescript": "7.0.2",
         "vite": "8.2.2"
     }
