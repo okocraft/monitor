@@ -1,7 +1,10 @@
 import type { ErrorComponentProps } from "@tanstack/react-router";
 
 export const ErrorOccurred = ({ props }: { props: ErrorComponentProps }) => {
-    const message = props.error instanceof Error ? props.error.message : String(props.error);
+    const message =
+        props.error instanceof Error
+            ? props.error.message
+            : String(props.error);
 
     return (
         <>
