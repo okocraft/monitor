@@ -11,11 +11,11 @@
 		"check": "biome check ./",
 		"fix": "biome check --write ./"
 	},
-	"packageManager": "pnpm@12.4.1",
+	"packageManager": "pnpm@12.4.2",
 	"devDependencies": {
-		"@cloudflare/workers-types": "5.20260914.1",
+		"@cloudflare/workers-types": "5.20260915.1",
 		"@biomejs/biome": "2.5.13",
 		"typescript": "7.0.2",
-		"wrangler": "4.131.1"
+		"wrangler": "4.132.0"
 	}
 }
