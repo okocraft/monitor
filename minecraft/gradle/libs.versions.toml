@@ -8,7 +8,7 @@ hikaricp = "7.1.0"
 leafpile = "1.2.2"
 minio = "9.0.3"
 mysql = "26.7.0"
-slf4j = "2.0.19"
+slf4j = "2.0.20"
 
 # for testing
 junit = "6.1.3"
