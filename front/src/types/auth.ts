@@ -133,7 +133,7 @@ export function useAuthState() {
         return !!refreshedToken;
     };
 
-    const useLogout = async () => {
+    const performLogout = async () => {
         try {
             updateAccessToken("");
             meState.setMe(undefined);
@@ -161,7 +161,7 @@ export function useAuthState() {
         refresh: refresh,
         firstRefresh: firstRefresh,
         isAuthenticated: isAuthenticated,
-        logout: useLogout,
+        logout: performLogout,
 
         shouldSkipAuth: isAuthSkipped,
         skipAuth: skipAuth,
