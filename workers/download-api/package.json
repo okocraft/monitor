@@ -13,9 +13,9 @@
 	},
 	"packageManager": "pnpm@12.15.0",
 	"devDependencies": {
-		"@cloudflare/workers-types": "5.20261021.1",
-		"@biomejs/biome": "2.6.2",
+		"@cloudflare/workers-types": "5.20261025.1",
+		"@biomejs/biome": "2.6.3",
 		"typescript": "7.0.2",
-		"wrangler": "4.151.3"
+		"wrangler": "4.152.0"
 	}
 }
