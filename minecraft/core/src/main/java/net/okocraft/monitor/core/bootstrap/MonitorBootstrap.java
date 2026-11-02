@@ -25,7 +25,7 @@ public final class MonitorBootstrap {
     }
 
     private static Optional<MonitorConfig.Holder> loadConfig(Path filepath) {
-        MonitorLogger.logger().info("Loading configuration from {}", Path.of(".").relativize(filepath));
+        MonitorLogger.logger().info("Loading configuration from {}", filepath);
 
         try {
             return Optional.of(MonitorConfig.load(filepath));

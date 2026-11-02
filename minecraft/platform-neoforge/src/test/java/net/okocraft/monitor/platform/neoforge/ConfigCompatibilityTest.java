@@ -1,6 +1,7 @@
 package net.okocraft.monitor.platform.neoforge;
 
 import net.okocraft.monitor.core.config.MonitorConfig;
+import net.okocraft.monitor.core.bootstrap.MonitorBootstrap;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -8,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ConfigCompatibilityTest {
     @TempDir
@@ -32,5 +34,22 @@ class ConfigCompatibilityTest {
         assertEquals("dqm", loaded.server().name());
         assertEquals("monitor", loaded.database().mysql().databaseName());
         assertEquals(3306, loaded.database().mysql().port());
+    }
+
+    @Test
+    void loadsFromAbsoluteDataDirectory() throws Exception {
+        Files.writeString(directory.resolve("config.yml"), """
+            database:
+              mysql:
+                host: localhost
+                port: 3306
+                database-name: monitor
+                username: fixture
+                password: fixture
+            server:
+              name: dqm
+            """);
+        assertTrue(MonitorBootstrap.load(org.slf4j.LoggerFactory.getLogger("Monitor-config-fixture"),
+            directory.toAbsolutePath()).isPresent());
     }
 }
