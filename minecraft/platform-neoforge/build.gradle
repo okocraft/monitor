@@ -90,5 +90,11 @@ tasks.named('jar', Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
+def copyDistribution = tasks.register('copyDistribution', Copy) {
+    from tasks.named('jar', Jar).flatMap { it.archiveFile }
+    into rootProject.layout.buildDirectory.dir('libs')
+}
+tasks.named('assemble') { dependsOn copyDistribution }
+
 // Minecraft provides SLF4J; constrain only this platform to its bundled API.
 configurations.configureEach { resolutionStrategy.force 'org.slf4j:slf4j-api:2.0.17' }
