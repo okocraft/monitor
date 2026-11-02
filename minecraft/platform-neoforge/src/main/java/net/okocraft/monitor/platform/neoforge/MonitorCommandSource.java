@@ -56,8 +56,9 @@ record MonitorCommandSource(CommandSourceStack source) implements CommandSender 
             }
             var options = api.getContextManager().getQueryOptions(user)
                 .orElse(api.getContextManager().getStaticQueryOptions());
-            var result = user.getCachedData().getPermissionData(options).checkPermission(permission);
-            return result == net.luckperms.api.util.Tristate.UNDEFINED ? null : result.asBoolean();
+            var result = user.getCachedData().getPermissionData(options).queryPermission(permission);
+            return result.node() == null || result.result() == net.luckperms.api.util.Tristate.UNDEFINED
+                ? null : result.result().asBoolean();
         }
     }
 }

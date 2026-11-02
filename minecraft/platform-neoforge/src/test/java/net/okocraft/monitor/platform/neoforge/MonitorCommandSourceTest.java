@@ -4,6 +4,18 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.permissions.PermissionSet;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.players.PlayerList;
+import net.neoforged.fml.ModList;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.cacheddata.CachedPermissionData;
+import net.luckperms.api.cacheddata.Result;
+import net.luckperms.api.node.Node;
+import net.luckperms.api.query.QueryOptions;
+import net.luckperms.api.util.Tristate;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.ChatFormatting;
@@ -15,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+import static org.mockito.ArgumentMatchers.any;
 
 class MonitorCommandSourceTest {
     @Test
@@ -42,4 +57,45 @@ class MonitorCommandSourceTest {
         assertEquals(net.minecraft.network.chat.TextColor.fromLegacyFormat(ChatFormatting.GOLD),
             message.getValue().getStyle().getColor());
     }
+
+    @Test
+    void luckPermsPlatformDefaultKeepsOperatorAccessButConfiguredDenialWins() {
+        var source = mock(CommandSourceStack.class);
+        var player = mock(ServerPlayer.class);
+        var level = mock(ServerLevel.class);
+        var server = mock(MinecraftServer.class);
+        var players = mock(PlayerList.class);
+        var profile = new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "MonitorProbe");
+        when(source.getPlayer()).thenReturn(player);
+        when(player.getGameProfile()).thenReturn(profile);
+        when(player.getUUID()).thenReturn(profile.id());
+        when(player.level()).thenReturn(level);
+        when(level.getServer()).thenReturn(server);
+        when(server.getPlayerList()).thenReturn(players);
+        when(players.isOp(any())).thenReturn(true);
+        var api = mock(LuckPerms.class, RETURNS_DEEP_STUBS);
+        var user = mock(User.class, RETURNS_DEEP_STUBS);
+        var options = mock(QueryOptions.class);
+        var permissions = mock(CachedPermissionData.class);
+        var modList = mock(ModList.class);
+        when(modList.isLoaded("luckperms")).thenReturn(true);
+        when(api.getUserManager().getUser(profile.id())).thenReturn(user);
+        when(api.getContextManager().getQueryOptions(user)).thenReturn(java.util.Optional.empty());
+        when(api.getContextManager().getStaticQueryOptions()).thenReturn(options);
+        when(user.getCachedData().getPermissionData(options)).thenReturn(permissions);
+        String permission = "monitor.command.lookup";
+        try (var mods = mockStatic(ModList.class); var provider = mockStatic(LuckPermsProvider.class)) {
+            mods.when(ModList::get).thenReturn(modList);
+            provider.when(LuckPermsProvider::get).thenReturn(api);
+            when(permissions.queryPermission(permission)).thenReturn(new PermissionResult(Tristate.FALSE, null));
+            assertTrue(new MonitorCommandSource(source).hasPermission(permission));
+            when(permissions.queryPermission(permission)).thenReturn(new PermissionResult(Tristate.FALSE, mock(Node.class)));
+            assertFalse(new MonitorCommandSource(source).hasPermission(permission));
+            when(players.isOp(any())).thenReturn(false);
+            when(permissions.queryPermission(permission)).thenReturn(new PermissionResult(Tristate.TRUE, mock(Node.class)));
+            assertTrue(new MonitorCommandSource(source).hasPermission(permission));
+        }
+    }
+
+    private record PermissionResult(Tristate result, Node node) implements Result<Tristate, Node> { }
 }
