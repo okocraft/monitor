@@ -86,6 +86,7 @@ tasks.named('processResources', ProcessResources) {
 }
 tasks.named('jar', Jar) {
     from project(':monitor-core').sourceSets.main.output
+    from rootProject.file('../LICENSE')
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
