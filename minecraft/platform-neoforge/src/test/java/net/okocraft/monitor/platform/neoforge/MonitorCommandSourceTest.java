@@ -12,8 +12,6 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.cacheddata.CachedPermissionData;
-import net.luckperms.api.cacheddata.Result;
-import net.luckperms.api.node.Node;
 import net.luckperms.api.query.QueryOptions;
 import net.luckperms.api.util.Tristate;
 import net.kyori.adventure.text.Component;
@@ -59,7 +57,7 @@ class MonitorCommandSourceTest {
     }
 
     @Test
-    void luckPermsPlatformDefaultKeepsOperatorAccessButConfiguredDenialWins() {
+    void luckPermsDecisionOverridesOperatorDefaultAndUndefinedFallsBack() {
         var source = mock(CommandSourceStack.class);
         var player = mock(ServerPlayer.class);
         var level = mock(ServerLevel.class);
@@ -87,15 +85,14 @@ class MonitorCommandSourceTest {
         try (var mods = mockStatic(ModList.class); var provider = mockStatic(LuckPermsProvider.class)) {
             mods.when(ModList::get).thenReturn(modList);
             provider.when(LuckPermsProvider::get).thenReturn(api);
-            when(permissions.queryPermission(permission)).thenReturn(new PermissionResult(Tristate.FALSE, null));
+            when(permissions.checkPermission(permission)).thenReturn(Tristate.UNDEFINED);
             assertTrue(new MonitorCommandSource(source).hasPermission(permission));
-            when(permissions.queryPermission(permission)).thenReturn(new PermissionResult(Tristate.FALSE, mock(Node.class)));
+            when(permissions.checkPermission(permission)).thenReturn(Tristate.FALSE);
             assertFalse(new MonitorCommandSource(source).hasPermission(permission));
             when(players.isOp(any())).thenReturn(false);
-            when(permissions.queryPermission(permission)).thenReturn(new PermissionResult(Tristate.TRUE, mock(Node.class)));
+            when(permissions.checkPermission(permission)).thenReturn(Tristate.TRUE);
             assertTrue(new MonitorCommandSource(source).hasPermission(permission));
         }
     }
 
-    private record PermissionResult(Tristate result, Node node) implements Result<Tristate, Node> { }
 }
