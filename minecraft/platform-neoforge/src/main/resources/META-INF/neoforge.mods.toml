@@ -1,0 +1,20 @@
+modLoader="javafml"
+loaderVersion="[11,)"
+license="GPL-3.0-only"
+[[mods]]
+modId="monitor"
+version="${version}"
+displayName="Monitor"
+description="Player activity logging for OKOCRAFT"
+[[mixins]]
+config="monitor.mixins.json"
+[[dependencies.monitor]]
+modId="neoforge"
+type="required"
+versionRange="[26.2.0.88,26.3)"
+side="SERVER"
+[[dependencies.monitor]]
+modId="minecraft"
+type="required"
+versionRange="[26.2,26.3)"
+side="SERVER"

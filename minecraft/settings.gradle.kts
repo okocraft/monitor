@@ -15,6 +15,7 @@ sequenceOf(
 
     "platform-paper",
     "platform-velocity",
+    "platform-neoforge",
 ).forEach {
     include("$prefix-$it")
     project(":$prefix-$it").projectDir = file(it)
