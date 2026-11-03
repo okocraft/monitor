@@ -162,6 +162,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  undici@<7.30.1: 7.30.1
+
 importers:
 
   .:
@@ -284,10 +287,6 @@ packages:
 
   '@scalar/openapi-parser@0.29.13':
     resolution: {integrity: sha512-k/4nft8xKVSP5pk7n9G8QxQ4wc+UwmtrAMQ8eCPKh5r2v8lvS3AXv2bHiBowMBnJnhua5hyomFzaaGs0LmB9yg==}
-    engines: {node: '>=22'}
-
-  '@scalar/openapi-types@0.9.6':
-    resolution: {integrity: sha512-hge0dhllV70dwqgUiucmDY5yZLq91BOV/78lWSqQMTY67x+LHcQplJUZDomfFi5oepROpWDs5iaKMr7ubqDBOA==}
     engines: {node: '>=22'}
 
   '@scalar/openapi-types@0.9.8':
@@ -541,12 +540,8 @@ packages:
     resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
     engines: {node: '>=20'}
 
-  undici@7.24.4:
-    resolution: {integrity: sha512-BM/JzwwaRXxrLdElV2Uo6cTLEjhSb3WXboncJamZ15NgUURmvlXvxa6xkwIOILIjPNo9i8ku136ZvWV0Uly8+w==}
-    engines: {node: '>=20.18.1'}
-
-  undici@7.29.1:
-    resolution: {integrity: sha512-RYONW2MeafgYlkVOKYKkA/Ag7BmXqgIWCa8t1m0JcxrQg9pI9lEqRhAOruOBCbAohOa/gkCF+iPi9hrgvTzu6Q==}
+  undici@7.30.1:
+    resolution: {integrity: sha512-03KrMbjIFDWQR5RNPrSw3bd1r12JpyFQl9/yxjUbJtqkjmllqC5lFjZh6ujeuJCKr8EOQvRW872Oy/az+nLYxg==}
     engines: {node: '>=20.18.1'}
 
   vscode-jsonrpc@9.0.1:
@@ -657,14 +652,14 @@ snapshots:
     dependencies:
       '@scalar/helpers': 0.12.0
       pathe: 2.0.3
-      undici: 7.24.4
+      undici: 7.30.1
       yaml: 2.9.1
 
   '@scalar/json-magic@0.15.7':
     dependencies:
       '@scalar/helpers': 0.16.3
       pathe: 2.0.3
-      undici: 7.29.1
+      undici: 7.30.1
       yaml: 2.9.1
 
   '@scalar/json-schema-validator@0.1.12':
@@ -685,8 +680,6 @@ snapshots:
       '@scalar/openapi-validator': 0.1.12
       '@scalar/types': 0.23.2
       yaml: 2.9.1
-
-  '@scalar/openapi-types@0.9.6': {}
 
   '@scalar/openapi-types@0.9.8': {}
 
@@ -752,7 +745,7 @@ snapshots:
     dependencies:
       '@scalar/json-magic': 0.13.5
       '@scalar/openapi-parser': 0.29.13
-      '@scalar/openapi-types': 0.9.6
+      '@scalar/openapi-types': 0.9.8
       '@scalar/types': 0.19.0
       '@typespec/asset-emitter': 0.79.3(@typespec/compiler@1.17.0)
       '@typespec/compiler': 1.17.0
@@ -897,9 +890,7 @@ snapshots:
     dependencies:
       tagged-tag: 1.0.0
 
-  undici@7.24.4: {}
-
-  undici@7.29.1: {}
+  undici@7.30.1: {}
 
   vscode-jsonrpc@9.0.1: {}
 
