@@ -48,7 +48,7 @@ jobs:
       - name: "Run test"
         run: go run gotest.tools/gotestsum@v1.12.3 --junitfile ~/test-results.xml
       - name: "Upload Results"
-        uses: mikepenz/action-junit-report@6ef3fdcfcd5f0b5d14df3e659ef19b8c6820f93d # v6.6.1
+        uses: mikepenz/action-junit-report@8a133bfa3ecb0ea9024c1e2ae788b4c25f6cdb9d # v6.6.2
         if: ${{ success() || failure() }}
         continue-on-error: true
         with:
