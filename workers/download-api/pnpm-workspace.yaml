@@ -5,4 +5,4 @@ allowBuilds:
   sharp: true
   workerd: true
 overrides:
-  undici@<7.29.0: 8.12.3
+  undici@<7.29.0: 8.12.4
